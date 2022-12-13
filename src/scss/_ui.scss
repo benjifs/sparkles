@@ -1,0 +1,226 @@
+
+.sp-title {
+	text-align: center;
+	font-size: 1.3em;
+	padding: .5em;
+	letter-spacing: .3em;
+}
+
+.sp-box {
+	border: var(--sprk-border-size) solid var(--sprk-border-color);
+	border-radius: .7em;
+	background-color: var(--sprk-bg);
+	filter: drop-shadow(.25rem .25rem 0 var(--window-shadow));
+
+	.sp-box-header {
+		// position: relative;
+		text-align: center;
+		border-bottom: var(--sprk-border-size) solid var(--sprk-border-color);
+
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		position: relative;
+
+		padding: .3em;
+
+		button {
+			&:first-child {
+				// Make this optional in case user wants to have close icon on left
+				opacity: 0;
+				pointer-events: none;
+			}
+
+			border: none; background: none;
+			padding: .3em;
+
+			&:hover {
+				color: var(--sprk-fg);
+			}
+		}
+		span {
+			text-transform: uppercase;
+			letter-spacing: .2em;
+		}
+	}
+	.sp-box-content {
+		padding: 1em;
+	}
+}
+
+.sp-tiles {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
+	grid-gap: .75em;
+
+	button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		aspect-ratio: 1 / 1;
+		letter-spacing: 1px;
+		i {
+			font-size: 1.3em;
+			padding-bottom: .4em;
+		}
+	}
+}
+
+form {
+	> * {
+		margin-bottom: 1rem;
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+textarea, input, select {
+	background-color: transparent;
+	border: var(--input-border-size) solid var(--input-border);
+	border-radius: .3rem;
+	box-shadow: none;
+
+	padding: .5rem 1rem;
+	&:not([type="checkbox"]) {
+		width: 100%;
+	}
+
+	@include transition(border .3s ease-in-out);
+
+	&:focus {
+		border-color: var(--input-border-active);
+		outline: 0;
+	}
+}
+
+textarea {
+	resize: none;
+}
+
+button {
+	background: none;
+	border: var(--sprk-border-size) solid var(--sprk-border-color);
+	padding: .5rem 1.5rem;
+
+	text-decoration: none;
+	border-radius: .4rem;
+
+	@include transition(all .3s ease-in-out);
+
+	&:hover {
+		background: var(--sprk-border-color);
+		color: var(--sprk-bg);
+	}
+
+	&:disabled {
+		border-color: var(--input-border);
+		background: var(--input-border);
+		pointer-events: none;
+		opacity: .7;
+	}
+
+	letter-spacing: .3em;
+
+	i {
+		letter-spacing: initial;
+	}
+}
+
+a {
+	cursor: pointer;
+	i {
+		color: var(--sprk-icon-link);
+	}
+	&[disabled] {
+		pointer-events: none;
+		i {
+			color: var(--sprk-disabled);
+		}
+	}
+}
+
+.sp-gallery {
+	width: 100%;
+	max-height: 70vh;
+	overflow-y: auto;
+
+	display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: .75em;
+
+	img {
+		object-fit: cover;
+		width: 100%;
+		max-height: 150px;
+		aspect-ratio: 1 / 1;
+	}
+}
+
+footer {
+	a {
+		padding-left: .5em;
+	}
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	li {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: .5rem;
+	}
+}
+
+img {
+	max-width: 100%;
+	max-height: 200px;
+}
+
+details {
+	text-align: left;
+}
+summary {
+	cursor: pointer;
+}
+
+h5 {
+	margin: 0.5rem 0;
+}
+
+label {
+	cursor: pointer;
+	display: flex;
+	align-content: center;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.movie-list {
+	display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+  grid-gap: 0.75em;
+	padding: .75em 0;
+	.movie-tile {
+
+	}
+	.movie {
+		max-width: 150px;
+		margin: 0 auto;
+		padding: .4rem;
+		h4 {
+			margin: 0;
+		}
+		img {
+			max-width: 100%;
+		}
+		cursor: pointer;
+		border: 1px solid var(--sprk-bg-color);
+		@include transition(border-color .3s ease-in-out);
+		&:hover {
+			border-color: var(--sprk-fg-color);
+		}
+	}
+}

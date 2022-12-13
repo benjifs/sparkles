@@ -1,0 +1,64 @@
+<svg
+	xmlns="http://www.w3.org/2000/svg" version="1.1"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:svgjs="http://svgjs.dev/svgjs" viewBox="0 0 20 20">
+	<style>
+		@media (prefers-color-scheme: light) {
+			circle { fill: #bbbbbb; }
+		}
+	</style>
+	<defs>
+		<circle id="dot" cx="0" cy="0" r=".3" fill="black">
+			<animate
+				attributeName="opacity"
+				values=".28;.08;.28"
+				dur="5s"
+				repeatCount="indefinite" />
+		</circle>
+		<circle id="dot2" cx="0" cy="0" r=".3" fill="black">
+			<animate
+				attributeName="opacity"
+				values=".15;.5;.15"
+				dur="10s"
+				repeatCount="indefinite" />
+		</circle>
+		<circle id="dot3" cx="0" cy="0" r=".3" fill="black">
+			<animate
+				attributeName="opacity"
+				values=".1;.3;.1"
+				dur="15s"
+				repeatCount="indefinite" />
+		</circle>
+	</defs>
+	<g>
+		<use x="0" y="0" href="#dot" />
+		<use x="0" y="5" href="#dot3" />
+		<use x="0" y="10" href="#dot" />
+		<use x="0" y="15" href="#dot2" />
+		<use x="0" y="20" href="#dot" />
+
+		<use x="5" y="0" href="#dot2" />
+		<use x="5" y="5" href="#dot3" />
+		<use x="5" y="10" href="#dot" />
+		<use x="5" y="15" href="#dot2" />
+		<use x="5" y="20" href="#dot2" />
+
+		<use x="10" y="0" href="#dot" />
+		<use x="10" y="5" href="#dot" />
+		<use x="10" y="10" href="#dot2" />
+		<use x="10" y="15" href="#dot3" />
+		<use x="10" y="20" href="#dot" />
+
+		<use x="15" y="0" href="#dot2" />
+		<use x="15" y="5" href="#dot3" />
+		<use x="15" y="10" href="#dot2" />
+		<use x="15" y="15" href="#dot3" />
+		<use x="15" y="20" href="#dot2" />
+
+		<use x="20" y="0" href="#dot" />
+		<use x="20" y="5" href="#dot3" />
+		<use x="20" y="10" href="#dot" />
+		<use x="20" y="15" href="#dot2" />
+		<use x="20" y="20" href="#dot" />
+	</g>
+</svg>

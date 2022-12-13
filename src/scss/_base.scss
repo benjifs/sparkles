@@ -1,0 +1,103 @@
+
+*, ::after, ::before {
+	box-sizing: inherit;
+}
+
+html {
+	box-sizing: border-box;
+	height: 100%;
+}
+
+body {
+	position: relative;
+	height: 100%;
+	margin: 0;
+
+	font-family: 'Courier New', Courier, monospace;
+	line-height: 1.4;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	background-color: var(--sprk-bg);
+	background-repeat: repeat;
+	background-attachment: fixed;
+	background-image: url("/assets/dot.svg");
+	background-size: 75px;
+}
+
+body, input, button, textarea {
+	color: var(--sprk-fg);
+}
+
+main, header, footer {
+	padding: .5em;
+}
+
+footer {
+	width: 100%;
+	text-align: right;
+}
+
+main {
+	flex: 1;
+	width: 100%;
+	max-width: 550px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	position: relative;
+}
+
+section {
+	width: 100%;
+	padding: .5em;
+}
+
+[role="button"], button {
+	cursor: pointer;
+}
+
+input, textarea {
+	&::placeholder {
+		opacity: .5;
+		color: var(--sprk-placeholder);
+	}
+}
+
+// Validation
+input, textarea {
+	&[required] {
+		background-size: 1em 1em;
+		background-position: right top;
+		background-repeat: no-repeat;
+		&:placeholder-shown {
+			background-image: radial-gradient(var(--sprk-error-color) 40%, transparent 50%);
+		}
+		&:not(:placeholder-shown) {
+			&:valid {
+				background-image: radial-gradient(var(--sprk-success-color) 40%, transparent 50%);
+			}
+			&:not(:valid) {
+				background-image: radial-gradient(var(--sprk-error-color) 40%, transparent 50%);
+			}
+		}
+	}
+	&:not(:valid):not(:placeholder-shown) {
+		border-color: var(--sprk-error-color);
+	}
+}
+
+fieldset {
+	border: none;
+	padding: 0;
+	margin: 0;
+}

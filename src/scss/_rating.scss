@@ -1,0 +1,38 @@
+.rating {
+	--star-default: lightgrey;
+	--star-active: goldenrod;
+	--star-hover: goldenrod;
+}
+
+.rating-group {
+	display: inline-flex;
+	i {
+		pointer-events: none;
+	}
+	input {
+		display: none;
+	}
+	label {
+		cursor: pointer;
+		padding: 0 0.1em;
+		font-size: 1.4rem;
+		&.half {
+			padding-right: 0;
+			margin-right: -0.6em;
+			z-index: 2;
+			width: .85rem;
+		}
+	}
+	i {
+		color: var(--star-active);
+	}
+	input:checked ~ label i {
+		color: var(--star-default);
+	}
+	&:hover label i {
+		color: var(--star-hover) !important;
+	}
+	input:hover ~ label i {
+		color: var(--star-default) !important;
+	}
+}

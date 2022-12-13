@@ -1,0 +1,8 @@
+.sp-alert {
+	position: fixed;
+	top: 0; right: 0;
+	padding: .5em;
+	margin: .5em;
+	background: var(--sprk-bg);
+	border: 1px solid var(--sprk-border-color);
+}

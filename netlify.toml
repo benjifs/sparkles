@@ -1,0 +1,16 @@
+[dev]
+	command = "npm run start:vite"
+	publish = "dist"
+	targetPort = 5173
+	port = 9000
+
+[build]
+	command = "npm run build:vite"
+	publish = "dist"
+
+[functions]
+	directory = "./src/functions"
+	node_bundler = "esbuild"
+
+[template.environment]
+	VITE_OMDB_API_KEY = "OMDB API Key (optional)"

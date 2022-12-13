@@ -1,0 +1,45 @@
+{
+  "name": "sparkles",
+  "version": "0.1.0",
+  "description": "micropub client",
+  "main": "./src/js/app.js",
+  "scripts": {
+    "build:vite": "vite build",
+    "start:vite": "vite",
+    "bump": "npm --no-git-tag-version version",
+    "lint": "eslint src",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "indieweb",
+    "micropub",
+    "netlify",
+    "lambda",
+    "serverless"
+  ],
+  "author": "Benji Encalada Mora <b@encalada.dev>",
+  "license": "MIT",
+  "homepage": "https://sparkles.sploot.com",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/benjifs/sparkles.git"
+  },
+  "bugs": {
+    "url": "https://github.com/benjifs/sparkles/issues"
+  },
+  "devDependencies": {
+    "eslint": "^8.29.0",
+    "sass": "^1.56.2",
+    "vite": "^4.0.1"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "encoding": "^0.1.13",
+    "mithril": "^2.2.2",
+    "node-fetch": "^3.3.0"
+  },
+  "engines": {
+    "node": "18.x",
+    "npm": "9.x"
+  }
+}
