@@ -1,10 +1,25 @@
 
 # sparkles
 <p align="center">
-  <img src="https://github.com/benjifs/sparkles/blob/main/public/assets/icons/favicon-144x144.png" alt="sparkles icon" />
+  <img src="./public/assets/icons/favicon-144x144.png" alt="sparkles icon" />
 </p>
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/c0572dda-6712-4742-a980-3a40b0d42ec2/deploy-status)](https://app.netlify.com/sites/sprkls/deploys)
+<div align="center">
+  <a target="_blank" href="https://app.netlify.com/sites/sprkls/deploys">
+    <img src="https://api.netlify.com/api/v1/badges/c0572dda-6712-4742-a980-3a40b0d42ec2/deploy-status" alt="Netlify Status">
+  </a>
+</div>
+<div align="center">
+  <a target="_blank" href="./LICENSE">
+    <img src="https://img.shields.io/github/license/benjifs/sparkles?color=A1A1F1&style=flat" alt="Project License">
+  </a>
+  <a target="_blank" href="https://github.com/benjifs/sparkles/releases">
+    <img src="https://img.shields.io/github/v/release/benjifs/sparkles?color=C49EE7&label=version&style=flat" alt="Latest Version">
+  </a>
+  <a target="_blank" href="https://github.com/benjifs/sparkles/commits/main">
+    <img src="https://img.shields.io/github/last-commit/benjifs/sparkles?color=E69BDD&style=flat" alt="Latest Commit">
+  </a>
+</div>
 
 [sparkles](https://sparkles.sploot.com) is a [Micropub](https://micropub.spec.indieweb.org/) client. It supports [IndieAuth](https://indieauth.net/) for login and expects a [micropub endpoint](https://indieweb.org/Micropub/Servers) to communicate with to publish posts. It supports basic micropub content types and you can also add movies you have watched.
 
