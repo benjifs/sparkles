@@ -24,6 +24,8 @@
 	--sprk-disabled: var(--sprk-fade-color);
 
 	--sprk-placeholder: var(--sprk-highlight-color);
+
+	--sprk-shadow-size: .25rem;
 }
 
 [data-theme='dark'] {
@@ -32,4 +34,8 @@
 	--sprk-fade-color: #666;
 	--sprk-dim-color: #333;
 	--sprk-highlight-color: #d3d3d3;
+}
+
+[data-ui='simple'] {
+	--sprk-shadow-size: 0;
 }

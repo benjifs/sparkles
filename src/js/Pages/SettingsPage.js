@@ -24,6 +24,11 @@ const SettingsPage = () => {
 
 	loadFetchedValues()
 
+	let ui = Store.getSettings('ui')
+	if (ui) {
+		document.documentElement.setAttribute('data-ui', ui)
+	}
+
 	const loadMicropubConfig = async () => {
 		await fetchMicropubConfig(true)
 		loadFetchedValues()
@@ -32,6 +37,16 @@ const SettingsPage = () => {
 	const loadMediaConfig = async () => {
 		await fetchMediaConfig(true)
 		loadFetchedValues()
+	}
+
+	const updateUI = e => {
+		ui = e && e.target && e.target.checked ? 'simple' : null
+		if (ui) {
+			document.documentElement.setAttribute('data-ui', 'simple')
+		} else {
+			document.documentElement.removeAttribute('data-ui')
+		}
+		Store.addToSettings({ ui })
 	}
 
 	return {
@@ -75,7 +90,15 @@ const SettingsPage = () => {
 											s.name
 										])
 									]))
-							]
+							],
+							m('hr'),
+							m('li', m('h5', 'General Settings')),
+							m('li', [
+								m('label', [
+									'simple ui',
+									m('input', { type: 'checkbox', onchange: updateUI, checked: ui === 'simple' })
+								])
+							])
 						])
 					])
 				])

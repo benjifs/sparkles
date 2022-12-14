@@ -10,7 +10,7 @@
 	border: var(--sprk-border-size) solid var(--sprk-border-color);
 	border-radius: .7em;
 	background-color: var(--sprk-bg);
-	filter: drop-shadow(.25rem .25rem 0 var(--window-shadow));
+	filter: drop-shadow(var(--sprk-shadow-size) var(--sprk-shadow-size) 0 var(--window-shadow));
 
 	.sp-box-header {
 		// position: relative;
@@ -92,6 +92,10 @@ textarea, input, select {
 		border-color: var(--input-border-active);
 		outline: 0;
 	}
+}
+
+input[type="checkbox"] {
+	cursor: inherit;
 }
 
 textarea {
