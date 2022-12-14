@@ -15,13 +15,10 @@ const Proxy = {
 			}),
 	validate: params => {
 		const session = Store.getSession()
-		if (!session) {
-			throw new Error('session not found')
-		}
+		if (!session) throw new Error('session not found')
 		const { code } = params
-		if (!code) {
-			throw new Error('missing "code"')
-		}
+		if (!code) throw new Error('missing "code"')
+
 		return m
 			.request({
 				method: 'GET',
@@ -38,12 +35,9 @@ const Proxy = {
 	},
 	micropub: ({ method, params, body }) => {
 		const session = Store.getSession()
-		if (!session) {
-			throw new Error('session not found')
-		}
-		if (!session.access_token) {
-			throw new Error('access_token not found')
-		}
+		if (!session) throw new Error('session not found')
+		if (!session.access_token) throw new Error('access_token not found')
+
 		return m
 			.request({
 				method: method || 'GET',

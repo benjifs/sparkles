@@ -7,6 +7,11 @@ const Footer = () => {
 	let theme = Store.getSettings('theme') || 'light'
 	document.documentElement.setAttribute('data-theme', theme)
 
+	let ui = Store.getSettings('ui')
+	if (ui) {
+		document.documentElement.setAttribute('data-ui', ui)
+	}
+
 	const toggleTheme = () => {
 		theme = theme === 'light' ? 'dark' : 'light'
 		Store.addToSettings({ theme })
