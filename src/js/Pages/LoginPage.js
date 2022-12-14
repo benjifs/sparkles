@@ -3,19 +3,23 @@ import m from 'mithril'
 import Alert from '../Components/Alert'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
+import { canonicalURL } from '../utils'
 import { generateRandomString, generateCodeChallenge } from '../utils/crypt'
 
 const Login = () => {
 	let loading = false
-	let url = ''
+	let urlString = ''
 
-	const canSubmit = () => url && url !== ''
+	const canSubmit = () => urlString && urlString !== ''
 
 	const onLogin = async e => {
 		e.preventDefault()
 		loading = true
 
 		try {
+			const url = canonicalURL(urlString)
+			if (!url) throw new Error('could not convert to canonical URL')
+
 			const data = await Proxy.discover(url)
 
 			/* eslint-disable camelcase */
@@ -64,8 +68,8 @@ const Login = () => {
 						m('input', {
 							type: 'url',
 							placeholder: 'https://',
-							oninput: e => url = e.target.value,
-							value: url
+							oninput: e => urlString = e.target.value,
+							value: urlString
 						}),
 						m('button', {
 							type: 'submit',

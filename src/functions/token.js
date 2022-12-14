@@ -5,8 +5,8 @@ exports.handler = async e => {
 	// eslint-disable-next-line camelcase
 	const { code, client_id, redirect_uri, token_endpoint, code_verifier } = e.queryStringParameters
 
+	// https://indieauth.spec.indieweb.org/#request
 	const params = new URLSearchParams()
-
 	params.append('grant_type', 'authorization_code')
 	params.append('code', code)
 	params.append('client_id', client_id)
