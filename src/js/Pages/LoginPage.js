@@ -50,7 +50,8 @@ const Login = () => {
 		loading = false
 	}
 
-	Store.clear()
+	Store.clearSession()
+	Store.clearCache()
 
 	return {
 		view: () =>

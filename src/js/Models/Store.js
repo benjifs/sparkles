@@ -13,6 +13,7 @@ const Store = {
 	getSession: prop => Store.get(Store.sessionKey, prop),
 	setSession: data => Store.set(Store.sessionKey, data),
 	addToSession: data => Store.add(Store.sessionKey, data),
+	clearSession: () => localStorage.removeItem(Store.sessionKey),
 	getMe: () => Store.getSession('issuer') || Store.getSession('me'),
 	//
 	settingKey: '_sprk',
@@ -43,7 +44,8 @@ const Store = {
 		return Store.get(Store.cacheKey, prop)
 	},
 	setCache: data => Store.set(Store.cacheKey, data),
-	addToCache: data => Store.add(Store.cacheKey, data)
+	addToCache: data => Store.add(Store.cacheKey, data),
+	clearCache: () => Store.setCache(Store.defaultCache)
 }
 
 export default Store
