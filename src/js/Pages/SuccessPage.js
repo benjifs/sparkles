@@ -1,13 +1,21 @@
 import m from 'mithril'
 
 import Proxy from '../Controllers/Proxy'
+import Store from '../Models/Store'
 
 const RETRY_TIMEOUT = 5 // in seconds
 const MAX_CHECKS = 5
 
 const SuccessPage = () => {
-	const url = (new URLSearchParams(window.location.search)).get('url')
 	let timeout, count = 0, found = false
+	let url = (new URLSearchParams(window.location.search)).get('url')
+	const baseURL = Store.getMe()
+	// Just in case the url received is not an absolute URL
+	try {
+		url = new URL(url, baseURL).href
+	} catch (e) {
+		console.error(e)
+	}
 
 	const checkURL = async () => {
 		if (!url) {
@@ -19,6 +27,8 @@ const SuccessPage = () => {
 			timeout = setTimeout(() => {
 				checkURL(url)
 			}, RETRY_TIMEOUT * 1000)
+		} else {
+			window.location.href = url
 		}
 	}
 
