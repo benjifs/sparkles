@@ -22,17 +22,19 @@ const Footer = () => {
 		view: () =>
 			m('footer', [
 				null !== session && m(m.route.Link, {
+					class: 'icon',
 					href: '/settings',
 					disabled: ['/settings'].includes(m.route.get())
 				}, [
 					m('i.fas.fa-gear', { title: 'settings' })
 				]),
-				m('a', { onclick: toggleTheme }, theme === 'light' ?
+				m('a.icon', { onclick: toggleTheme }, theme === 'light' ?
 					m('i.fas.fa-moon', { title: 'dark mode' })
 					:
 					m('i.fas.fa-sun', { title: 'light mode' })
 				),
 				m(m.route.Link, {
+					class: 'icon',
 					href: '/about',
 					disabled: ['/about'].includes(m.route.get())
 				}, [

@@ -40,7 +40,7 @@ const HomePage = () => {
 					'Logged in as ',
 					m('a', { href: me }, me),
 					' ',
-					m(m.route.Link, { href: '/logout' }, m('i.fas.fa-right-from-bracket', { title: 'logout' }))
+					m(m.route.Link, { class: 'icon', href: '/logout' }, m('i.fas.fa-right-from-bracket', { title: 'logout' }))
 				])
 			])
 		]

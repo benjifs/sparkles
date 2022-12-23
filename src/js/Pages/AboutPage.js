@@ -22,6 +22,10 @@ const AboutPage = {
 						m('a', { href: 'https://netlify.app' }, 'Netlify')
 					]),
 					m('p', [
+						'Source on ',
+						m('a.icon', { href: 'https://github.com/benjifs/sparkles' }, m('i.fab.fa-github', { title: 'Github' }))
+					]),
+					m('p', [
 						'By ',
 						m('a', { href: 'https://benji.dog' }, 'benji')
 					])

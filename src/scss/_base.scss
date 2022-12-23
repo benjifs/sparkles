@@ -101,3 +101,9 @@ fieldset {
 	padding: 0;
 	margin: 0;
 }
+
+a[href^="http"] {
+	text-decoration: none;
+	color: var(--sprk-fg);
+	border-bottom: 1px dashed var(--sprk-fg);
+}

@@ -91,7 +91,7 @@ const Proxy = {
 			})
 			return true
 		} catch (err) {
-			console.error(`could not fetch ${url}`, err)
+			console.error(`could not fetch ${url}`)
 		}
 
 		return false
