@@ -23,12 +23,12 @@ const SuccessPage = () => {
 		}
 		count++
 		const found = await Proxy.redirect(url)
-		if (!found && count < MAX_CHECKS) {
+		if (found) {
+			window.location.href = url
+		} else if (count < MAX_CHECKS) {
 			timeout = setTimeout(() => {
 				checkURL(url)
 			}, RETRY_TIMEOUT * 1000)
-		} else {
-			window.location.href = url
 		}
 	}
 
