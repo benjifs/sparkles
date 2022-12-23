@@ -25,7 +25,7 @@
 
 sparkles can also be installed as a [Progressive Web App (PWA)](https://web.dev/progressive-web-apps/) on supported devices which will add the app as a **share target** and also add some quick action options.
 
-You can try it for yourself at: https://sparkles.sploot.com
+You can read more about this project [here](https://benji.dog/articles/sparkles/) and try it for yourself at: https://sparkles.sploot.com
 
 ## Development
 
