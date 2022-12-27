@@ -6,6 +6,8 @@ import Store from '../Models/Store'
 import { canonicalURL } from '../utils'
 import { generateRandomString, generateCodeChallenge } from '../utils/crypt'
 
+const CLIENT = window.location.origin
+
 const Login = () => {
 	let loading = false
 	let urlString = ''
@@ -36,8 +38,8 @@ const Login = () => {
 
 			const params = new URLSearchParams({
 				'response_type': 'code',
-				'client_id': window.location.origin,
-				'redirect_uri': `${window.location.origin}/callback`,
+				'client_id': `${CLIENT}/`,
+				'redirect_uri': `${CLIENT}/callback`,
 				'state': state,
 				'code_challenge': code_challenge,
 				'code_challenge_method': code_challenge_method,
