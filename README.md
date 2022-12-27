@@ -31,7 +31,7 @@ You can read more about this project [here](https://benji.dog/articles/sparkles/
 
 ### Requirements
 * `node 18.12.1`
-* `npm 9.2.0`
+* `npm 8.19.2`
 * `npm install -g netlify-cli`
 
 ### Environment Variables
