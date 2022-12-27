@@ -26,7 +26,7 @@ const Proxy = {
 				params: {
 					'token_endpoint': session.token_endpoint,
 					'code': code,
-					'client_id': CLIENT,
+					'client_id': `${CLIENT}/`,
 					'redirect_uri': `${CLIENT}/callback`,
 					// eslint-disable-next-line camelcase
 					...(session.verifier && { 'code_verifier': session.verifier })
