@@ -12,22 +12,33 @@ const AboutPage = {
 				}),
 				m('.sp-box-content.text-center', [
 					m('p', [
-						'Built with ',
-						m('a', { href: 'https://mithriljs.org' }, 'MithrilJS'),
-						', ',
-						m('a', { href: 'https://sass-lang.com' }, 'SCSS'),
-						', and ',
-						m('a', { href: 'https://fontawesome.com' }, 'FontAwesome'),
-						'. Deployed to ',
-						m('a', { href: 'https://netlify.app' }, 'Netlify')
+						'sparkles is a ',
+						m('a', { href: 'https://micropub.net/', target: '_blank' }, 'micropub'),
+						' client. You can create posts from here to add to your micropub compatible website.'
 					]),
 					m('p', [
-						'Source on ',
-						m('a.icon', { href: 'https://github.com/benjifs/sparkles' }, m('i.fab.fa-github', { title: 'Github' }))
+						'For more detailed information about sparkles, read the ',
+						m('a', { href: 'https://benji.dog/articles/sparkles/', target: '_blank' }, 'announcement'),
+						' post.'
+					]),
+					m('p', [
+						'Built with ',
+						m('a', { href: 'https://mithriljs.org', target: '_blank' }, 'MithrilJS'),
+						', ',
+						m('a', { href: 'https://sass-lang.com', target: '_blank' }, 'SCSS'),
+						', and ',
+						m('a', { href: 'https://fontawesome.com', target: '_blank' }, 'FontAwesome'),
+						'. Deployed to ',
+						m('a', { href: 'https://netlify.app', target: '_blank' }, 'Netlify'),
+						'.'
+					]),
+					m('p', [
+						'Source Code and Issues: ',
+						m('a.icon', { href: 'https://github.com/benjifs/sparkles', target: '_blank' }, m('i.fab.fa-github', { title: 'Github' }))
 					]),
 					m('p', [
 						'By ',
-						m('a', { href: 'https://benji.dog' }, 'benji')
+						m('a', { href: 'https://benji.dog', target: '_blank' }, 'benji')
 					])
 				])
 			])
