@@ -33,12 +33,13 @@ exports.handler = async e => {
 	})
 
 	console.log(`⇒ [${res.status}]`, res.headers)
+	const location = res.headers.get('location')
 
 	return {
 		statusCode: res.status,
 		headers: {
 			...Response.DEFAULT_HEADERS,
-			...res.headers
+			...(location && { 'Location': location })
 		},
 		body: await res.text()
 	}
