@@ -38,8 +38,8 @@ const ImageEditor = () => {
 			body: formData
 		})
 		if (res && res.status === 201) {
-			if (res.response && res.response.url) {
-				uploaded = res.response.url
+			if ((res.response && res.response.url) || res.headers.location) {
+				uploaded = res.response.url || res.headers.location
 				let media = Store.getCache('media') || []
 				media.unshift({ url: uploaded })
 				Store.addToCache({ media })
