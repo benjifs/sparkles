@@ -82,9 +82,7 @@ textarea, input, select {
 	box-shadow: none;
 
 	padding: .5rem 1rem;
-	&:not([type="checkbox"]) {
-		width: 100%;
-	}
+	width: 100%;
 
 	@include transition(border .3s ease-in-out);
 
@@ -96,6 +94,15 @@ textarea, input, select {
 
 input[type="checkbox"] {
 	cursor: inherit;
+	width: auto;
+}
+
+select {
+	color: var(--sprk-fg);
+}
+
+li select {
+	width: 25%;
 }
 
 textarea {
