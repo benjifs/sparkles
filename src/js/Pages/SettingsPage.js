@@ -1,7 +1,7 @@
 import m from 'mithril'
 
 import { BoxHeader } from '../Components/Box'
-import { fetchMediaConfig, fetchMicropubConfig } from '../Controllers/Helpers'
+import { fetchMicropubConfig, fetchMediaSource } from '../Controllers/Helpers'
 import Store from '../Models/Store'
 
 import { formatDate } from '../utils'
@@ -9,17 +9,16 @@ import { formatDate } from '../utils'
 const SettingsPage = () => {
 	let micropubConfigFetched,
 		syndicateTargets,
-		mediaConfigFetched,
 		mediaEndpoint,
-		mediaConfig
+		mediaFetched,
+		state = {}
 
 	const loadFetchedValues = () => {
 		micropubConfigFetched = Store.getCache('micropubConfigFetched')
 		syndicateTargets = Store.getSession('syndicate-to')
 
-		mediaConfig = Store.getSession('mediaConfig')
-		mediaConfigFetched = Store.getCache('mediaConfigFetched')
 		mediaEndpoint = Store.getSession('media-endpoint')
+		mediaFetched = Store.getCache('mediaFetched')
 	}
 
 	loadFetchedValues()
@@ -30,19 +29,25 @@ const SettingsPage = () => {
 	}
 
 	const loadMicropubConfig = async () => {
+		state.loadingMicropub = true
 		await fetchMicropubConfig(true)
 		loadFetchedValues()
+		state.loadingMicropub = false
 	}
 
-	const loadMediaConfig = async () => {
-		await fetchMediaConfig(true)
-		loadFetchedValues()
+	const loadMediaSource = async () => {
+		state.loadingMedia = true
+		const mediaSource = await fetchMediaSource(true)
+		if (mediaSource) {
+			mediaFetched = mediaSource.mediaFetched
+		}
+		state.loadingMedia = false
 	}
 
 	const updateUI = e => {
-		ui = e && e.target && e.target.checked ? 'simple' : null
+		ui = e && e.target && e.target.value != 'default' ? e.target.value : null
 		if (ui) {
-			document.documentElement.setAttribute('data-ui', 'simple')
+			document.documentElement.setAttribute('data-ui', ui)
 		} else {
 			document.documentElement.removeAttribute('data-ui')
 		}
@@ -58,15 +63,13 @@ const SettingsPage = () => {
 						name: 'Settings'
 					}),
 					m('.sp-box-content', [
-						m('h5', [
-							m('i.fas.fa-triangle-exclamation'),
-							' testing ',
-							m('i.fas.fa-triangle-exclamation')
-						]),
 						m('ul', [
 							m('li', [
 								m('span', `Config loaded: ${formatDate(micropubConfigFetched)}`),
-								m('button', { onclick: loadMicropubConfig }, 'refresh')
+								m('button', { onclick: loadMicropubConfig }, [
+									'refresh',
+									state.loadingMicropub && m('i.fas.fa-spinner.fa-spin')
+								])
 							]),
 							!mediaEndpoint && m('li',
 								m('div', [
@@ -75,29 +78,38 @@ const SettingsPage = () => {
 								])
 							),
 							mediaEndpoint && m('li', [
-								m('span', `Media Config: ${mediaConfigFetched > 0 ? formatDate(mediaConfigFetched) : 'Not fetched'}`),
-								m('button', { onclick: loadMediaConfig }, 'refresh')
+								m('span', [
+									'Media loaded: ',
+									mediaFetched == 0 && 'Not fetched',
+									mediaFetched == -1 && 'N/A',
+									mediaFetched > 0 && formatDate(mediaFetched)
+								]),
+								m('button', { onclick: loadMediaSource }, [
+									'refresh',
+									state.loadingMedia && m('i.fas.fa-spinner.fa-spin')
+								])
 							]),
-							mediaConfig && mediaConfig.includes('source') && m('li', m('div', [
+							mediaEndpoint && mediaFetched != 0 && m('li', m('div', [
 								m('code', 'media-endpoint?q=source'),
-								' is available'
+								mediaFetched > 0 && ' is available ',
+								mediaFetched < 0 && ' is not available ',
+								m('a', { href: 'https://github.com/indieweb/micropub-extensions/issues/14', target: '_blank' },
+									m('i.far.fa-circle-question', { title: 'media endpoint source discussion' }))
 							])),
 							syndicateTargets && syndicateTargets.length && [
 								m('li', m('h5', 'Syndication Targets')),
 								syndicateTargets.map(s =>
 									m('li', [
-										m('label', [
-											s.name
-										])
+										m('label', [ s.name ])
 									]))
 							],
 							m('hr'),
 							m('li', m('h5', 'General Settings')),
 							m('li', [
-								m('label', [
-									'simple ui',
-									m('input', { type: 'checkbox', onchange: updateUI, checked: ui === 'simple' })
-								])
+								m('span', 'theme'),
+								m('select', { value: ui || 'default', onchange: updateUI },
+									['default', 'simple']
+										.map(o => m('option', { value: o }, o)))
 							])
 						])
 					])

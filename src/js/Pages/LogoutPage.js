@@ -5,7 +5,7 @@ import Store from '../Models/Store'
 const LogoutPage = {
 	oninit: () => {
 		Store.clear()
-		m.route.set('/login')
+		window.location.href = '/login'
 	},
 	view: () => m('p', 'logged out')
 }
