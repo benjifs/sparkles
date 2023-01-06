@@ -1,9 +1,7 @@
 import m from 'mithril'
 
-import { fetchMediaConfig } from '../Controllers/Helpers'
-import Proxy from '../Controllers/Proxy'
+import { fetchMediaSource } from '../Controllers/Helpers'
 import Store from '../Models/Store'
-import { currentTime } from '../utils'
 
 const PAGE_SIZE = 10
 
@@ -11,24 +9,16 @@ const Gallery = () => {
 	const cache = Store.getCache()
 	let loading = false, page = 0, images = cache.media || []
 	const mediaEndpoint = Store.getSession('media-endpoint')
-	let mediaConfig = Store.getSession('mediaConfig')
 
 	const loadGallery = async (force) => {
-		if (cache.mediaFetched > 0 && cache.mediaFetched > currentTime() - 1800 && force !== true) return
-
 		loading = true
-
-		await fetchMediaConfig()
-		mediaConfig = Store.getSession('mediaConfig')
-
-		if (mediaConfig && mediaConfig.includes('source')) {
-			const { response } = await Proxy.media({
-				params: { q: 'source' }
-			})
-			images = (response && response.items) || []
-			Store.addToCache({ media: images, mediaFetched: currentTime() })
+		const mediaSource = await fetchMediaSource(force)
+		if (mediaSource) {
+			images = mediaSource.media
+			cache.mediaFetched = mediaSource.mediaFetched
 		}
 		loading = false
+		if (!mediaSource) m.redraw()
 	}
 
 	return {
@@ -36,7 +26,11 @@ const Gallery = () => {
 		view: () => {
 			if (!mediaEndpoint) return null
 			if (loading && !images.length) return m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' })
-			if (!mediaConfig || !mediaConfig.includes('source')) return m('h5', 'q=source for media-endpoint not found')
+			if (cache.mediaFetched < 0) return m('h5', [
+				'q=source for media-endpoint not found ',
+				m('a', { href: 'https://github.com/indieweb/micropub-extensions/issues/14', target: '_blank' },
+					m('i.far.fa-circle-question', { title: 'media endpoint source discussion' }))
+			])
 
 			return [
 				m('button', {
