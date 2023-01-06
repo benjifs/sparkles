@@ -1,6 +1,6 @@
 {
   "name": "sparkles",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "description": "micropub client",
   "main": "./src/js/app.js",
   "scripts": {
@@ -28,9 +28,9 @@
     "url": "https://github.com/benjifs/sparkles/issues"
   },
   "devDependencies": {
-    "eslint": "^8.30.0",
+    "eslint": "^8.31.0",
     "sass": "^1.57.1",
-    "vite": "^4.0.3"
+    "vite": "^4.0.4"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
@@ -40,6 +40,6 @@
   },
   "engines": {
     "node": "18.x",
-    "npm": "8.x"
+    "npm": ">=8.x"
   }
 }
