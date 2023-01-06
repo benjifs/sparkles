@@ -4,7 +4,7 @@ import Alert from '../Components/Alert'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
 import { canonicalURL } from '../utils'
-import { generateRandomString, generateCodeChallenge } from '../utils/crypt'
+import { generateRandomString, generateCodeChallenge, getCodeChallengeMethod } from '../utils/crypt'
 
 const CLIENT = window.location.origin
 
@@ -33,8 +33,8 @@ const Login = () => {
 			Store.setSession({ authorization_endpoint, token_endpoint, micropub, me: issuer || url, state, verifier })
 
 			// https://indieauth.spec.indieweb.org/#authorization-request
-			const code_challenge_method = Array.isArray(code_challenge_methods_supported) ? code_challenge_methods_supported[0] : 'S256'
-			const code_challenge = await generateCodeChallenge(verifier)
+			const code_challenge_method = getCodeChallengeMethod(code_challenge_methods_supported)
+			const code_challenge = await generateCodeChallenge(code_challenge_method, verifier)
 
 			const params = new URLSearchParams({
 				'response_type': 'code',

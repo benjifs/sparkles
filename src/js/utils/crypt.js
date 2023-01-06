@@ -27,12 +27,19 @@ const base64 = a => {
 		.replace(/=+$/, '')
 }
 
-const generateCodeChallenge = async (verifier) => {
+const generateCodeChallenge = async (method, verifier) => {
+	if (method === 'plain') return verifier
 	const hashed = await sha256(verifier)
 	return base64(hashed)
 }
 
+const getCodeChallengeMethod = supported => {
+	const methods = Array.isArray(supported) && supported.length > 0 ? supported : ['S256']
+	return methods.includes('S256') ? 'S256' : 'plain'
+}
+
 export {
 	generateRandomString,
-	generateCodeChallenge
+	generateCodeChallenge,
+	getCodeChallengeMethod
 }
