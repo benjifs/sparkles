@@ -214,18 +214,42 @@ const Editor = ({ attrs }) => {
 								})
 							}
 						}),
-						syndicateTo && syndicateTo.length && m('details',
+						m('details',
 							m('summary', 'Advanced'),
-							m('h5', 'Syndication Targets'),
 							m('ul', [
-								syndicateTo.map(s =>
-									m('li', [
-										m('label', [
-											s.name,
-											m('input', { type: 'checkbox', onchange: e => updateSyndicateTo(e, s) })
-										])
-									]))
-							])
+								// https://github.com/indieweb/micropub-extensions/issues/19
+								m('li', [
+									m('span', 'status'),
+									m('select', {
+										oninput: e => state['post-status'] = e.target.value,
+										value: state['post-status'] || ''
+									},
+									['', 'published', 'draft']
+										.map(o => m('option', { value: o }, o)))
+								]),
+								// https://github.com/indieweb/micropub-extensions/issues/11
+								m('li', [
+									m('span', 'visibility'),
+									m('select', {
+										oninput: e => state['visibility'] = e.target.value,
+										value: state['visibility'] || ''
+									},
+									['', 'public', 'unlisted', 'private']
+										.map(o => m('option', { value: o }, o)))
+								]),
+							]),
+							syndicateTo && syndicateTo.length > 0 && [
+								m('h5', 'Syndication Targets'),
+								m('ul', [
+									syndicateTo.map(s =>
+										m('li', [
+											m('label', [
+												s.name,
+												m('input', { type: 'checkbox', onchange: e => updateSyndicateTo(e, s) })
+											])
+										]))
+								])
+							]
 						),
 						m('button', {
 							type: 'submit',
