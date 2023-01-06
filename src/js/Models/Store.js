@@ -34,7 +34,6 @@ const Store = {
 	defaultCache: {
 		media: [],
 		mediaFetched: 0,
-		mediaConfigFetched: 0,
 		micropubConfigFetched: 0
 	},
 	getCache: prop => {

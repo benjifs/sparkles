@@ -20,23 +20,6 @@ const fetchMicropubConfig = async (force) => {
 	}
 }
 
-const fetchMediaConfig = async (force) => {
-	const mediaConfigFetched = Store.getCache('mediaConfigFetched')
-	if (mediaConfigFetched > 0 && !force) return
-	try {
-		const { response } = await Proxy.media({
-			params: {
-				q: 'config'
-			}
-		})
-		Store.addToSession({ mediaConfig: response.q })
-		Store.addToCache({ mediaConfigFetched: currentTime() })
-	} catch(err) {
-		Alert.error(err)
-	}
-}
-
 export {
-	fetchMediaConfig,
 	fetchMicropubConfig
 }
