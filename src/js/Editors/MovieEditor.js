@@ -6,6 +6,7 @@ import Rating from '../Components/Rating'
 import Proxy from '../Controllers/Proxy'
 
 const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY
+const IMDB_URL = 'https://imdb.com/title/'
 
 const MovieEditor = () => {
 	if (!OMDB_API_KEY) {
@@ -30,18 +31,23 @@ const MovieEditor = () => {
 		}
 
 		const rating = ratingToStars()
+		const title = `${state.rewatched ? 'Rewatched' : 'Watched'} ${state.movie.Title}, (${state.movie.Year})${rating ? ' - ' + rating : ''}`
 		const properties = {
-			summary: [ `${state.rewatched ? 'Rewatched' : 'Watched'} ${state.movie.Title}, (${state.movie.Year})${rating ? ' - ' + rating : ''}` ],
+			name: [ title ],
+			summary: [ title ],
+			featured: [ state.movie.Poster ],
 			'u-watch-of': [
 				{
 					'type': [ 'h-cite' ],
 					'properties': {
-						title: [ state.movie.Title ],
+						name: [ state.movie.Title ],
+						photo: [ state.movie.Poster ],
+						uid: [ `imdb:${state.movie.imdbID}` ],
+						url: [ `${IMDB_URL}${state.movie.imdbID}` ],
+						// custom properties
 						year: [ state.movie.Year ],
-						imdbID: [ state.movie.imdbID ],
-						poster: [ state.movie.Poster ],
-						rewatch: state.rewatched === true ? true : false,
-						...(state.rate && { rating: state.rating })
+						rewatch: [ state.rewatched === true ],
+						...(state.rate && { rating: [ state.rating ] })
 					}
 				}
 			]
