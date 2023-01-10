@@ -33,7 +33,6 @@ const MovieEditor = () => {
 		const rating = ratingToStars()
 		const title = `${state.rewatched ? 'Rewatched' : 'Watched'} ${state.movie.Title}, (${state.movie.Year})${rating ? ' - ' + rating : ''}`
 		const properties = {
-			name: [ title ],
 			summary: [ title ],
 			featured: [ state.movie.Poster ],
 			'u-watch-of': [
