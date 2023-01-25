@@ -4,7 +4,7 @@ import { BoxHeader } from '../Components/Box'
 
 const AboutPage = {
 	view: () =>
-		m('section.sp-content.text-center', [
+		m('section.text-center', [
 			m('.sp-box', [
 				m(BoxHeader, {
 					icon: '.far.fa-question-circle',

@@ -36,7 +36,7 @@ const SuccessPage = () => {
 		oninit: () => checkURL(),
 		onremove: () => timeout && clearTimeout(timeout),
 		view: () =>
-			m('section.sp-content.text-center', [
+			m('section.text-center', [
 				m('.sp-box', [
 					m('.sp-box-content.text-center', [
 						m('p', 'Post created successfully '),

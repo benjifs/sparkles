@@ -144,7 +144,7 @@ const Editor = ({ attrs }) => {
 
 	return {
 		view: () =>
-			m('section.sp-content.text-center', [
+			m('section.text-center', [
 				m('.sp-box', [
 					m(BoxHeader, {
 						icon: attrs.icon, //'.far.fa-note-sticky',

@@ -57,7 +57,7 @@ const ImageEditor = () => {
 
 	return {
 		view: () =>
-			m('section.sp-content.text-center', [
+			m('section.text-center', [
 				m('.sp-box', [
 					m(BoxHeader, {
 						icon: '.far.fa-image',
