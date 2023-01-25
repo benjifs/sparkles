@@ -2,7 +2,6 @@
 .sp-title {
 	text-align: center;
 	font-size: 1.3em;
-	padding: .5em;
 	letter-spacing: .3em;
 }
 
@@ -101,8 +100,10 @@ select {
 	color: var(--sprk-fg);
 }
 
-li select {
-	width: 25%;
+label select {
+	min-width: 100px;
+	max-width: 50%;
+	width: auto;
 }
 
 textarea {
@@ -207,6 +208,7 @@ label {
 	align-content: center;
 	justify-content: space-between;
 	width: 100%;
+	align-items: center;
 }
 
 .movie-list {

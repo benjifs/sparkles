@@ -1,5 +1,6 @@
 import m from 'mithril'
 
+import { Box } from '../Components/Box'
 import { fetchMicropubConfig } from '../Controllers/Helpers'
 import {
 	NoteTile,
@@ -21,18 +22,16 @@ const HomePage = () => {
 	return {
 		oninit: () => fetchMicropubConfig(),
 		view: () => [
-			m('section.text-center', [
-				m('.sp-box', [
-					m('.sp-tiles.sp-box-content', [
-						m(NoteTile),
-						m(ImageTile),
-						m(ReplyTile),
-						m(BookmarkTile),
-						m(LikeTile),
-						m(ArticleTile),
-						m(RSVPTile),
-						OMDB_API_KEY ? m(MovieTile) : null
-					])
+			m(Box, [
+				m('.sp-tiles', [
+					m(NoteTile),
+					m(ImageTile),
+					m(ReplyTile),
+					m(BookmarkTile),
+					m(LikeTile),
+					m(ArticleTile),
+					m(RSVPTile),
+					OMDB_API_KEY ? m(MovieTile) : null
 				])
 			]),
 			m('section', [

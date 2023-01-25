@@ -1,6 +1,6 @@
 import m from 'mithril'
 
-import { BoxHeader } from '../Components/Box'
+import { Box } from '../Components/Box'
 import {
 	LikeTile,
 	ReplyTile,
@@ -23,32 +23,28 @@ const SharePage = () => {
 
 	return {
 		view: () =>
-			m('section.text-center', [
-				m('.sp-box', [
-					m(BoxHeader, {
-						icon: '.fas.fa-share-nodes',
-						name: 'Share Target'
-					}),
-					m('.sp-box-content.text-center', [
-						m('p', [
-							'How would you like to share this content?',
-							m('br'),
-							m('b', 'title:'),
-							params.title,
-							m('br'),
-							m('b', 'text:'),
-							params.text,
-							m('br'),
-							m('b', 'url:'),
-							params.url
-						]),
-						m('.sp-tiles', [
-							m(ReplyTile, { params: parameterList.toString() }),
-							m(BookmarkTile, { params: parameterList.toString() }),
-							m(LikeTile, { params: parameterList.toString() }),
-							m(RSVPTile, { params: parameterList.toString() })
-						])
-					])
+			m(Box, {
+				className: '.text-center',
+				icon: '.fas.fa-share-nodes',
+				title: 'Share Target'
+			}, [
+				m('p', [
+					'How would you like to share this content?',
+					m('br'),
+					m('b', 'title:'),
+					params.title,
+					m('br'),
+					m('b', 'text:'),
+					params.text,
+					m('br'),
+					m('b', 'url:'),
+					params.url
+				]),
+				m('.sp-tiles', [
+					m(ReplyTile, { params: parameterList.toString() }),
+					m(BookmarkTile, { params: parameterList.toString() }),
+					m(LikeTile, { params: parameterList.toString() }),
+					m(RSVPTile, { params: parameterList.toString() })
 				])
 			])
 	}
