@@ -6,12 +6,19 @@ const Rating = {
 	view: ({ attrs }) =>
 		m('div.rating',
 			m('fieldset.rating-group', [
+				m('label.clear-rating', {
+					title: 'clear',
+					for: 'rating-0'
+				}, m('i.fas.fa-xmark', { title: 'clear' })),
 				m('input', {
 					id: 'rating-0',
 					type: 'radio',
 					value: 0,
 					name: 'rating',
-					checked: !attrs.value
+					onchange: e => {
+						attrs && attrs.onchange && attrs.onchange(e.target.value)
+					},
+					checked: !attrs.value || attrs.value == 0
 				}),
 				[0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5].map(r => [
 					m('label', {

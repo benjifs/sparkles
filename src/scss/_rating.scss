@@ -1,5 +1,13 @@
+[data-theme='dark'] .rating {
+	--star-default: #444444;
+	--star-clear: #222222;
+	--star-clear-hover: #696969;
+}
+
 .rating {
 	--star-default: lightgrey;
+	--star-clear: #ededed;
+	--star-clear-hover: darkgrey;
 	--star-active: goldenrod;
 	--star-hover: goldenrod;
 }
@@ -23,14 +31,32 @@
 			width: .85rem;
 		}
 	}
+	label.clear-rating {
+		i {
+			color: var(--star-default);
+		}
+		&:hover + input ~ label i {
+			color: var(--star-clear) !important;
+		}
+	}
 	i {
 		color: var(--star-active);
 	}
 	input:checked ~ label i {
 		color: var(--star-default);
 	}
-	&:hover label i {
-		color: var(--star-hover) !important;
+	&:hover label {
+		&.clear-rating {
+			i {
+				color: var(--star-clear) !important;
+			}
+			&:hover i {
+				color: var(--star-clear-hover) !important;
+			}
+		}
+		i {
+			color: var(--star-hover) !important;
+		}
 	}
 	input:hover ~ label i {
 		color: var(--star-default) !important;
