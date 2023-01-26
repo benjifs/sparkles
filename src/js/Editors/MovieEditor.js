@@ -1,9 +1,10 @@
 import m from 'mithril'
 
 import Alert from '../Components/Alert'
-import { BoxHeader } from '../Components/Box'
+import { Box } from '../Components/Box'
 import Rating from '../Components/Rating'
 import Proxy from '../Controllers/Proxy'
+import { dateInRFC3339, ratingToStars } from '../utils'
 
 const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY
 const IMDB_URL = 'https://imdb.com/title/'
@@ -21,20 +22,16 @@ const MovieEditor = () => {
 
 	let state = {}
 
-	const ratingToStars = () => state.rate ? '★'.repeat(state.rating) + (state.rating % 1 != 0 ? '½' : '') : ''
-
 	const post = async (e) => {
 		e.preventDefault()
 
-		if (state.rate && !state.rating) {
-			return Alert.error('missing "rating"')
-		}
-
-		const rating = ratingToStars()
-		const title = `${state.rewatched ? 'Rewatched' : 'Watched'} ${state.movie.Title}, (${state.movie.Year})${rating ? ' - ' + rating : ''}`
+		const rating = ratingToStars(state.rating)
+		const summary = `${state.rewatched ? 'Rewatched' : 'Watched'} ${state.movie.Title}, (${state.movie.Year})${rating ? ' - ' + rating : ''}`
 		const properties = {
-			summary: [ title ],
+			summary: [ summary ],
 			featured: [ state.movie.Poster ],
+			published: [ state.published || dateInRFC3339() ],
+			...(state.content && { content: [ state.content ] }),
 			'u-watch-of': [
 				{
 					'type': [ 'h-cite' ],
@@ -43,13 +40,13 @@ const MovieEditor = () => {
 						photo: [ state.movie.Poster ],
 						uid: [ `imdb:${state.movie.imdbID}` ],
 						url: [ `${IMDB_URL}${state.movie.imdbID}` ],
-						// custom properties
-						year: [ state.movie.Year ],
-						rewatch: [ state.rewatched === true ],
-						...(state.rate && { rating: [ state.rating ] })
+						published: [ state.movie.Year ],
 					}
 				}
-			]
+			],
+			// custom properties
+			...(state.rating > 0 && { rating: [ state.rating ] }),
+			rewatch: [ state.rewatched === true ]
 		}
 
 		state.submitting = true
@@ -84,6 +81,7 @@ const MovieEditor = () => {
 
 		state.searching = true
 		state.searched = false
+		state.movie = null
 
 		const res = await m.request({
 			method: 'GET',
@@ -109,65 +107,69 @@ const MovieEditor = () => {
 
 	return {
 		view: () =>
-			m('section.text-center', [
-				m('.sp-box', [
-					m(BoxHeader, {
-						icon: '.fas.fa-film',
-						name: 'Movie'
+			m(Box, {
+				icon: '.fas.fa-film',
+				title: 'Movie'
+			}, [
+				m('form', {
+					onsubmit: submitMovieSearch
+				}, [
+					m('input', {
+						type: 'text',
+						placeholder: 'Search',
+						oninput: e => movieInputChange(e),
+						value: state.search || ''
+					})
+				]),
+				m('div.movie-list.text-center', [
+					state.searching && m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }),
+					state.searched && search && search.length > 0 &&
+						search.map(mv =>
+							m('div.movie-tile', {
+								onclick: () => state.movie = state.movie ? null : mv,
+								hidden: state.movie && state.movie.imdbID != mv.imdbID
+							}, m('div.movie' + (state.movie && state.movie.imdbID == mv.imdbID ? '.selected' : ''), [
+								m('h4', `${mv.Title} (${mv.Year})`),
+								m('img', { src: mv.Poster })
+							]))),
+					state.searched && (!search || search.length === 0) && m('div', 'No results found')
+				]),
+				state.movie && m('form', {
+					onsubmit: post
+				}, [
+					m('label', [
+						'Watched on:',
+						m('input', {
+							type: 'date',
+							onchange: e => state.published = e.target.value,
+							value: state.published || dateInRFC3339()
+						})
+					]),
+					m('label', [
+						'Rewatched',
+						m('input', {
+							type: 'checkbox',
+							onchange: e => state.rewatched = e && e.target && e.target.checked,
+							checked: state.rewatched
+						})
+					]),
+					m('div.label', [
+						'Rate',
+						m(Rating, {
+							onchange: val => state.rating = val,
+							value: state.rating
+						})
+					]),
+					m('textarea', {
+						rows: 3,
+						placeholder: 'Add your review...',
+						oninput: e => state.content = e.target.value,
+						value: state.content || ''
 					}),
-					m('.sp-box-content.text-center', [
-						m('form', {
-							onsubmit: submitMovieSearch
-						}, [
-							m('input', {
-								type: 'text',
-								placeholder: 'Search',
-								oninput: e => movieInputChange(e),
-								value: state.search || ''
-							})
-						]),
-						m('div.movie-list', [
-							state.searching && m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }),
-							state.searched && search && search.length > 0 &&
-								search.map(mv =>
-									m('div.movie-tile', {
-										onclick: () => state.movie = state.movie ? null : mv,
-										hidden: state.movie && state.movie.imdbID != mv.imdbID
-									}, m('div.movie' + (state.movie && state.movie.imdbID == mv.imdbID ? '.selected' : ''), [
-										m('h4', `${mv.Title} (${mv.Year})`),
-										m('img', { src: mv.Poster })
-									]))),
-							state.searched && (!search || search.length === 0) && m('div', 'No results found')
-						]),
-						state.movie && m('form', {
-							onsubmit: post
-						}, [
-							m('label', [
-								'Rewatched',
-								m('input', {
-									type: 'checkbox',
-									onchange: e => state.rewatched = e && e.target && e.target.checked,
-									checked: state.rewatched
-								})
-							]),
-							m('label', [
-								'Rate',
-								m('input', {
-									type: 'checkbox',
-									onchange: e => state.rate = e && e.target && e.target.checked,
-									checked: state.rate
-								})
-							]),
-							state.rate && m(Rating, {
-								onchange: val => state.rating = val,
-								value: state.rating
-							}),
-							m('button', {
-								type: 'submit',
-								disabled: state.submitting
-							}, state.submitting ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : 'Post')
-						])
-					])
+					m('div.text-center', m('button', {
+						type: 'submit',
+						disabled: state.submitting
+					}, state.submitting ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : 'Post'))
 				])
 			])
 	}
