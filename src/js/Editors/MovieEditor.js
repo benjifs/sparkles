@@ -2,6 +2,7 @@ import m from 'mithril'
 
 import Alert from '../Components/Alert'
 import { Box } from '../Components/Box'
+import { Modal } from '../Components/Modal'
 import Rating from '../Components/Rating'
 import Proxy from '../Controllers/Proxy'
 import { dateInRFC3339, ratingToStars } from '../utils'
@@ -22,9 +23,7 @@ const MovieEditor = () => {
 
 	let state = {}
 
-	const post = async (e) => {
-		e.preventDefault()
-
+	const buildEntry = () => {
 		const rating = ratingToStars(state.rating)
 		const summary = `${state.rewatched ? 'Rewatched' : 'Watched'} ${state.movie.Title}, (${state.movie.Year})${rating ? ' - ' + rating : ''}`
 		const properties = {
@@ -49,14 +48,20 @@ const MovieEditor = () => {
 			rewatch: [ state.rewatched === true ]
 		}
 
-		state.submitting = true
+		return {
+			type: [ 'h-entry' ],
+			properties: properties
+		}
+	}
 
+	const post = async (e) => {
+		e.preventDefault()
+
+		const entry = buildEntry()
+		state.submitting = true
 		const res = await Proxy.micropub({
 			method: 'POST',
-			body: {
-				type: [ 'h-entry' ],
-				properties: properties
-			}
+			body: entry
 		})
 
 		state.submitting = false
@@ -72,7 +77,7 @@ const MovieEditor = () => {
 	}
 
 	let timeout, search = []
-	const submitMovieSearch = async (e) => {
+	const submitSearch = async (e) => {
 		e && e.preventDefault()
 
 		timeout && clearTimeout(timeout)
@@ -99,10 +104,10 @@ const MovieEditor = () => {
 		state.searched = true
 	}
 
-	const movieInputChange = async (e) => {
+	const inputChange = async (e) => {
 		state.search = e.target.value
 		timeout && clearTimeout(timeout)
-		timeout = setTimeout(submitMovieSearch, 2000)
+		timeout = setTimeout(submitSearch, 2000)
 	}
 
 	return {
@@ -112,23 +117,23 @@ const MovieEditor = () => {
 				title: 'Movie'
 			}, [
 				m('form', {
-					onsubmit: submitMovieSearch
+					onsubmit: submitSearch
 				}, [
 					m('input', {
 						type: 'text',
 						placeholder: 'Search',
-						oninput: e => movieInputChange(e),
+						oninput: e => inputChange(e),
 						value: state.search || ''
 					})
 				]),
-				m('div.movie-list.text-center', [
+				m('div.item-list.text-center', [
 					state.searching && m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }),
 					state.searched && search && search.length > 0 &&
 						search.map(mv =>
-							m('div.movie-tile', {
+							m('div.item-tile', {
 								onclick: () => state.movie = state.movie ? null : mv,
 								hidden: state.movie && state.movie.imdbID != mv.imdbID
-							}, m('div.movie' + (state.movie && state.movie.imdbID == mv.imdbID ? '.selected' : ''), [
+							}, m('div.item' + (state.movie && state.movie.imdbID == mv.imdbID ? '.selected' : ''), [
 								m('h4', `${mv.Title} (${mv.Year})`),
 								m('img', { src: mv.Poster })
 							]))),
@@ -169,7 +174,10 @@ const MovieEditor = () => {
 					m('div.text-center', m('button', {
 						type: 'submit',
 						disabled: state.submitting
-					}, state.submitting ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : 'Post'))
+					}, state.submitting ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : 'Post')),
+					m('div.text-center', m('a', {
+						onclick: () => Modal(m('pre', JSON.stringify(buildEntry(), null, 4)))
+					}, 'preview'))
 				])
 			])
 	}
