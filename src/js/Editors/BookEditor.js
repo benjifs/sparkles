@@ -40,7 +40,7 @@ const BookEditor = () => {
 			featured: [ image ],
 			...(shouldRate && { published: [ state.published || dateInRFC3339() ] }),
 			...(shouldRate && state.content && { content: [ state.content ] }),
-			'u-read-of': [
+			'read-of': [
 				{
 					'type': [ 'h-cite' ],
 					'properties': {

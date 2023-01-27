@@ -31,7 +31,7 @@ const MovieEditor = () => {
 			featured: [ state.movie.Poster ],
 			published: [ state.published || dateInRFC3339() ],
 			...(state.content && { content: [ state.content ] }),
-			'u-watch-of': [
+			'watch-of': [
 				{
 					'type': [ 'h-cite' ],
 					'properties': {
