@@ -10,7 +10,8 @@ import {
 	LikeTile,
 	ArticleTile,
 	RSVPTile,
-	MovieTile
+	MovieTile,
+	BookTile
 } from '../Editors/Tiles'
 import Store from '../Models/Store'
 
@@ -31,7 +32,8 @@ const HomePage = () => {
 					m(LikeTile),
 					m(ArticleTile),
 					m(RSVPTile),
-					OMDB_API_KEY ? m(MovieTile) : null
+					OMDB_API_KEY ? m(MovieTile) : null,
+					m(BookTile)
 				])
 			]),
 			m('section', [

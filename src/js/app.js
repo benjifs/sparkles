@@ -23,6 +23,7 @@ import {
 } from './Editors'
 import ImageEditor from './Editors/ImageEditor'
 import MovieEditor from './Editors/MovieEditor'
+import BookEditor from './Editors/BookEditor'
 
 import Store from './Models/Store'
 
@@ -53,5 +54,6 @@ m.route(document.body, '/', {
 	'/new/reply': AuthLayout(ReplyEditor),
 	'/new/like': AuthLayout(LikeEditor),
 	'/new/rsvp': AuthLayout(RSVPEditor),
-	'/new/movie': AuthLayout(MovieEditor)
+	'/new/movie': AuthLayout(MovieEditor),
+	'/new/book': AuthLayout(BookEditor)
 })
