@@ -24,6 +24,21 @@
 	}
 	.sp-modal-content {
 		animation: scroll-fade-out .3s forwards;
+
+		border: var(--sprk-border-size) solid var(--sprk-border-color);
+		border-radius: .7em;
+		background-color: var(--sprk-bg);
+		max-height: 80%;
+		max-width: 80%;
+		width: 750px;
+		padding: 1em;
+		pre {
+			height: 100%;
+			width: 100%;
+			padding: 1em;
+			margin: 0;
+			overflow: auto;
+		}
 	}
 	&.show {
 		.sp-modal-bg {

@@ -1,7 +1,7 @@
 import m from 'mithril'
 
 import Alert from '../Components/Alert'
-import { BoxHeader } from '../Components/Box'
+import { Box } from '../Components/Box'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
 
@@ -144,120 +144,115 @@ const Editor = ({ attrs }) => {
 
 	return {
 		view: () =>
-			m('section.sp-content.text-center', [
-				m('.sp-box', [
-					m(BoxHeader, {
-						icon: attrs.icon, //'.far.fa-note-sticky',
-						name: attrs.title //'Note'
-					}),
-					m('form.sp-box-content.text-center', {
-						onsubmit: post
-					}, [
-						attrs.components && attrs.components.map(c => {
-							switch(c.type) {
-							case 'name':
-								return m('input', {
-									type: 'text',
-									placeholder: c.label || 'Title',
-									oninput: e => state[c.type] = e.target.value,
-									value: state[c.type] || '',
-									required: c.required
-								})
-							case 'content':
-								return m('textarea', {
-									rows: 5,
-									placeholder: c.label || 'Content goes here...',
-									oninput: e => state[c.type] = e.target.value,
-									value: state[c.type] || '',
-									required: c.required
-								})
-							case 'bookmark-of':
-								return m('input', {
-									type: 'url',
-									placeholder: c.label || 'Bookmark of',
-									oninput: e => state[c.type] = e.target.value,
-									value: state[c.type] || '',
-									required: c.required
-								})
-							case 'in-reply-to':
-								return m('input', {
-									type: 'url',
-									placeholder: c.label || 'Reply to',
-									oninput: e => state[c.type] = e.target.value,
-									value: state[c.type] || '',
-									required: c.required
-								})
-							case 'like-of':
-								return m('input', {
-									type: 'url',
-									placeholder: c.label || 'Like of',
-									oninput: e => state[c.type] = e.target.value,
-									value: state[c.type] || '',
-									required: c.required
-								})
-							case 'rsvp':
-								return m('select', {
-									oninput: e => state[c.type] = e.target.value,
-									value: state[c.type] = state[c.type] || 'yes',
-									required: c.required
-								}, [
-									['yes', 'no', 'maybe', 'interested']
-										.map(o => m('option', { value: o }, o))
-								])
-							case 'category':
-								return m('input', {
-									type: 'text',
-									placeholder: 'Tags',
-									oninput: e => state[c.type] = e.target.value,
-									value: state[c.type] || '',
-									required: c.required
-								})
-							}
-						}),
-						m('details',
-							m('summary', 'Advanced'),
-							m('ul', [
-								// https://github.com/indieweb/micropub-extensions/issues/19
+			m(Box, {
+				icon: attrs.icon, //'.far.fa-note-sticky',
+				title: attrs.title //'Note'
+			}, m('form', {
+				onsubmit: post
+			}, [
+				attrs.components && attrs.components.map(c => {
+					switch(c.type) {
+					case 'name':
+						return m('input', {
+							type: 'text',
+							placeholder: c.label || 'Title',
+							oninput: e => state[c.type] = e.target.value,
+							value: state[c.type] || '',
+							required: c.required
+						})
+					case 'content':
+						return m('textarea', {
+							rows: 5,
+							placeholder: c.label || 'Content goes here...',
+							oninput: e => state[c.type] = e.target.value,
+							value: state[c.type] || '',
+							required: c.required
+						})
+					case 'bookmark-of':
+						return m('input', {
+							type: 'url',
+							placeholder: c.label || 'Bookmark of',
+							oninput: e => state[c.type] = e.target.value,
+							value: state[c.type] || '',
+							required: c.required
+						})
+					case 'in-reply-to':
+						return m('input', {
+							type: 'url',
+							placeholder: c.label || 'Reply to',
+							oninput: e => state[c.type] = e.target.value,
+							value: state[c.type] || '',
+							required: c.required
+						})
+					case 'like-of':
+						return m('input', {
+							type: 'url',
+							placeholder: c.label || 'Like of',
+							oninput: e => state[c.type] = e.target.value,
+							value: state[c.type] || '',
+							required: c.required
+						})
+					case 'rsvp':
+						return m('select', {
+							oninput: e => state[c.type] = e.target.value,
+							value: state[c.type] = state[c.type] || 'yes',
+							required: c.required
+						}, [
+							['yes', 'no', 'maybe', 'interested']
+								.map(o => m('option', { value: o }, o))
+						])
+					case 'category':
+						return m('input', {
+							type: 'text',
+							placeholder: 'Tags',
+							oninput: e => state[c.type] = e.target.value,
+							value: state[c.type] || '',
+							required: c.required
+						})
+					}
+				}),
+				m('details',
+					m('summary', 'Advanced'),
+					m('ul', [
+						// https://github.com/indieweb/micropub-extensions/issues/19
+						m('li', m('label', [
+							'status',
+							m('select', {
+								oninput: e => state['post-status'] = e.target.value,
+								value: state['post-status'] || ''
+							},
+							['', 'published', 'draft']
+								.map(o => m('option', { value: o }, o)))
+						])),
+						// https://github.com/indieweb/micropub-extensions/issues/11
+						m('li', m('label', [
+							'visibility',
+							m('select', {
+								oninput: e => state['visibility'] = e.target.value,
+								value: state['visibility'] || ''
+							},
+							['', 'public', 'unlisted', 'private']
+								.map(o => m('option', { value: o }, o)))
+						]))
+					]),
+					syndicateTo && syndicateTo.length > 0 && [
+						m('h5', 'Syndication Targets'),
+						m('ul', [
+							syndicateTo.map(s =>
 								m('li', [
-									m('span', 'status'),
-									m('select', {
-										oninput: e => state['post-status'] = e.target.value,
-										value: state['post-status'] || ''
-									},
-									['', 'published', 'draft']
-										.map(o => m('option', { value: o }, o)))
-								]),
-								// https://github.com/indieweb/micropub-extensions/issues/11
-								m('li', [
-									m('span', 'visibility'),
-									m('select', {
-										oninput: e => state['visibility'] = e.target.value,
-										value: state['visibility'] || ''
-									},
-									['', 'public', 'unlisted', 'private']
-										.map(o => m('option', { value: o }, o)))
-								]),
-							]),
-							syndicateTo && syndicateTo.length > 0 && [
-								m('h5', 'Syndication Targets'),
-								m('ul', [
-									syndicateTo.map(s =>
-										m('li', [
-											m('label', [
-												s.name,
-												m('input', { type: 'checkbox', onchange: e => updateSyndicateTo(e, s) })
-											])
-										]))
-								])
-							]
-						),
-						m('button', {
-							type: 'submit',
-							disabled: state.submitting
-						}, state.submitting ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : 'Post')
-					])
-				])
-			])
+									m('label', [
+										s.name,
+										m('input', { type: 'checkbox', onchange: e => updateSyndicateTo(e, s) })
+									])
+								]))
+						])
+					]
+				),
+				m('div.text-center', m('button', {
+					type: 'submit',
+					disabled: state.submitting
+				}, state.submitting ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : 'Post'))
+			]))
 	}
 }
 

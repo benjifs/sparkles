@@ -2,7 +2,6 @@
 .sp-title {
 	text-align: center;
 	font-size: 1.3em;
-	padding: .5em;
 	letter-spacing: .3em;
 }
 
@@ -101,8 +100,12 @@ select {
 	color: var(--sprk-fg);
 }
 
-li select {
-	width: 25%;
+label {
+	select, input[type="date"] {
+		min-width: 100px;
+		max-width: 50%;
+		width: auto;
+	}
 }
 
 textarea {
@@ -157,8 +160,8 @@ a {
 	overflow-y: auto;
 
 	display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: .75em;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: .75em;
 
 	img {
 		object-fit: cover;
@@ -201,23 +204,24 @@ h5 {
 	margin: 0.5rem 0;
 }
 
-label {
+label, .label {
 	cursor: pointer;
 	display: flex;
 	align-content: center;
 	justify-content: space-between;
 	width: 100%;
+	align-items: center;
 }
 
-.movie-list {
+.item-list {
 	display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
-  grid-gap: 0.75em;
+	grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+	grid-gap: 0.75em;
 	padding: .75em 0;
-	.movie-tile {
+	.item-tile {
 
 	}
-	.movie {
+	.item {
 		max-width: 150px;
 		margin: 0 auto;
 		padding: .4rem;

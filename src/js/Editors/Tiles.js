@@ -78,6 +78,14 @@ const MovieTile = {
 	})
 }
 
+const BookTile = {
+	view: () => m(Tile, {
+		href: '/new/book',
+		icon: '.fas.fa-book',
+		name: 'Book'
+	})
+}
+
 export {
 	NoteTile,
 	ArticleTile,
@@ -87,5 +95,6 @@ export {
 	ImageTile,
 	RSVPTile,
 	RecipeTile,
-	MovieTile
+	MovieTile,
+	BookTile
 }

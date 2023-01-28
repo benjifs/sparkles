@@ -1,6 +1,7 @@
 import m from 'mithril'
 
 import Alert from '../Components/Alert'
+import { Box } from '../Components/Box'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
 import { canonicalURL } from '../utils'
@@ -60,26 +61,25 @@ const Login = () => {
 	Store.clearCache()
 
 	return {
-		view: () =>
-			m('section', [
-				m('.sp-title', 'sparkles'),
-				m('.sp-box', [
-					m('form.sp-box-content.text-center', {
-						onsubmit: onLogin
-					}, [
-						m('input', {
-							type: 'url',
-							placeholder: 'https://',
-							oninput: e => urlString = e.target.value,
-							value: urlString
-						}),
-						m('button', {
-							type: 'submit',
-							disabled: !canSubmit() || loading
-						}, loading ? m('i.fas.fa-spinner.fa-spin') : 'login')
-					])
+		view: () => [
+			m('section', m('.sp-title', 'sparkles')),
+			m(Box, { className: '.no-pad' }, [
+				m('form.text-center', {
+					onsubmit: onLogin
+				}, [
+					m('input', {
+						type: 'url',
+						placeholder: 'https://',
+						oninput: e => urlString = e.target.value,
+						value: urlString
+					}),
+					m('button', {
+						type: 'submit',
+						disabled: !canSubmit() || loading
+					}, loading ? m('i.fas.fa-spinner.fa-spin') : 'login')
 				])
 			])
+		]
 	}
 }
 

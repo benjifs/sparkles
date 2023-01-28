@@ -1,5 +1,6 @@
 import m from 'mithril'
 
+import { Box } from '../Components/Box'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
 
@@ -36,20 +37,16 @@ const SuccessPage = () => {
 		oninit: () => checkURL(),
 		onremove: () => timeout && clearTimeout(timeout),
 		view: () =>
-			m('section.sp-content.text-center', [
-				m('.sp-box', [
-					m('.sp-box-content.text-center', [
-						m('p', 'Post created successfully '),
-						m('a', { href: url }, url),
-						!found && m('p', [
-							'Post is not live. ',
-							count >= MAX_CHECKS && 'Exceeded amount of automatic checks. Post might be taking longer to show up.',
-							count < MAX_CHECKS && `Checking again in ${RETRY_TIMEOUT} seconds `,
-							count < MAX_CHECKS && m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' })
-						]),
-						m(m.route.Link, { href: '/home' }, 'Go home')
-					])
-				])
+			m(Box, { className: '.text-center' }, [
+				m('p', 'Post created successfully '),
+				m('a', { href: url }, url),
+				!found && m('p', [
+					'Post is not live. ',
+					count >= MAX_CHECKS && 'Exceeded amount of automatic checks. Post might be taking longer to show up.',
+					count < MAX_CHECKS && `Checking again in ${RETRY_TIMEOUT} seconds `,
+					count < MAX_CHECKS && m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' })
+				]),
+				m(m.route.Link, { href: '/home' }, 'Go home')
 			])
 	}
 }

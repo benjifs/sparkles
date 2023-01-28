@@ -1,7 +1,7 @@
 import m from 'mithril'
 
 import Alert from '../Components/Alert'
-import { BoxHeader } from '../Components/Box'
+import { Box } from '../Components/Box'
 import Gallery from '../Components/Gallery'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
@@ -57,51 +57,47 @@ const ImageEditor = () => {
 
 	return {
 		view: () =>
-			m('section.sp-content.text-center', [
-				m('.sp-box', [
-					m(BoxHeader, {
-						icon: '.far.fa-image',
-						name: 'Image'
+			m(Box, {
+				className: '.text-center',
+				icon: '.far.fa-image',
+				title: 'Image'
+			}, m('form',
+				mediaEndpoint ? [
+					m('input', {
+						type: 'file',
+						onchange: loadImage,
+						accept: 'image/*'
 					}),
-					m('form.sp-box-content',
-						mediaEndpoint ? [
-							m('input', {
-								type: 'file',
-								onchange: loadImage,
-								accept: 'image/*'
-							}),
-							preview && m('div', [
-								m('img', { src: preview }),
-								m('div', [
-									m('button', {
-										type: 'button',
-										onclick: uploadImage,
-										disabled: loading
-									}, loading ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : [
-										'upload',
-										m('i.fas.fa-upload', { 'aria-hidden': 'true' })
-									])
-								])
-							]),
-							uploaded && m('div', [
-								m('div', 'Image uploaded successfully'),
-								m('img', { src: uploaded }),
-								m('div', m('a', { href: uploaded, target: '_blank' }, uploaded)),
-								m('div', [
-									m(m.route.Link, {
-										href: `/new/note?image=${uploaded}`,
-										selector: 'button'
-									}, 'post image')
-								])
-							]),
-							m('hr'),
-							m(Gallery)
-						]
-							:
-							m('h5', 'media-endpoint not found')
-					)
-				])
-			])
+					preview && m('div', [
+						m('img', { src: preview }),
+						m('div', [
+							m('button', {
+								type: 'button',
+								onclick: uploadImage,
+								disabled: loading
+							}, loading ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : [
+								'upload',
+								m('i.fas.fa-upload', { 'aria-hidden': 'true' })
+							])
+						])
+					]),
+					uploaded && m('div', [
+						m('div', 'Image uploaded successfully'),
+						m('img', { src: uploaded }),
+						m('div', m('a', { href: uploaded, target: '_blank' }, uploaded)),
+						m('div', [
+							m(m.route.Link, {
+								href: `/new/note?image=${uploaded}`,
+								selector: 'button'
+							}, 'post image')
+						])
+					]),
+					m('hr'),
+					m(Gallery)
+				]
+					:
+					m('h5', 'media-endpoint not found')
+			))
 	}
 }
 

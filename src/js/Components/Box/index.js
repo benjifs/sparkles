@@ -11,13 +11,24 @@ const BoxHeader = {
 		m('.sp-box-header', [
 			BoxHeader.closeButton(),
 			m('span.sp-box-header-title', [
-				m(`i${attrs.icon}`, { 'aria-hidden': 'true' }),
-				m('span', ` ${attrs.name}`)
+				attrs.icon && m(`i${attrs.icon}`, { 'aria-hidden': 'true' }),
+				attrs.title && m('span', ` ${attrs.title}`)
 			]),
 			BoxHeader.closeButton()
 		])
 }
 
+const Box = {
+	view: ({attrs, children}) =>
+		m(`section.sp-box${attrs.className ? attrs.className : ''}`, [
+			(attrs.icon || attrs.title) && m(BoxHeader, {
+				icon: attrs.icon,
+				title: attrs.title
+			}),
+			m('.sp-box-content', children)
+		])
+}
+
 export {
-	BoxHeader
+	Box
 }
