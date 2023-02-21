@@ -2,6 +2,8 @@ import m from 'mithril'
 
 import { Box } from '../Components/Box'
 
+import { version } from '/package.json'
+
 const AboutPage = {
 	view: () =>
 		m(Box, {
@@ -37,6 +39,9 @@ const AboutPage = {
 			m('p', [
 				'By ',
 				m('a', { href: 'https://benji.dog', target: '_blank' }, 'benji')
+			]),
+			m('p', [
+				`v${version}`
 			])
 		])
 }
