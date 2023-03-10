@@ -214,15 +214,21 @@ label, .label {
 }
 
 .item-list {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
-	grid-gap: 0.75em;
 	padding: .75em 0;
-	.item-tile {
-
-	}
 	.item {
-		max-width: 150px;
+		text-align: left;
+		img, div {
+			display: inline-block;
+			height: 100%;
+			vertical-align: top;
+		}
+		div {
+			padding: 0 .5em;
+			width: calc(100% - 75px);
+		}
+		img {
+			width: 75px;
+		}
 		margin: 0 auto;
 		padding: .4rem;
 		h4 {
@@ -238,4 +244,10 @@ label, .label {
 			border-color: var(--sprk-fg-color);
 		}
 	}
+}
+
+.item-pagination {
+	display: flex;
+	justify-content: space-between;
+	padding: 1em 0;
 }
