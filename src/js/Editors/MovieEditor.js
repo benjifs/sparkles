@@ -77,7 +77,7 @@ const MovieEditor = () => {
 	}
 
 	let timeout, search = []
-	const submitSearch = async (e) => {
+	const submitSearch = async (e, page) => {
 		e && e.preventDefault()
 
 		timeout && clearTimeout(timeout)
@@ -87,14 +87,16 @@ const MovieEditor = () => {
 		state.searching = true
 		state.searched = false
 		state.movie = null
+		state.page = page || 1
 
 		const res = await m.request({
 			method: 'GET',
-			url: `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${state.search}&type=movie`
+			url: `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${state.search}&type=movie&page=${state.page}`
 		})
 
 		if (res && res.Response === 'True') {
 			search = res.Search
+			state.totalResults = res.totalResults
 		} else {
 			Alert.error(res && res.Error)
 			search = null
@@ -134,10 +136,17 @@ const MovieEditor = () => {
 								onclick: () => state.movie = state.movie ? null : mv,
 								hidden: state.movie && state.movie.imdbID != mv.imdbID
 							}, m('div.item' + (state.movie && state.movie.imdbID == mv.imdbID ? '.selected' : ''), [
-								m('h4', `${mv.Title} (${mv.Year})`),
-								m('img', { src: mv.Poster })
+								m('img', { src: mv.Poster }),
+								m('div', [
+									m('h4', mv.Title),
+									m('h5', mv.Year)
+								])
 							]))),
-					state.searched && (!search || search.length === 0) && m('div', 'No results found')
+					state.searched && (!search || search.length === 0) && m('div', 'No results found'),
+					!state.movie && state.totalResults > search.length && m('div.item-pagination', [
+						m('button', { disabled: state.page == 1, onclick: e => submitSearch(e, --state.page) }, 'prev'),
+						m('button', { disabled: state.totalResults < state.page * 10, onclick: e => submitSearch(e, ++state.page) }, 'next')
+					])
 				]),
 				state.movie && m('form', {
 					onsubmit: post
