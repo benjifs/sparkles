@@ -145,8 +145,11 @@ const BookEditor = () => {
 								onclick: () => state.book = state.book ? null : b,
 								hidden: state.book && state.book.key != b.key
 							}, m('div.item' + (state.book && state.book.key == b.key ? '.selected' : ''), [
-								m('h4', `${b.title}`),
-								m('img', { src: getOpenLibraryImage(b.cover_i) })
+								m('img', { src: getOpenLibraryImage(b.cover_i) }),
+								m('div', [
+									m('h4', b.title),
+									m('h5', b.author_name ? b.author_name.join(', ') : '')
+								])
 							]))),
 					state.searched && (!search || search.length === 0) && m('div', 'No results found')
 				]),
