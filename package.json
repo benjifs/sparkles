@@ -28,15 +28,15 @@
     "url": "https://github.com/benjifs/sparkles/issues"
   },
   "devDependencies": {
-    "eslint": "^8.35.0",
-    "sass": "^1.58.3",
-    "vite": "^4.1.4"
+    "eslint": "^8.43.0",
+    "sass": "^1.63.6",
+    "vite": "^4.3.9"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "encoding": "^0.1.13",
     "mithril": "^2.2.2",
-    "node-fetch": "^3.3.0"
+    "node-fetch": "^3.3.1"
   },
   "engines": {
     "node": "18.x",
