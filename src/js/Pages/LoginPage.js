@@ -26,12 +26,12 @@ const Login = () => {
 			const data = await Proxy.discover(url)
 
 			/* eslint-disable camelcase */
-			const { issuer, authorization_endpoint, token_endpoint, code_challenge_methods_supported, micropub } = data
+			const { authorization_endpoint, token_endpoint, code_challenge_methods_supported, micropub } = data
 			if (!(authorization_endpoint && token_endpoint && micropub)) throw Error(`Missing rels for ${url}`)
 
 			const state = generateRandomString(23)
 			const verifier = generateRandomString(56)
-			Store.setSession({ authorization_endpoint, token_endpoint, micropub, me: issuer || url, state, verifier })
+			Store.setSession({ authorization_endpoint, token_endpoint, micropub, me: url, state, verifier })
 
 			// https://indieauth.spec.indieweb.org/#authorization-request
 			const code_challenge_method = getCodeChallengeMethod(code_challenge_methods_supported)
@@ -45,7 +45,7 @@ const Login = () => {
 				'code_challenge': code_challenge,
 				'code_challenge_method': code_challenge_method,
 				'scope': 'create',
-				'me': issuer || url
+				'me': url
 			})
 
 			window.location.href = `${authorization_endpoint}?${params.toString()}`
