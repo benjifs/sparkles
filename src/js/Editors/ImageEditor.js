@@ -32,7 +32,7 @@ const ImageEditor = () => {
 
 		loading = true
 		const formData = new FormData()
-		formData.append('photo', image)
+		formData.append('file', image)
 		const res = await Proxy.media({
 			method: 'POST',
 			body: formData
