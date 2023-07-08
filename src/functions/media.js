@@ -27,6 +27,7 @@ exports.handler = async e => {
 		method: e.httpMethod,
 		body: body,
 		headers: {
+			'Accept': 'application/json',
 			...(authorization && { 'Authorization': authorization }),
 			...(body && { 'Content-Type': e.headers['content-type'] })
 		}

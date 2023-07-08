@@ -10,6 +10,19 @@ import { dateInRFC3339, ratingToStars } from '../utils'
 const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY
 const IMDB_URL = 'https://imdb.com/title/'
 
+const parseQuery = string => {
+	const params = /year:([0-9]{4})/g.exec(string.replaceAll(' ', ''))
+	if (params && params.length > 1) {
+		return {
+			search: string.slice(0, string.indexOf('year:')).trim(),
+			year: params[1]
+		}
+	}
+	return {
+		search: string.trim()
+	}
+}
+
 const MovieEditor = () => {
 	if (!OMDB_API_KEY) {
 		return {
@@ -82,7 +95,9 @@ const MovieEditor = () => {
 
 		timeout && clearTimeout(timeout)
 
-		if (!state.search || state.search.trim().length < 3) return
+		if (!state.search) return
+		const params = parseQuery(state.search)
+		if (!params || params.search.trim().length < 3) return
 
 		state.searching = true
 		state.searched = false
@@ -91,7 +106,14 @@ const MovieEditor = () => {
 
 		const res = await m.request({
 			method: 'GET',
-			url: `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${state.search}&type=movie&page=${state.page}`
+			url: 'https://www.omdbapi.com',
+			params: {
+				apikey: OMDB_API_KEY,
+				s: params.search,
+				y: params.year,
+				page: state.page,
+				type: 'movie'
+			}
 		})
 
 		if (res && res.Response === 'True') {
@@ -123,7 +145,7 @@ const MovieEditor = () => {
 				}, [
 					m('input', {
 						type: 'text',
-						placeholder: 'Search',
+						placeholder: 'title year:2023',
 						oninput: e => inputChange(e),
 						value: state.search || ''
 					})
