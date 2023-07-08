@@ -93,7 +93,7 @@ const SettingsPage = () => {
 						m('a', { href: 'https://github.com/indieweb/micropub-extensions/issues/14', target: '_blank' },
 							m('i.far.fa-circle-question', { title: 'media endpoint source discussion' }))
 					])),
-					syndicateTargets && syndicateTargets.length && [
+					syndicateTargets && syndicateTargets.length > 0 && [
 						m('li', m('h5', 'Syndication Targets')),
 						syndicateTargets.map(s =>
 							m('li', [
