@@ -88,7 +88,7 @@ const BookEditor = () => {
 	}
 
 	let timeout, search = []
-	const submitSearch = async (e) => {
+	const submitSearch = async (e, page) => {
 		e && e.preventDefault()
 
 		timeout && clearTimeout(timeout)
@@ -98,14 +98,21 @@ const BookEditor = () => {
 		state.searching = true
 		state.searched = false
 		state.book = null
+		state.page = page || 1
 
 		const res = await m.request({
 			method: 'GET',
-			url: `${OPENLIBRARY_URL}/search.json?q=${state.search}&limit=10`
+			url: `${OPENLIBRARY_URL}/search.json`,
+			params: {
+				q: state.search,
+				limit: 10,
+				page: state.page
+			}
 		})
 
 		if (res && res.num_found > 0) {
 			search = res.docs
+			state.totalResults = res.num_found
 		} else {
 			Alert.error(res && res.Error)
 			search = null
@@ -151,7 +158,11 @@ const BookEditor = () => {
 									m('h5', b.author_name ? b.author_name.join(', ') : '')
 								])
 							]))),
-					state.searched && (!search || search.length === 0) && m('div', 'No results found')
+					state.searched && (!search || search.length === 0) && m('div', 'No results found'),
+					!state.book && state.totalResults > search.length && m('div.item-pagination', [
+						m('button', { disabled: state.page == 1, onclick: e => submitSearch(e, --state.page) }, 'prev'),
+						m('button', { disabled: state.totalResults < state.page * 10, onclick: e => submitSearch(e, ++state.page) }, 'next')
+					])
 				]),
 				state.book && m('form', {
 					onsubmit: post
