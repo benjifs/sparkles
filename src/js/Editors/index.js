@@ -242,7 +242,7 @@ const Editor = ({ attrs }) => {
 								m('li', [
 									m('label', [
 										s.name,
-										m('input', { type: 'checkbox', onchange: e => updateSyndicateTo(e, s) })
+										m('input', { type: 'checkbox', checked: s.checked, onchange: e => updateSyndicateTo(e, s) })
 									])
 								]))
 						])
