@@ -88,18 +88,18 @@ const Editor = ({ attrs }) => {
 		state.content = `![](${params.image.replace(' ', '%20')})`
 	}
 
-	const updateSyndicateTo = (e, syndicateTarget) => {
-		if (e && e.target && e.target.checked) {
-			state['mp-syndicate-to'] = [...(state['mp-syndicate-to'] || []), syndicateTarget.uid]
-		} else {
-			state['mp-syndicate-to'] = (state['mp-syndicate-to'] || []).filter(e => e != syndicateTarget.uid)
-		}
-	}
-
 	const post = async (e) => {
 		e.preventDefault()
 
 		let properties = {}
+
+		const mpSyndicateTo = e.target.querySelectorAll('.mp-syndicate-to')
+		if (mpSyndicateTo) {
+			state['mp-syndicate-to'] = [...mpSyndicateTo]
+				.filter(element => element.checked)
+				.map(element => element.value)
+		}
+
 		for (const [key, value] of Object.entries(state)) {
 			if (key != 'category' && value && value.length) {
 				properties[key] = Array.isArray(value) ? value : [ value ]
@@ -242,7 +242,12 @@ const Editor = ({ attrs }) => {
 								m('li', [
 									m('label', [
 										s.name,
-										m('input', { type: 'checkbox', onchange: e => updateSyndicateTo(e, s) })
+										m('input.mp-syndicate-to', {
+											type: 'checkbox',
+											checked: s.checked,
+											value: s.uid,
+											onchange: e => s.checked = e.target.checked
+										})
 									])
 								]))
 						])
