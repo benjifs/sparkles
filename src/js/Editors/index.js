@@ -245,7 +245,8 @@ const Editor = ({ attrs }) => {
 										m('input.mp-syndicate-to', {
 											type: 'checkbox',
 											checked: s.checked,
-											value: s.uid
+											value: s.uid,
+											onchange: e => s.checked = e.target.checked
 										})
 									])
 								]))
