@@ -19,21 +19,29 @@ const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY
 
 const HomePage = () => {
 	const me = Store.getMe()
+	const postTypes = Store.getSession('post-types') || []
+
+	const getPostTypeName = (type) => {
+		const postType = postTypes.find(item => item.type === type)
+		return postType ? postType.name : false
+	}
 
 	return {
 		oninit: () => fetchMicropubConfig(),
 		view: () => [
 			m(Box, [
 				m('.sp-tiles', [
-					m(NoteTile),
+					m(NoteTile, { name: getPostTypeName('note') }),
 					m(ImageTile),
-					m(ReplyTile),
-					m(BookmarkTile),
-					m(LikeTile),
-					m(ArticleTile),
-					m(RSVPTile),
-					OMDB_API_KEY ? m(MovieTile) : null,
-					m(BookTile)
+					m(ReplyTile, { name: getPostTypeName('note') }),
+					m(BookmarkTile, { name: getPostTypeName('bookmark') }),
+					m(LikeTile, { name: getPostTypeName('like') }),
+					m(ArticleTile, { name: getPostTypeName('article') }),
+					m(RSVPTile, { name: getPostTypeName('rsvp') }),
+					OMDB_API_KEY
+						? m(MovieTile, { name: getPostTypeName('watch') })
+						: null,
+					m(BookTile, { name: getPostTypeName('read') })
 				])
 			]),
 			m('section', [
