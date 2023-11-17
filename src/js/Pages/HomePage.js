@@ -21,9 +21,17 @@ const HomePage = () => {
 	const me = Store.getMe()
 	const postTypes = Store.getSession('post-types') || []
 
-	const getPostTypeName = (type) => {
-		const postType = postTypes.find(item => item.type === type)
-		return postType ? postType.name : false
+	const getPostType = (type) => {
+		return postTypes.find(item => item.type === type)
+	}
+
+	const postTypeTile = (type, tile) => {
+		if (!postTypes) {
+			return m(tile)
+		}
+
+		const postType = getPostType(type)
+		return postType ? m(tile, { name: postType.name }) : null
 	}
 
 	return {
@@ -31,17 +39,17 @@ const HomePage = () => {
 		view: () => [
 			m(Box, [
 				m('.sp-tiles', [
-					m(NoteTile, { name: getPostTypeName('note') }),
+					postTypeTile('note', NoteTile),
 					m(ImageTile),
-					m(ReplyTile, { name: getPostTypeName('note') }),
-					m(BookmarkTile, { name: getPostTypeName('bookmark') }),
-					m(LikeTile, { name: getPostTypeName('like') }),
-					m(ArticleTile, { name: getPostTypeName('article') }),
-					m(RSVPTile, { name: getPostTypeName('rsvp') }),
+					postTypeTile('reply', ReplyTile),
+					postTypeTile('bookmark', BookmarkTile),
+					postTypeTile('like', LikeTile),
+					postTypeTile('article', ArticleTile),
+					postTypeTile('rsvp', RSVPTile),
 					OMDB_API_KEY
-						? m(MovieTile, { name: getPostTypeName('watch') })
+						? postTypeTile('watch', MovieTile)
 						: null,
-					m(BookTile, { name: getPostTypeName('read') })
+					postTypeTile('read', BookTile)
 				])
 			]),
 			m('section', [
