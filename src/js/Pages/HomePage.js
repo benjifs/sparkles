@@ -7,10 +7,14 @@ import Store from '../Models/Store'
 
 const HomePage = () => {
 	const me = Store.getMe()
-	const postTypes = Store.getSession('post-types') || []
+	let postTypes = []
 
 	return {
-		oninit: () => fetchMicropubConfig(),
+		oninit: async () => {
+			await fetchMicropubConfig()
+			postTypes = Store.getSession('post-types') || []
+			m.redraw()
+		},
 		view: () => [
 			m(Box, m(Tiles(postTypes))),
 			m('section', [

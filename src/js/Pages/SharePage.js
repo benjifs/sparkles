@@ -2,6 +2,7 @@ import m from 'mithril'
 
 import { Box } from '../Components/Box'
 import Tiles from '../Editors/Tiles'
+import Store from '../Models/Store'
 
 const SharePage = () => {
 	const postTypes = Store.getSession('post-types') || []
