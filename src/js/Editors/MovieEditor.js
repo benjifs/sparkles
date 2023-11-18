@@ -5,6 +5,7 @@ import { Box } from '../Components/Box'
 import { Modal } from '../Components/Modal'
 import Rating from '../Components/Rating'
 import Proxy from '../Controllers/Proxy'
+import Store from '../Models/Store'
 import { dateInRFC3339, ratingToStars } from '../utils'
 
 const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY
@@ -33,6 +34,7 @@ const MovieEditor = () => {
 				])
 		}
 	}
+	const postTypes = Store.getSession('post-types') || []
 
 	let state = {}
 
@@ -134,11 +136,13 @@ const MovieEditor = () => {
 		timeout = setTimeout(submitSearch, 2000)
 	}
 
+	const postType = postTypes.find(item => item.type == 'watch')
+
 	return {
 		view: () =>
 			m(Box, {
 				icon: '.fas.fa-film',
-				title: 'Movie'
+				title: postType?.name || 'Movie'
 			}, [
 				m('form', {
 					onsubmit: submitSearch

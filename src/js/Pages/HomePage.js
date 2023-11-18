@@ -2,40 +2,21 @@ import m from 'mithril'
 
 import { Box } from '../Components/Box'
 import { fetchMicropubConfig } from '../Controllers/Helpers'
-import {
-	NoteTile,
-	ImageTile,
-	ReplyTile,
-	BookmarkTile,
-	LikeTile,
-	ArticleTile,
-	RSVPTile,
-	MovieTile,
-	BookTile
-} from '../Editors/Tiles'
+import Tiles from '../Editors/Tiles'
 import Store from '../Models/Store'
-
-const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY
 
 const HomePage = () => {
 	const me = Store.getMe()
+	let postTypes = []
 
 	return {
-		oninit: () => fetchMicropubConfig(),
+		oninit: async () => {
+			await fetchMicropubConfig()
+			postTypes = Store.getSession('post-types') || []
+			m.redraw()
+		},
 		view: () => [
-			m(Box, [
-				m('.sp-tiles', [
-					m(NoteTile),
-					m(ImageTile),
-					m(ReplyTile),
-					m(BookmarkTile),
-					m(LikeTile),
-					m(ArticleTile),
-					m(RSVPTile),
-					OMDB_API_KEY ? m(MovieTile) : null,
-					m(BookTile)
-				])
-			]),
+			m(Box, m(Tiles(postTypes))),
 			m('section', [
 				m('p', [
 					'Logged in as ',

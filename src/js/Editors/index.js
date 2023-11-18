@@ -66,6 +66,7 @@ const EditorTypes = {
 
 const Editor = ({ attrs }) => {
 	const parameterList = new URLSearchParams(window.location.search)
+	const postTypes = Store.getSession('post-types') || []
 	const params = {
 		title: parameterList.get('title'),
 		text: parameterList.get('text'),
@@ -142,11 +143,13 @@ const Editor = ({ attrs }) => {
 		}
 	}
 
+	const postType = postTypes.find(item => item.type == attrs.title.toLowerCase())
+
 	return {
 		view: () =>
 			m(Box, {
 				icon: attrs.icon, //'.far.fa-note-sticky',
-				title: attrs.title //'Note'
+				title: postType?.name || attrs.title //'Note'
 			}, m('form', {
 				onsubmit: post
 			}, [
