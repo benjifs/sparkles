@@ -2,6 +2,8 @@ import m from 'mithril'
 
 import Tile from '../Components/Tile'
 
+const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY
+
 const NoteTile = {
 	view: ({ attrs }) => m(Tile, {
 		href: '/new/note',
@@ -86,15 +88,40 @@ const BookTile = {
 	})
 }
 
-export {
-	NoteTile,
-	ArticleTile,
-	ReplyTile,
-	BookmarkTile,
-	LikeTile,
-	ImageTile,
-	RSVPTile,
-	RecipeTile,
-	MovieTile,
-	BookTile
+const PostTypes = {
+	note: NoteTile,
+	image: ImageTile,
+	reply: ReplyTile,
+	bookmark: BookmarkTile,
+	like: LikeTile,
+	article: ArticleTile,
+	rsvp: RSVPTile,
+	watch: OMDB_API_KEY ? MovieTile : null,
+	read: BookTile
 }
+
+const Tiles = (types, defaultTiles) => {
+	if (!defaultTiles || !defaultTiles.length) {
+		defaultTiles = [ 'note', 'image', 'reply', 'bookmark', 'like', 'article', 'rsvp', 'watch', 'read' ]
+	}
+	if (!types || !types.length) {
+		types = defaultTiles.map(t => ({ type: t }))
+	}
+	const tiles = types
+		.filter(pt => PostTypes[pt.type] && defaultTiles.includes(pt.type))
+		.map(pt => m(PostTypes[pt.type], { name: pt.name })) || []
+
+	return {
+		view: () =>
+			tiles && tiles.length ? m('.sp-tiles', tiles) : [
+				m('h3', 'no available tiles'),
+				m('p', [
+					'unsupported post types ',
+					m('a', { href: 'https://github.com/indieweb/micropub-extensions/issues/1', target: '_blank' },
+					m('i.far.fa-circle-question', { title: 'query for supported vocabulary discussion' }))
+				])
+			]
+	}
+}
+
+export default Tiles

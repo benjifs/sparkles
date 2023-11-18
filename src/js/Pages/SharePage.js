@@ -1,14 +1,10 @@
 import m from 'mithril'
 
 import { Box } from '../Components/Box'
-import {
-	LikeTile,
-	ReplyTile,
-	RSVPTile,
-	BookmarkTile
-} from '../Editors/Tiles'
+import Tiles from '../Editors/Tiles'
 
 const SharePage = () => {
+	const postTypes = Store.getSession('post-types') || []
 	const parameterList = new URLSearchParams(window.location.search)
 	const params = {
 		title: parameterList.get('title'),
@@ -40,12 +36,7 @@ const SharePage = () => {
 					m('b', 'url:'),
 					params.url
 				]),
-				m('.sp-tiles', [
-					m(ReplyTile, { params: parameterList.toString() }),
-					m(BookmarkTile, { params: parameterList.toString() }),
-					m(LikeTile, { params: parameterList.toString() }),
-					m(RSVPTile, { params: parameterList.toString() })
-				])
+				m(Tiles(postTypes, [ 'reply', 'bookmark', 'like', 'rsvp' ]))
 			])
 	}
 }
