@@ -5,6 +5,7 @@ import { Box } from '../Components/Box'
 import { Modal } from '../Components/Modal'
 import Rating from '../Components/Rating'
 import Proxy from '../Controllers/Proxy'
+import Store from '../Models/Store'
 import { dateInRFC3339, ratingToStars } from '../utils'
 
 const OPENLIBRARY_URL = 'https://openlibrary.org'
@@ -20,6 +21,7 @@ const getStatusForProgress = key => PROGRESS_OPTIONS.find(p => p.key == key).lab
 const getOpenLibraryImage = id => id ? `https://covers.openlibrary.org/b/id/${id}-M.jpg` : ''
 
 const BookEditor = () => {
+	const postTypes = Store.getSession('post-types') || []
 	let state = {
 		progress: DEFAULT_PROGRESS
 	}
@@ -128,11 +130,13 @@ const BookEditor = () => {
 		timeout = setTimeout(submitSearch, 2000)
 	}
 
+	const postType = postTypes.find(item => item.type == 'read')
+
 	return {
 		view: () =>
 			m(Box, {
 				icon: '.fas.fa-book',
-				title: 'Book'
+				title: postType?.name || 'Book'
 			}, [
 				m('form', {
 					onsubmit: submitSearch
