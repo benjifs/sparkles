@@ -100,7 +100,7 @@ const PostTypes = {
 	read: BookTile
 }
 
-const Tiles = (types, defaultTiles) => {
+const Tiles = (types, defaultTiles, params) => {
 	if (!defaultTiles || !defaultTiles.length) {
 		defaultTiles = [ 'note', 'image', 'reply', 'bookmark', 'like', 'article', 'rsvp', 'watch', 'read' ]
 	}
@@ -109,7 +109,7 @@ const Tiles = (types, defaultTiles) => {
 	}
 	const tiles = types
 		.filter(pt => PostTypes[pt.type] && defaultTiles.includes(pt.type))
-		.map(pt => m(PostTypes[pt.type], { name: pt.name })) || []
+		.map(pt => m(PostTypes[pt.type], { name: pt.name, params })) || []
 
 	return {
 		view: () =>

@@ -12,5 +12,10 @@
 	directory = "./src/functions"
 	node_bundler = "esbuild"
 
+[[redirects]]
+	from = "/*"
+	to = "/.netlify/functions/:splat"
+	status = 200
+
 [template.environment]
-	VITE_OMDB_API_KEY = "OMDB API Key (optional)"
+	OMDB_API_KEY = "OMDB API Key"
