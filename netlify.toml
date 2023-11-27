@@ -2,7 +2,9 @@
 	command = "npm run start:vite"
 	publish = "dist"
 	targetPort = 5173
+	functionsPort = 5174
 	port = 9000
+	framework = "#custom"
 
 [build]
 	command = "npm run build:vite"
@@ -24,3 +26,4 @@
 
 [template.environment]
 	OMDB_API_KEY = "OMDB API Key"
+	LASTFM_API_KEY = "last.fm API key"
