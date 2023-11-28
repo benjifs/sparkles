@@ -183,6 +183,7 @@ const MediaEditor = ({ attrs }) => {
 								m('div', [
 									m('h4', md.title),
 									md.author && m('h5', md.author),
+									md.artist && m('h5', md.artist),
 									!md.author && md.year && m('h5', md.year)
 								])
 							]))),

@@ -63,7 +63,7 @@ const types = {
 			results: res.results[`${category}matches`][category]
 				.map(r => ({
 					...(r.mbid && { id: `mbid:${r.mbid}` }),
-					title: category == 'artist' ? r.name : `${r.name} - ${r.artist}`,
+					title: r.name,
 					artist: r.artist,
 					...(category == 'album' && { image: r.image?.pop()['#text'] }),
 					url: r.url
