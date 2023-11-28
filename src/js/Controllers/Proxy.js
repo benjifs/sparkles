@@ -2,7 +2,6 @@ import m from 'mithril'
 
 import Store from '../Models/Store'
 
-const FUNCTIONS = window.location.host === 'localhost:5173' ? 'http://localhost:9000' : ''
 const CLIENT = window.location.origin
 
 const Proxy = {
@@ -10,7 +9,7 @@ const Proxy = {
 		m
 			.request({
 				method: 'GET',
-				url: `${FUNCTIONS}/.netlify/functions/discover`,
+				url: '/.netlify/functions/discover',
 				params: { url: url }
 			}),
 	validate: params => {
@@ -22,7 +21,7 @@ const Proxy = {
 		return m
 			.request({
 				method: 'GET',
-				url: `${FUNCTIONS}/.netlify/functions/token`,
+				url: '/.netlify/functions/token',
 				params: {
 					'token_endpoint': session.token_endpoint,
 					'code': code,
@@ -41,7 +40,7 @@ const Proxy = {
 		return m
 			.request({
 				method: method || 'GET',
-				url: `${FUNCTIONS}/.netlify/functions/micropub`,
+				url: '/.netlify/functions/micropub',
 				headers: {
 					// 'Content-Type': 'application/json',
 					'Authorization': `Bearer ${session.access_token}`,
@@ -58,7 +57,7 @@ const Proxy = {
 		return m
 			.request({
 				method: method || 'GET',
-				url: `${FUNCTIONS}/.netlify/functions/media`,
+				url: '/.netlify/functions/media',
 				headers: {
 					'Authorization': `Bearer ${session.access_token}`,
 					'x-media-endpoint': session['media-endpoint']
@@ -87,13 +86,12 @@ const Proxy = {
 		try {
 			await m.request({
 				method: 'GET',
-				url: `${FUNCTIONS}/.netlify/functions/redirect?url=${url}`
+				url: `/.netlify/functions/redirect?url=${url}`
 			})
 			return true
 		} catch (err) {
 			console.error(`could not fetch ${url}`)
 		}
-
 		return false
 	}
 }

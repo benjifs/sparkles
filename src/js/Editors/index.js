@@ -148,8 +148,8 @@ const Editor = ({ attrs }) => {
 	return {
 		view: () =>
 			m(Box, {
-				icon: attrs.icon, //'.far.fa-note-sticky',
-				title: postType?.name || attrs.title //'Note'
+				icon: attrs.icon, // '.far.fa-note-sticky',
+				title: postType?.name || attrs.title // 'Note'
 			}, m('form', {
 				onsubmit: post
 			}, [
