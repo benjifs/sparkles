@@ -22,8 +22,13 @@ import {
 	RSVPEditor
 } from './Editors'
 import ImageEditor from './Editors/ImageEditor'
-import MovieEditor from './Editors/MovieEditor'
-import BookEditor from './Editors/BookEditor'
+// import MovieEditor from './Editors/MovieEditor'
+// import BookEditor from './Editors/BookEditor'
+import {
+	MovieEditor,
+	BookEditor,
+	ListenEditor
+} from './Editors/MediaEditor'
 
 import Store from './Models/Store'
 
@@ -55,5 +60,6 @@ m.route(document.body, '/', {
 	'/new/like': AuthLayout(LikeEditor),
 	'/new/rsvp': AuthLayout(RSVPEditor),
 	'/new/movie': AuthLayout(MovieEditor),
-	'/new/book': AuthLayout(BookEditor)
+	'/new/book': AuthLayout(BookEditor),
+	'/new/listen': AuthLayout(ListenEditor)
 })

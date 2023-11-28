@@ -2,8 +2,6 @@ import m from 'mithril'
 
 import Tile from '../Components/Tile'
 
-const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY
-
 const NoteTile = {
 	view: ({ attrs }) => m(Tile, {
 		href: '/new/note',
@@ -88,6 +86,14 @@ const BookTile = {
 	})
 }
 
+const ListenTile = {
+	view: ({ attrs }) => m(Tile, {
+		href: '/new/listen',
+		icon: '.fas.fa-music',
+		name: attrs?.name || 'Listen'
+	})
+}
+
 const PostTypes = {
 	note: NoteTile,
 	image: ImageTile,
@@ -96,13 +102,14 @@ const PostTypes = {
 	like: LikeTile,
 	article: ArticleTile,
 	rsvp: RSVPTile,
-	watch: OMDB_API_KEY ? MovieTile : null,
-	read: BookTile
+	watch: MovieTile,
+	read: BookTile,
+	listen: ListenTile
 }
 
 const Tiles = (types, defaultTiles, params) => {
 	if (!defaultTiles || !defaultTiles.length) {
-		defaultTiles = [ 'note', 'image', 'reply', 'bookmark', 'like', 'article', 'rsvp', 'watch', 'read' ]
+		defaultTiles = [ 'note', 'image', 'reply', 'bookmark', 'like', 'article', 'rsvp', 'watch', 'read', 'listen' ]
 	}
 	if (!types || !types.length) {
 		types = defaultTiles.map(t => ({ type: t }))
