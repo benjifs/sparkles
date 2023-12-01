@@ -22,8 +22,6 @@ import {
 	RSVPEditor
 } from './Editors'
 import ImageEditor from './Editors/ImageEditor'
-// import MovieEditor from './Editors/MovieEditor'
-// import BookEditor from './Editors/BookEditor'
 import {
 	MovieEditor,
 	BookEditor,
