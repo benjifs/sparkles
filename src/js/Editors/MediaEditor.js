@@ -42,9 +42,9 @@ const MediaEditor = ({ attrs }) => {
 		if (!summary) return Alert.error('invalid "status" selected')
 
 		summary += ` ${state.selected.title}`
-		if (attrs?.type == 'watch') {
-			summary += ` (${state.selected.year})`
-		} else if (attrs?.type == 'read') {
+		if (attrs?.type == 'watch' && state.selected.year) {
+			summary += `, ${state.selected.year}`
+		} else if (attrs?.type == 'read' && state.selected.author) {
 			summary += ` by ${state.selected.author}`
 		}
 		if (state.progress == 'finished' && rating) {
