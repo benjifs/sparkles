@@ -69,12 +69,34 @@ const types = {
 					url: r.url
 				}))
 		})
-	}
+	},
+	game: {
+		url: 'https://www.giantbomb.com/api/search/',
+		buildParams: ({ query, page }) => ({
+			api_key: process.env.GIANTBOMB_API_KEY,
+			limit: 10,
+			format: 'json',
+			resources: 'game',
+			query: query,
+			page: page
+		}),
+		buildError: ({ status, response }) => Response.error({ statusCode: status }, response.error),
+		parseResponse: res => ({
+			totalResults: res?.number_of_total_results || 0,
+			results: res?.results.map(g => ({
+				id: `gbid:${g.guid}`,
+				title: g.name,
+				image: g.image.original_url,
+				year: g.original_release_date ? new Date(g.original_release_date).getFullYear() : null,
+				url: g.site_detail_url
+			}))
+		})
+	},
 }
 
 export const handler = async (e) => {
 	const { type } = e.queryStringParameters
-	if (!['movie', 'book', 'artist', 'album', 'track'].includes(type)) {
+	if (!['movie', 'book', 'artist', 'album', 'track', 'game'].includes(type)) {
 		return Response.error(Error.NOT_SUPPORTED, 'Search type not supported')
 	}
 
@@ -84,6 +106,8 @@ export const handler = async (e) => {
 	const response = await res.json()
 	if (res.status !== 200) {
 		return opts.buildError({ status: res.status, response })
+	} else if (type == 'game' && response.error != 'OK') {
+		return opts.buildError({ status: 400, response})
 	}
 
 	return Response.success(opts.parseResponse(response, type))
