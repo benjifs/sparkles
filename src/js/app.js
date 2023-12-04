@@ -25,7 +25,8 @@ import ImageEditor from './Editors/ImageEditor'
 import {
 	MovieEditor,
 	BookEditor,
-	ListenEditor
+	ListenEditor,
+	GameEditor,
 } from './Editors/MediaEditor'
 
 import Store from './Models/Store'
@@ -59,5 +60,6 @@ m.route(document.body, '/', {
 	'/new/rsvp': AuthLayout(RSVPEditor),
 	'/new/movie': AuthLayout(MovieEditor),
 	'/new/book': AuthLayout(BookEditor),
-	'/new/listen': AuthLayout(ListenEditor)
+	'/new/listen': AuthLayout(ListenEditor),
+	'/new/game': AuthLayout(GameEditor),
 })

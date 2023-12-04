@@ -275,7 +275,8 @@ const EditorTypes = {
 		icon: '.fas.fa-book',
 		type: 'read',
 		search: {
-			options: [ 'book' ]
+			options: [ 'book' ],
+			placeholder: 'Search by title or ISBN'
 		},
 		progress: [
 			{ key: 'want', label: 'Want to Read', title: 'Want to Read:' },
@@ -293,15 +294,30 @@ const EditorTypes = {
 		progress: [
 			{ key: 'finished', label: 'Listened', title: 'Listened to' }
 		]
+	},
+	Game: {
+		title: 'Game',
+		icon: '.fas.fa-gamepad',
+		type: 'play',
+		search: {
+			options: [ 'game' ]
+		},
+		progress: [
+			{ key: 'want', label: 'Want to Play', title: 'Want to Play:' },
+			{ key: 'started', label: 'Playing', title: 'Playing:' },
+			{ key: 'finished', label: 'Played', title: 'Played:' }
+		]
 	}
 }
 
 const MovieEditor = { view: () => m(MediaEditor, EditorTypes.Movie) }
 const BookEditor = { view: () => m(MediaEditor, EditorTypes.Book) }
 const ListenEditor = { view: () => m(MediaEditor, EditorTypes.Listen) }
+const GameEditor = { view: () => m(MediaEditor, EditorTypes.Game) }
 
 export {
 	MovieEditor,
 	BookEditor,
 	ListenEditor,
+	GameEditor,
 }

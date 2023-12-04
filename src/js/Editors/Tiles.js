@@ -94,6 +94,14 @@ const ListenTile = {
 	})
 }
 
+const GameTile = {
+	view: ({ attrs }) => m(Tile, {
+		href: '/new/game',
+		icon: '.fas.fa-gamepad',
+		name: attrs?.name || 'Game'
+	})
+}
+
 const PostTypes = {
 	note: NoteTile,
 	image: ImageTile,
@@ -104,12 +112,13 @@ const PostTypes = {
 	rsvp: RSVPTile,
 	watch: MovieTile,
 	read: BookTile,
-	listen: ListenTile
+	listen: ListenTile,
+	game: GameTile
 }
 
 const Tiles = (types, defaultTiles, params) => {
 	if (!defaultTiles || !defaultTiles.length) {
-		defaultTiles = [ 'note', 'image', 'reply', 'bookmark', 'like', 'article', 'rsvp', 'watch', 'read', 'listen' ]
+		defaultTiles = [ 'note', 'image', 'reply', 'bookmark', 'like', 'article', 'rsvp', 'watch', 'read', 'listen', 'game' ]
 	}
 	if (!types || !types.length) {
 		types = defaultTiles.map(t => ({ type: t }))
