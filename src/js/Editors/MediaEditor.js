@@ -266,11 +266,14 @@ const EditorTypes = {
 			options: [ 'movie' ], // At least one option required. Must match valid search `type`
 			placeholder: 'title year:2023' // Optional
 		},
-		progress: [{ // experimental property
-			key: 'finished', // want, started, finished
-			label: 'Watched', // Label for dropdown
-			// title: 'Watched' // Text used in summary. Defaults to label
-		}]
+		progress: [ // experimental property
+			{
+				key: 'want', // want, started, finished
+				label: 'Want to Watch', // Label for dropdown
+				title: 'Wants to Watch' // Text used in summary. Defaults to label
+			},
+			{ key: 'finished', label: 'Watched' }
+		]
 	},
 	Book: {
 		title: 'Book',
