@@ -17,6 +17,7 @@ exports.handler = async e => {
 		// return Response.error(Error.INVALID, 'Could not parse request body')
 	}
 
+	console.log(`⇒ ${e.httpMethod}: ${endpoint}`, body)
 	const res = await fetch(endpoint + (Array.from(params).length > 0 ? '?' + params : ''), {
 		method: e.httpMethod,
 		...(body && { body: JSON.stringify(body) }),
@@ -27,7 +28,8 @@ exports.handler = async e => {
 		}
 	})
 
-	console.log(`⇒ [${res.status}]`, res.headers)
+	const response = await res.text()
+	console.log(`  [${res.status}]`, res.headers, response)
 	const location = res.headers.get('location')
 	const contentType = res.headers.get('content-type')
 
@@ -38,6 +40,6 @@ exports.handler = async e => {
 			'Content-Type': contentType,
 			...(location && { 'Location': location })
 		},
-		body: await res.text()
+		body: response
 	}
 }
