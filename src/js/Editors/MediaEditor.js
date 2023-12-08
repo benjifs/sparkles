@@ -44,7 +44,7 @@ const MediaEditor = ({ attrs }) => {
 		summary += ` ${state.selected.title}`
 		if (attrs?.type == 'watch' && state.selected.year) {
 			summary += `, ${state.selected.year}`
-		} else if (attrs?.type == 'read' && state.selected.author) {
+		} else if (state.selected.author) {
 			summary += ` by ${state.selected.author}`
 		}
 		if (state.progress == 'finished' && rating) {
@@ -185,7 +185,6 @@ const MediaEditor = ({ attrs }) => {
 								m('div', [
 									m('h4', md.title),
 									md.author && m('h5', md.author),
-									md.artist && m('h5', md.artist),
 									!md.author && md.year && m('h5', md.year)
 								])
 							]))),

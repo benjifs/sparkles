@@ -64,7 +64,7 @@ const types = {
 				.map(r => ({
 					...(r.mbid && { id: `mbid:${r.mbid}` }),
 					title: r.name,
-					artist: r.artist,
+					author: r.artist,
 					...(category == 'album' && { image: r.image?.pop()['#text'] }),
 					url: r.url
 				}))
