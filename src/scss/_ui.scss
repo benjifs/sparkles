@@ -72,12 +72,29 @@ form {
 			margin-bottom: 0;
 		}
 	}
+	&.input-group {
+		display: flex;
+		border: var(--input-border-size) solid var(--input-border);
+		border-radius: var(--input-border-radius);
+		select, input {
+			margin: 0;
+			border: none;
+			border-radius: 0;
+		}
+		select {
+			width: 25%;
+			border-right: var(--input-border-size) solid var(--input-border);
+		}
+		input {
+			flex-grow: 1;
+		}
+	}
 }
 
 textarea, input, select {
 	background-color: transparent;
 	border: var(--input-border-size) solid var(--input-border);
-	border-radius: .3rem;
+	border-radius: var(--input-border-radius);
 	box-shadow: none;
 
 	padding: .5rem 1rem;
@@ -105,6 +122,10 @@ label {
 		min-width: 100px;
 		max-width: 50%;
 		width: auto;
+	}
+	input[type="url"] {
+		min-width: 100px;
+		max-width: 50%;
 	}
 }
 

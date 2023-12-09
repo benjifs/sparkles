@@ -132,7 +132,7 @@ const Editor = ({ attrs }) => {
 		})
 
 		state.submitting = false
-		if (res && res.status === 201) {
+		if (res && [201, 202].includes(res.status)) {
 			if (res.headers.location) {
 				m.route.set('/success?url=' + res.headers.location)
 			} else {
@@ -140,6 +140,8 @@ const Editor = ({ attrs }) => {
 			}
 		} else if (!res || res.status >= 400) {
 			Alert.error(res)
+		} else {
+			console.error(res.status, res)
 		}
 	}
 
@@ -148,8 +150,8 @@ const Editor = ({ attrs }) => {
 	return {
 		view: () =>
 			m(Box, {
-				icon: attrs.icon, //'.far.fa-note-sticky',
-				title: postType?.name || attrs.title //'Note'
+				icon: attrs.icon, // '.far.fa-note-sticky',
+				title: postType?.name || attrs.title // 'Note'
 			}, m('form', {
 				onsubmit: post
 			}, [
