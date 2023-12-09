@@ -283,9 +283,9 @@ const EditorTypes = {
 			placeholder: 'Search by title or ISBN'
 		},
 		progress: [
-			{ key: 'want', label: 'Want to Read', title: 'Want to Read:' },
-			{ key: 'started', label: 'Reading', title: 'Reading:' },
-			{ key: 'finished', label: 'Read', title: 'Read:' }
+			{ key: 'want', label: 'Want to Read', title: 'Wants to Read' },
+			{ key: 'started', label: 'Reading', title: 'Reading' },
+			{ key: 'finished', label: 'Read', title: 'Finished Reading' }
 		]
 	},
 	Listen: {
@@ -307,9 +307,9 @@ const EditorTypes = {
 			options: [ 'game' ]
 		},
 		progress: [
-			{ key: 'want', label: 'Want to Play', title: 'Want to Play:' },
-			{ key: 'started', label: 'Playing', title: 'Playing:' },
-			{ key: 'finished', label: 'Played', title: 'Played:' }
+			{ key: 'want', label: 'Want to Play', title: 'Wants to Play' },
+			{ key: 'started', label: 'Playing', title: 'Playing' },
+			{ key: 'finished', label: 'Played', title: 'Played' }
 		]
 	}
 }
