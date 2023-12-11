@@ -8,12 +8,19 @@ import { canonicalURL } from '../utils'
 import { generateRandomString, generateCodeChallenge, getCodeChallengeMethod } from '../utils/crypt'
 
 const CLIENT = window.location.origin
+const { DEV } = import.meta.env
 
 const Login = () => {
 	let loading = false
 	let urlString = ''
+	let state = {
+		loading: null,
+		micropubURL: '',
+		accessToken: ''
+	}
 
 	const canSubmit = () => urlString && urlString !== ''
+	const canSubmitAdvanced = () => state.micropubURL && state.micropubURL.trim() !== '' && state.accessToken && state.accessToken.trim() !== ''
 
 	const onLogin = async e => {
 		e.preventDefault()
@@ -57,6 +64,14 @@ const Login = () => {
 		loading = false
 	}
 
+	const advancedLogin = async e => {
+		e.preventDefault()
+		state.loading = true
+
+		Store.setSession({ micropub: state.micropubURL, access_token: state.accessToken })
+		m.route.set('/home')
+	}
+
 	Store.clearSession()
 	Store.clearCache()
 
@@ -64,9 +79,7 @@ const Login = () => {
 		view: () => [
 			m('section', m('.sp-title', 'sparkles')),
 			m(Box, { className: '.no-pad' }, [
-				m('form.text-center', {
-					onsubmit: onLogin
-				}, [
+				m('form.text-center', { onsubmit: onLogin }, [
 					m('input', {
 						type: 'url',
 						placeholder: 'https://',
@@ -77,7 +90,30 @@ const Login = () => {
 						type: 'submit',
 						disabled: !canSubmit() || loading
 					}, loading ? m('i.fas.fa-spinner.fa-spin') : 'login')
-				])
+				]),
+				DEV && m('form', { onsubmit: advancedLogin },
+					m('details', [
+						m('summary', 'test mode'),
+						m('section.text-center', [
+							m('hr'),
+							m('input', {
+								type: 'url',
+								placeholder: 'Micropub Endpoint',
+								oninput: e => state.micropubURL = e.target.value,
+								value: state.micropubURL
+							}),
+							m('textarea', {
+								placeholder: 'Access Token',
+								oninput: e => state.accessToken = e.target.value,
+								value: state.accessToken
+							}),
+							m('button', {
+								type: 'submit',
+								disabled: !canSubmitAdvanced() || state.loading
+							}, state.loading ? m('i.fas.fa-spinner.fa-spin') : 'login'),
+						])
+					])
+				)
 			])
 		]
 	}

@@ -218,6 +218,12 @@ img {
 
 details {
 	text-align: left;
+	section {
+		box-sizing: border-box;
+		> * {
+			margin-bottom: 1em;
+		}
+	}
 }
 summary {
 	cursor: pointer;
