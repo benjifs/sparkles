@@ -1,21 +1,18 @@
 import m from 'mithril'
 
 const Modal = content => {
-	const view = [
-		m('.sp-modal-bg', { onclick: () => {
-			modalContainer.classList.remove('show')
+	const modalContainer = document.createElement('dialog')
+	modalContainer.onclick = e => {
+		if (e.target === modalContainer) {
+			modalContainer.classList.add('close') // To animate out
 			setTimeout(() => {
 				modalContainer.remove()
-			}, 500)
-		} }),
-		// header
-		m('.sp-modal-content', content)
-	]
-
-	const modalContainer = document.createElement('div')
-	modalContainer.className = 'sp-modal show'
+			}, 300)
+		}
+	}
 	document.body.appendChild(modalContainer)
-	m.render(modalContainer, view)
+	m.render(modalContainer, m('.sp-modal-content', content))
+	modalContainer.showModal()
 }
 
 export { Modal }

@@ -1,51 +1,40 @@
+::backdrop {
+	background: rgba(0, 0, 0, .3);
+	// animation doesn't work on firefox
+	animation-duration: .3s;
+	animation-fill-mode: forwards;
+}
 
-.sp-modal {
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	justify-content: center;
-	position: fixed;
-	z-index: 1000;
-	top: 0; bottom: 0;
-	left: 0; right: 0;
+dialog {
+	max-height: 80%;
+	max-width: 80%;
+	height: 100%;
+	width: 750px;
+	overflow: hidden;
+	padding: 0;
 
-	.sp-modal-bg {
-		position: absolute;
-		top: 0; bottom: 0;
-		left: 0; right: 0;
-		background: rgba(0, 0, 0, .3);
-	}
+	border: var(--sprk-border-size) solid var(--sprk-border-color);
+	border-radius: .7em;
+	background-color: var(--sprk-bg);
+
 	.sp-modal-content {
-		position: relative;
-	}
-
-	.sp-modal-bg {
-		animation: fade-out .3s forwards;
-	}
-	.sp-modal-content {
-		animation: scroll-fade-out .3s forwards;
-
-		border: var(--sprk-border-size) solid var(--sprk-border-color);
-		border-radius: .7em;
-		background-color: var(--sprk-bg);
-		max-height: 80%;
-		max-width: 80%;
-		width: 750px;
 		padding: 1em;
-		pre {
-			height: 100%;
-			width: 100%;
-			padding: 1em;
-			margin: 0;
-			overflow: auto;
+		height: 100%;
+		overflow: auto;
+	}
+
+	animation-duration: .3s;
+	animation-fill-mode: forwards;
+	&[open] {
+		animation-name: scroll-fade-in;
+		&::backdrop {
+			animation-name: fade-in;
 		}
 	}
-	&.show {
-		.sp-modal-bg {
-			animation: fade-in .3s forwards;
-		}
-		.sp-modal-content {
-			animation: scroll-fade-in .3s forwards;
+	&.close {
+		animation-name: scroll-fade-out;
+		&::backdrop {
+			animation-name: fade-out;
 		}
 	}
 }
@@ -54,17 +43,14 @@
 	from { opacity: 0; transform: translateY(25%); }
 	to { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes scroll-fade-out {
 	from { opacity: 1; transform: translateY(0); }
 	to { opacity: 0; transform: translateY(25%); }
 }
-
 @keyframes fade-in {
 	from { opacity: 0; }
 	to { opacity: 1; }
 }
-
 @keyframes fade-out {
 	from { opacity: 1; }
 	to { opacity: 0; }
