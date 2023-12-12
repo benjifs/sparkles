@@ -19,7 +19,8 @@ const HomePage = () => {
 			m(Box, m(Tiles(postTypes))),
 			m('section', [
 				m('p', [
-					me ? 'Logged in as ' : 'Publishing to ',
+					me ? '' : m('b', '[DEV] '),
+					'Logged in as ',
 					m('a', { href: me || micropub }, me || micropub),
 					' ',
 					m(m.route.Link, { class: 'icon', href: '/logout' }, m('i.fas.fa-right-from-bracket', { title: 'logout' }))
