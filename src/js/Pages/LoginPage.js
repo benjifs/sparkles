@@ -69,7 +69,7 @@ const Login = () => {
 		state.loading = true
 
 		Store.setSession({ micropub: state.micropubURL, access_token: state.accessToken })
-		m.route.set('/home')
+		window.location.href = '/home'
 	}
 
 	Store.clearSession()
