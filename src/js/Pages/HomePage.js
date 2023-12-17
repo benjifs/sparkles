@@ -6,7 +6,7 @@ import Tiles from '../Editors/Tiles'
 import Store from '../Models/Store'
 
 const HomePage = () => {
-	const me = Store.getMe()
+	const { me, micropub } = Store.getSession()
 	let postTypes = []
 
 	return {
@@ -19,8 +19,9 @@ const HomePage = () => {
 			m(Box, m(Tiles(postTypes))),
 			m('section', [
 				m('p', [
+					me ? '' : m('b', '[DEV] '),
 					'Logged in as ',
-					m('a', { href: me }, me),
+					m('a', { href: me || micropub }, me || micropub),
 					' ',
 					m(m.route.Link, { class: 'icon', href: '/logout' }, m('i.fas.fa-right-from-bracket', { title: 'logout' }))
 				])

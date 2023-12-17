@@ -14,7 +14,6 @@ const Store = {
 	setSession: data => Store.set(Store.sessionKey, data),
 	addToSession: data => Store.add(Store.sessionKey, data),
 	clearSession: () => localStorage.removeItem(Store.sessionKey),
-	getMe: () => Store.getSession('me'),
 	//
 	settingKey: '_sprk',
 	defaultSettings: {

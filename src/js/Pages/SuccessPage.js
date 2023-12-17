@@ -10,7 +10,7 @@ const MAX_CHECKS = 5
 const SuccessPage = () => {
 	let timeout, count = 0, found = false
 	let url = (new URLSearchParams(window.location.search)).get('url')
-	const baseURL = Store.getMe()
+	const baseURL = Store.getSession('me')
 	// Just in case the url received is not an absolute URL
 	try {
 		url = new URL(url, baseURL).href
