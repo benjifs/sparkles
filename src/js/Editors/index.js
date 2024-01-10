@@ -2,6 +2,8 @@ import m from 'mithril'
 
 import Alert from '../Components/Alert'
 import { Box } from '../Components/Box'
+import EntryPreview from './EntryPreview'
+import SyndicateToOptions from './SyndicateToOptions'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
 
@@ -78,6 +80,9 @@ const Editor = ({ attrs }) => {
 
 	let state = {}
 	// Init state
+	state['mp-syndicate-to'] = syndicateTo
+		.filter(element => element.checked)
+		.map(element => element.uid)
 	for (const c of attrs.components) {
 		if (c.type === 'name') {
 			state[c.type] = params.title || ''
@@ -89,17 +94,8 @@ const Editor = ({ attrs }) => {
 		state.content = `![](${params.image.replace(' ', '%20')})`
 	}
 
-	const post = async (e) => {
-		e.preventDefault()
-
+	const buildEntry = () => {
 		let properties = {}
-
-		const mpSyndicateTo = e.target.querySelectorAll('.mp-syndicate-to')
-		if (mpSyndicateTo) {
-			state['mp-syndicate-to'] = [...mpSyndicateTo]
-				.filter(element => element.checked)
-				.map(element => element.value)
-		}
 
 		for (const [key, value] of Object.entries(state)) {
 			if (key != 'category' && value && value.length) {
@@ -113,22 +109,26 @@ const Editor = ({ attrs }) => {
 				properties.category = categories
 			}
 		}
+		return {
+			type: [ 'h-entry' ],
+			properties: properties
+		}
+	}
 
+	const post = async (e) => {
+		e && e.preventDefault()
+
+		const entry = buildEntry()
 		// Just in case?
 		for (const c of attrs.components) {
-			if (c.required && !properties[c.type]) {
+			if (c.required && !entry.properties[c.type]) {
 				return Alert.error(`missing "${c.type}"`)
 			}
 		}
-
 		state.submitting = true
-
 		const res = await Proxy.micropub({
 			method: 'POST',
-			body: {
-				type: [ 'h-entry' ],
-				properties: properties
-			}
+			body: entry
 		})
 
 		state.submitting = false
@@ -240,28 +240,16 @@ const Editor = ({ attrs }) => {
 								.map(o => m('option', { value: o }, o)))
 						]))
 					]),
-					syndicateTo && syndicateTo.length > 0 && [
-						m('h5', 'Syndication Targets'),
-						m('ul', [
-							syndicateTo.map(s =>
-								m('li', [
-									m('label', [
-										s.name,
-										m('input.mp-syndicate-to', {
-											type: 'checkbox',
-											checked: s.checked,
-											value: s.uid,
-											onchange: e => s.checked = e.target.checked
-										})
-									])
-								]))
-						])
-					]
+					m(SyndicateToOptions, {
+						syndicateTo: syndicateTo,
+						onchange: (key, val) => state[key] = val
+					})
 				),
 				m('div.text-center', m('button', {
 					type: 'submit',
 					disabled: state.submitting
-				}, state.submitting ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : 'Post'))
+				}, state.submitting ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : 'Post')),
+				m(EntryPreview, { buildPreview: buildEntry })
 			]))
 	}
 }
