@@ -20,7 +20,7 @@ const Error = {
 
 const Response = {
 	DEFAULT_HEADERS: {
-		'Access-Control-Allow-Origin': '*',
+		// 'Access-Control-Allow-Origin': '*',
 		'Access-Control-Allow-Headers': 'Content-Type, authorization',
 		'Access-Control-Expose-Headers': 'Location'
 	},
