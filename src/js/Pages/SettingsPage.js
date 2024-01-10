@@ -97,7 +97,10 @@ const SettingsPage = () => {
 						m('li', m('h5', 'Syndication Targets')),
 						syndicateTargets.map(s =>
 							m('li', [
-								m('label', [ s.name ])
+								m('label', [
+									s.name,
+									m('input', { type: 'checkbox', checked: s.checked, disabled: true })
+								])
 							]))
 					],
 					m('hr'),
