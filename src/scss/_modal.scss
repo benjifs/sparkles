@@ -37,6 +37,9 @@ dialog {
 			animation-name: fade-out;
 		}
 	}
+	&:focus-visible {
+		outline: none;
+	}
 }
 
 @keyframes scroll-fade-in {
