@@ -139,6 +139,10 @@ button {
 	background: none;
 	border: var(--sprk-border-size) solid var(--sprk-border-color);
 	padding: .5rem 1.5rem;
+	&.xs {
+		padding: .5rem .75rem;
+		margin-left: .25rem;
+	}
 
 	text-decoration: none;
 	border-radius: .4rem;
@@ -179,7 +183,7 @@ a {
 
 .sp-gallery {
 	width: 100%;
-	max-height: 70vh;
+	max-height: 75vh;
 	overflow-y: auto;
 
 	display: grid;

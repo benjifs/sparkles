@@ -18,6 +18,7 @@ import {
 	BookmarkEditor,
 	LikeEditor,
 	NoteEditor,
+	PhotoEditor,
 	ReplyEditor,
 	RSVPEditor
 } from './Editors'
@@ -52,6 +53,7 @@ m.route(document.body, '/', {
 	'/settings': AuthLayout(SettingsPage),
 	// editors
 	'/new/note': AuthLayout(NoteEditor),
+	'/new/photo': AuthLayout(PhotoEditor),
 	'/new/image': AuthLayout(ImageEditor),
 	'/new/article': AuthLayout(ArticleEditor),
 	'/new/bookmark': AuthLayout(BookmarkEditor),

@@ -36,11 +36,11 @@ const ReplyTile = {
 		})
 }
 
-const ImageTile = {
+const PhotoTile = {
 	view: () => m(Tile, {
-		href: '/new/image',
+		href: '/new/photo',
 		icon: '.far.fa-image',
-		name: 'Image'
+		name: 'Photo'
 	})
 }
 
@@ -104,7 +104,7 @@ const GameTile = {
 
 const PostTypes = {
 	note: NoteTile,
-	image: ImageTile,
+	photo: PhotoTile,
 	reply: ReplyTile,
 	bookmark: BookmarkTile,
 	like: LikeTile,
@@ -118,7 +118,7 @@ const PostTypes = {
 
 const Tiles = (types, defaultTiles, params) => {
 	if (!defaultTiles || !defaultTiles.length) {
-		defaultTiles = [ 'note', 'image', 'reply', 'bookmark', 'like', 'article', 'rsvp', 'watch', 'read', 'listen', 'game' ]
+		defaultTiles = [ 'note', 'photo', 'reply', 'bookmark', 'like', 'article', 'rsvp', 'watch', 'read', 'listen', 'game' ]
 	}
 	if (!types || !types.length) {
 		types = defaultTiles.map(t => ({ type: t }))

@@ -18,6 +18,15 @@ const EditorTypes = {
 			{ type: 'category' }
 		]
 	},
+	Photo: {
+		title: 'Photo',
+		icon: '.far.fa-image',
+		components: [
+			{ type: 'photo', required: true },
+			{ type: 'content', required: true },
+			{ type: 'category' }
+		]
+	},
 	Article: {
 		title: 'Article',
 		icon: '.fas.fa-newspaper',
@@ -77,6 +86,7 @@ const Editor = ({ attrs }) => {
 	}
 
 	const syndicateTo = Store.getSession('syndicate-to') || []
+	const mediaEndpoint = Store.getSession('media-endpoint')
 
 	let state = {}
 	// Init state
@@ -90,17 +100,23 @@ const Editor = ({ attrs }) => {
 			state[c.type] = params.url || ''
 		}
 	}
-	if (params.image) {
-		state.content = `![](${params.image.replace(' ', '%20')})`
-	}
+	if (params.image) state.photo = params.image
 
 	const buildEntry = () => {
 		let properties = {}
 
 		for (const [key, value] of Object.entries(state)) {
-			if (key != 'category' && value && value.length) {
+			if (!['category', 'alt', 'photo'].includes(key) && value && value.length) {
 				properties[key] = Array.isArray(value) ? value : [ value ]
 			}
+		}
+		if (state.photo) {
+			properties.photo = [
+				state.alt ? {
+					value: state.photo,
+					alt: state.alt
+				} : state.photo
+			]
 		}
 		if (state.category) {
 			// Split by comma, trim whitespace and get rid of empty items from array
@@ -165,6 +181,30 @@ const Editor = ({ attrs }) => {
 							value: state[c.type] || '',
 							required: c.required
 						})
+					case 'photo':
+						return m('ul', [
+							m('li', [
+								m('input', {
+									type: 'url',
+									placeholder: c.label || 'Photo URL',
+									oninput: e => state[c.type] = e.target.value,
+									value: state[c.type] || '',
+									required: c.required
+								}),
+								m(m.route.Link, {
+									selector: 'button.xs',
+									href: '/new/image',
+									disabled: !mediaEndpoint,
+									title: !mediaEndpoint ? 'media-endpoint not found' : ''
+								}, m('i.fas.fa-cloud-arrow-up', { title: 'upload' }))
+							]),
+							m('li', m('input', {
+								type: 'text',
+								placeholder: 'Alt text',
+								oninput: e => state.alt = e.target.value,
+								value: state.alt || ''
+							}))
+						])
 					case 'content':
 						return m('textarea', {
 							rows: 5,
@@ -255,6 +295,7 @@ const Editor = ({ attrs }) => {
 }
 
 const NoteEditor = { view: () => m(Editor, EditorTypes.Note) }
+const PhotoEditor = { view: () => m(Editor, EditorTypes.Photo) }
 const ArticleEditor = { view: () => m(Editor, EditorTypes.Article) }
 const BookmarkEditor = { view: () => m(Editor, EditorTypes.Bookmark) }
 const ReplyEditor = { view: () => m(Editor, EditorTypes.Reply) }
@@ -263,6 +304,7 @@ const LikeEditor = { view: () => m(Editor, EditorTypes.Like) }
 
 export {
 	NoteEditor,
+	PhotoEditor,
 	ArticleEditor,
 	BookmarkEditor,
 	ReplyEditor,
