@@ -23,7 +23,7 @@ const EditorTypes = {
 		icon: '.far.fa-image',
 		components: [
 			{ type: 'photo', required: true },
-			{ type: 'content', required: true },
+			{ type: 'content' },
 			{ type: 'category' }
 		]
 	},
