@@ -42,7 +42,8 @@ const Gallery = () => {
 					:
 					m('i.fas.fa-rotate-right')),
 				m('.sp-gallery', [
-					images.slice(0, (page + 1) * PAGE_SIZE).map(i => m('img', { src: i.url }))
+					images.slice(0, (page + 1) * PAGE_SIZE).map(i =>
+						m(m.route.Link, { class: 'icon', href: `/new/photo?image=${i.url}` }, m('img', { src: i.url })))
 				]),
 				images.length > (page + 1) * PAGE_SIZE && m('button', { type: 'button', onclick: () => page++ }, 'load more')
 			]

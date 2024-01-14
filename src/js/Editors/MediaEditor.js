@@ -2,7 +2,8 @@ import m from 'mithril'
 
 import Alert from '../Components/Alert'
 import { Box } from '../Components/Box'
-import { Modal } from '../Components/Modal'
+import EntryPreview from './EntryPreview'
+import SyndicateToOptions from './SyndicateToOptions'
 import Rating from '../Components/Rating'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
@@ -28,9 +29,13 @@ const parseQuery = string => {
 
 const MediaEditor = ({ attrs }) => {
 	const postTypes = Store.getSession('post-types') || []
+	const syndicateTo = Store.getSession('syndicate-to') || []
 
 	let state = {
 		type: attrs.search?.options?.[0] || null,
+		'mp-syndicate-to': syndicateTo
+			.filter(element => element.checked)
+			.map(element => element.uid),
 		progress: 'finished'
 	}
 
@@ -77,7 +82,8 @@ const MediaEditor = ({ attrs }) => {
 					...(state.content && { content: [ state.content ] }),
 					...(rating && state.rating > 0 && { rating: [ state.rating ] }),
 					...(rewatched && { rewatch: [ state.rewatched === true ] })
-				})
+				}),
+				...(state['mp-syndicate-to'] && { 'mp-syndicate-to': state['mp-syndicate-to'] })
 			}
 		}
 	}
@@ -244,13 +250,18 @@ const MediaEditor = ({ attrs }) => {
 							value: state.content || ''
 						}),
 					],
+					m('details',
+						m('summary', 'Advanced'),
+						m(SyndicateToOptions, {
+							syndicateTo: syndicateTo,
+							onchange: (key, val) => state[key] = val
+						})
+					),
 					m('div.text-center', m('button', {
 						type: 'submit',
 						disabled: state.submitting
 					}, state.submitting ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : 'Post')),
-					m('div.text-center', m('a', {
-						onclick: () => Modal(m('pre', JSON.stringify(buildEntry(), null, 4)))
-					}, 'preview'))
+					m(EntryPreview, { buildPreview: buildEntry })
 				])
 			])
 	}

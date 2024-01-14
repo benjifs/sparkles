@@ -2,6 +2,8 @@ import m from 'mithril'
 
 import Alert from '../Components/Alert'
 import { Box } from '../Components/Box'
+import EntryPreview from './EntryPreview'
+import SyndicateToOptions from './SyndicateToOptions'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
 
@@ -13,6 +15,15 @@ const EditorTypes = {
 			// SAMPLE
 			// { type: 'content', label: 'change label', required: true }
 			{ type: 'content', required: true },
+			{ type: 'category' }
+		]
+	},
+	Photo: {
+		title: 'Photo',
+		icon: '.far.fa-image',
+		components: [
+			{ type: 'photo', required: true },
+			{ type: 'content' },
 			{ type: 'category' }
 		]
 	},
@@ -75,9 +86,13 @@ const Editor = ({ attrs }) => {
 	}
 
 	const syndicateTo = Store.getSession('syndicate-to') || []
+	const mediaEndpoint = Store.getSession('media-endpoint')
 
 	let state = {}
 	// Init state
+	state['mp-syndicate-to'] = syndicateTo
+		.filter(element => element.checked)
+		.map(element => element.uid)
 	for (const c of attrs.components) {
 		if (c.type === 'name') {
 			state[c.type] = params.title || ''
@@ -85,26 +100,23 @@ const Editor = ({ attrs }) => {
 			state[c.type] = params.url || ''
 		}
 	}
-	if (params.image) {
-		state.content = `![](${params.image.replace(' ', '%20')})`
-	}
+	if (params.image) state.photo = params.image
 
-	const post = async (e) => {
-		e.preventDefault()
-
+	const buildEntry = () => {
 		let properties = {}
 
-		const mpSyndicateTo = e.target.querySelectorAll('.mp-syndicate-to')
-		if (mpSyndicateTo) {
-			state['mp-syndicate-to'] = [...mpSyndicateTo]
-				.filter(element => element.checked)
-				.map(element => element.value)
-		}
-
 		for (const [key, value] of Object.entries(state)) {
-			if (key != 'category' && value && value.length) {
+			if (!['category', 'alt', 'photo'].includes(key) && value && value.length) {
 				properties[key] = Array.isArray(value) ? value : [ value ]
 			}
+		}
+		if (state.photo) {
+			properties.photo = [
+				state.alt ? {
+					value: state.photo,
+					alt: state.alt
+				} : state.photo
+			]
 		}
 		if (state.category) {
 			// Split by comma, trim whitespace and get rid of empty items from array
@@ -113,22 +125,26 @@ const Editor = ({ attrs }) => {
 				properties.category = categories
 			}
 		}
+		return {
+			type: [ 'h-entry' ],
+			properties: properties
+		}
+	}
 
+	const post = async (e) => {
+		e && e.preventDefault()
+
+		const entry = buildEntry()
 		// Just in case?
 		for (const c of attrs.components) {
-			if (c.required && !properties[c.type]) {
+			if (c.required && !entry.properties[c.type]) {
 				return Alert.error(`missing "${c.type}"`)
 			}
 		}
-
 		state.submitting = true
-
 		const res = await Proxy.micropub({
 			method: 'POST',
-			body: {
-				type: [ 'h-entry' ],
-				properties: properties
-			}
+			body: entry
 		})
 
 		state.submitting = false
@@ -165,6 +181,30 @@ const Editor = ({ attrs }) => {
 							value: state[c.type] || '',
 							required: c.required
 						})
+					case 'photo':
+						return m('ul', [
+							m('li', [
+								m('input', {
+									type: 'url',
+									placeholder: c.label || 'Photo URL',
+									oninput: e => state[c.type] = e.target.value,
+									value: state[c.type] || '',
+									required: c.required
+								}),
+								m(m.route.Link, {
+									selector: 'button.xs',
+									href: '/new/image',
+									disabled: !mediaEndpoint,
+									title: !mediaEndpoint ? 'media-endpoint not found' : ''
+								}, m('i.fas.fa-cloud-arrow-up', { title: 'upload' }))
+							]),
+							m('li', m('input', {
+								type: 'text',
+								placeholder: 'Alt text',
+								oninput: e => state.alt = e.target.value,
+								value: state.alt || ''
+							}))
+						])
 					case 'content':
 						return m('textarea', {
 							rows: 5,
@@ -240,33 +280,22 @@ const Editor = ({ attrs }) => {
 								.map(o => m('option', { value: o }, o)))
 						]))
 					]),
-					syndicateTo && syndicateTo.length > 0 && [
-						m('h5', 'Syndication Targets'),
-						m('ul', [
-							syndicateTo.map(s =>
-								m('li', [
-									m('label', [
-										s.name,
-										m('input.mp-syndicate-to', {
-											type: 'checkbox',
-											checked: s.checked,
-											value: s.uid,
-											onchange: e => s.checked = e.target.checked
-										})
-									])
-								]))
-						])
-					]
+					m(SyndicateToOptions, {
+						syndicateTo: syndicateTo,
+						onchange: (key, val) => state[key] = val
+					})
 				),
 				m('div.text-center', m('button', {
 					type: 'submit',
 					disabled: state.submitting
-				}, state.submitting ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : 'Post'))
+				}, state.submitting ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : 'Post')),
+				m(EntryPreview, { buildPreview: buildEntry })
 			]))
 	}
 }
 
 const NoteEditor = { view: () => m(Editor, EditorTypes.Note) }
+const PhotoEditor = { view: () => m(Editor, EditorTypes.Photo) }
 const ArticleEditor = { view: () => m(Editor, EditorTypes.Article) }
 const BookmarkEditor = { view: () => m(Editor, EditorTypes.Bookmark) }
 const ReplyEditor = { view: () => m(Editor, EditorTypes.Reply) }
@@ -275,6 +304,7 @@ const LikeEditor = { view: () => m(Editor, EditorTypes.Like) }
 
 export {
 	NoteEditor,
+	PhotoEditor,
 	ArticleEditor,
 	BookmarkEditor,
 	ReplyEditor,

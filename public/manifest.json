@@ -64,10 +64,10 @@
       "icons": [{ "src": "/assets/note-192.png", "sizes": "192x192" }]
     },
     {
-      "name": "New image",
-      "short_name": "image",
-      "description": "Upload a new image",
-      "url": "/new/image",
+      "name": "New photo",
+      "short_name": "photo",
+      "description": "Add a new photo",
+      "url": "/new/photo",
       "icons": [{ "src": "/assets/image-192.png", "sizes": "192x192" }]
     }
   ],

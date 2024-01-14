@@ -87,7 +87,7 @@ const ImageEditor = () => {
 						m('div', m('a', { href: uploaded, target: '_blank' }, uploaded)),
 						m('div', [
 							m(m.route.Link, {
-								href: `/new/note?image=${uploaded}`,
+								href: `/new/photo?image=${uploaded}`,
 								selector: 'button'
 							}, 'post image')
 						])
