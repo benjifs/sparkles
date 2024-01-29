@@ -9,7 +9,7 @@ const types = {
 			apikey: process.env.OMDB_API_KEY,
 			type: 'movie',
 			s: query,
-			year: year,
+			y: year,
 			page: page
 		}),
 		buildError: ({ status, response }) => Response.error({ statusCode: status }, response.Error),
