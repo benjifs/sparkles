@@ -36,7 +36,7 @@ const MediaEditor = ({ attrs }) => {
 		'mp-syndicate-to': syndicateTo
 			.filter(element => element.checked)
 			.map(element => element.uid),
-		progress: 'finished'
+		progress: attrs?.default?.progress || 'finished'
 	}
 
 	const buildEntry = () => {
@@ -184,7 +184,10 @@ const MediaEditor = ({ attrs }) => {
 					state.searched && search && search.length > 0 &&
 						search.map(md =>
 							m('div.item-tile', {
-								onclick: () => state.selected = state.selected ? null : md,
+								onclick: () => {
+									state.selected = state.selected ? null : md
+									attrs?.onSelect && attrs?.onSelect(state)
+								},
 								hidden: state.selected && state.selected.url != md.url
 							}, m('div.item' + (state.selected && state.selected.url == md.url ? '.selected' : ''), [
 								(md.image || state.image) && m('img', { src: md.image || state.image }),
@@ -304,11 +307,24 @@ const EditorTypes = {
 		icon: '.fas.fa-music',
 		type: 'listen',
 		search: {
-			options: [ 'artist', 'album', 'track' ]
+			options: [ 'artist', 'album', 'song' ]
 		},
 		progress: [
 			{ key: 'finished', label: 'Listened', title: 'Listened to' }
-		]
+		],
+		onSelect: async (state) => {
+			if (!state || !state.selected || state.type == 'artist') return
+			try {
+				const res = await m.request({
+					method: 'GET',
+					url: '/api/odesli',
+					params: { url: state.selected.url }
+				})
+				state.selected.url = res.url
+			} catch ({ response }) {
+				Alert.error(response && response.error_description)
+			}
+		}
 	},
 	Game: {
 		title: 'Game',

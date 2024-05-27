@@ -3,7 +3,6 @@ import { isValidURL, Error, Response } from './lib/utils'
 
 exports.handler = async e => {
 	const { url } = e.queryStringParameters
-
 	if (!isValidURL(url)) {
 		return Response.error(Error.INVALID, 'Invalid URL')
 	}

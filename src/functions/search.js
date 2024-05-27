@@ -45,29 +45,22 @@ const types = {
 		})
 	},
 	music: {
-		url: 'https://ws.audioscrobbler.com/2.0/',
+		url: 'https://itunes.apple.com/search',
 		buildParams: ({ type, query, page }) => ({
-			api_key: process.env.LASTFM_API_KEY,
-			limit: 10,
-			format: 'json',
-			method: `${type}.search`,
-			[type]: query,
-			page: page
+			media: 'music',
+			entity: type == 'artist' ? 'musicArtist' : type,
+			term: query
 		}),
-		buildError: ({ status, response }) => Response.error({
-			statusCode: status,
-			error: response.error
-		}, response.message),
-		parseResponse: (res, category) => ({
-			totalResults: parseInt(res?.results['opensearch:totalResults'] || 0),
-			results: res.results[`${category}matches`][category]
-				.map(r => ({
-					...(r.mbid && { id: `mbid:${r.mbid}` }),
-					title: r.name,
-					author: r.artist,
-					...(category == 'album' && { image: r.image?.pop()['#text'] }),
-					url: r.url
-				}))
+		parseResponse: res => ({
+			totalResults: res?.resultCount || 0,
+			results: res?.results.map(r => ({
+				id: `itunes:${r.wrapperType}:${r.trackId || r.collectionId || r.artistId}`,
+				title: r.trackName || r.collectionName,
+				author: r.artistName,
+				image: r.artworkUrl100,
+				...(r.releaseDate && { year: r.releaseDate.substr(0, 4) }),
+				url: r.trackViewUrl || r.collectionViewUrl || r.artistLinkUrl
+			}))
 		})
 	},
 	game: {
@@ -96,11 +89,11 @@ const types = {
 
 export const handler = async (e) => {
 	const { type } = e.queryStringParameters
-	if (!['movie', 'book', 'artist', 'album', 'track', 'game'].includes(type)) {
+	if (!['movie', 'book', 'artist', 'album', 'song', 'game'].includes(type)) {
 		return Response.error(Error.NOT_SUPPORTED, 'Search type not supported')
 	}
 
-	const opts = types[['artist', 'album', 'track'].includes(type) ? 'music' : type]
+	const opts = types[['artist', 'album', 'song'].includes(type) ? 'music' : type]
 	const params = new URLSearchParams(opts.buildParams(e.queryStringParameters))
 	const res = await fetch(`${opts.url}?${params.toString()}`)
 	const response = await res.json()
