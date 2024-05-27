@@ -3,7 +3,7 @@ import m from 'mithril'
 import Alert from '../Components/Alert'
 import { Box } from '../Components/Box'
 import EntryPreview from './EntryPreview'
-import SyndicateToOptions from './SyndicateToOptions'
+import AdvancedOptions from './AdvancedOptions'
 import Rating from '../Components/Rating'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
@@ -83,6 +83,9 @@ const MediaEditor = ({ attrs }) => {
 					...(rating && state.rating > 0 && { rating: [ state.rating ] }),
 					...(rewatched && { rewatch: [ state.rewatched === true ] })
 				}),
+				// advanced properties
+				...(state['post-status'] && { 'post-status': [ state['post-status'] ] }),
+				...(state['visibility'] && { 'visibility': [ state['visibility'] ] }),
 				...(state['mp-syndicate-to'] && { 'mp-syndicate-to': state['mp-syndicate-to'] })
 			}
 		}
@@ -190,7 +193,7 @@ const MediaEditor = ({ attrs }) => {
 								},
 								hidden: state.selected && state.selected.url != md.url
 							}, m('div.item' + (state.selected && state.selected.url == md.url ? '.selected' : ''), [
-								(md.image || state.image) && m('img', { src: md.image || state.image }),
+								(md.image || state.image) && m('img', { src: md.image || state.image, loading: 'lazy' }),
 								m('div', [
 									m('h4', md.title),
 									md.author && m('h5', md.author),
@@ -253,13 +256,11 @@ const MediaEditor = ({ attrs }) => {
 							value: state.content || ''
 						}),
 					],
-					m('details',
-						m('summary', 'Advanced'),
-						m(SyndicateToOptions, {
-							syndicateTo: syndicateTo,
-							onchange: (key, val) => state[key] = val
-						})
-					),
+					m(AdvancedOptions, {
+						state: state,
+						syndicateTo: syndicateTo,
+						onchange: (key, val) => state[key] = val
+					}),
 					m('div.text-center', m('button', {
 						type: 'submit',
 						disabled: state.submitting
