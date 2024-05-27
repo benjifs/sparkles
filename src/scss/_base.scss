@@ -26,10 +26,10 @@ body {
 	align-items: center;
 
 	background-color: var(--sprk-bg);
-	background-repeat: repeat;
-	background-attachment: fixed;
-	background-image: url("/assets/dot.svg");
-	background-size: 75px;
+	background-image:
+		radial-gradient(var(--sprk-dim-color) 1px, transparent 0);
+	background-position: 2px 2px;
+	background-size: 20px 20px;
 }
 
 body, input, button, textarea {
