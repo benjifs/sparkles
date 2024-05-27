@@ -7,7 +7,7 @@
 
 .sp-box {
 	border: var(--sprk-border-size) solid var(--sprk-border-color);
-	border-radius: .7em;
+	border-radius: var(--sprk-border-radius);
 	background-color: var(--sprk-bg);
 	filter: drop-shadow(var(--sprk-shadow-size) var(--sprk-shadow-size) 0 var(--window-shadow));
 
@@ -35,6 +35,8 @@
 
 			&:hover {
 				color: var(--sprk-fg);
+				transform: initial;
+				box-shadow: initial;
 			}
 		}
 		span {
@@ -145,13 +147,12 @@ button {
 	}
 
 	text-decoration: none;
-	border-radius: .4rem;
+	border-radius: var(--input-border-radius);
 
-	@include transition(all .3s ease-in-out);
-
+	@include transition(all .3s ease-out);
 	&:hover {
-		background: var(--sprk-border-color);
-		color: var(--sprk-bg);
+		background: var(--btn-hover-bg);
+		color: var(--btn-hover-color);
 	}
 
 	&:disabled {
