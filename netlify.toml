@@ -3,7 +3,7 @@
 	publish = "dist"
 	targetPort = 5173
 	functionsPort = 5174
-	port = 9000
+	port = 8888
 	framework = "#custom"
 
 [build]

@@ -42,7 +42,7 @@ const Proxy = {
 				method: method || 'GET',
 				url: '/.netlify/functions/micropub',
 				headers: {
-					// 'Content-Type': 'application/json',
+					// ...(body && { 'Content-Type': 'application/json' }),
 					'Authorization': `Bearer ${session.access_token}`,
 					'x-micropub-endpoint': session.micropub
 				},
