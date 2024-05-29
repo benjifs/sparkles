@@ -108,7 +108,7 @@ const SettingsPage = () => {
 					m('li', m('label', [
 						'theme',
 						m('select', { value: ui || 'default', onchange: updateUI },
-							['default', 'simple']
+							['default', 'simple', 'blocky']
 								.map(o => m('option', { value: o }, o)))
 					]))
 				])

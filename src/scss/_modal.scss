@@ -14,7 +14,7 @@ dialog {
 	padding: 0;
 
 	border: var(--sprk-border-size) solid var(--sprk-border-color);
-	border-radius: .7em;
+	border-radius: var(--sprk-border-radius);
 	background-color: var(--sprk-bg);
 
 	.sp-modal-content {

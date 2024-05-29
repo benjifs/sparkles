@@ -3,7 +3,7 @@ import m from 'mithril'
 import Alert from '../Components/Alert'
 import { Box } from '../Components/Box'
 import EntryPreview from './EntryPreview'
-import SyndicateToOptions from './SyndicateToOptions'
+import AdvancedOptions from './AdvancedOptions'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
 
@@ -256,35 +256,11 @@ const Editor = ({ attrs }) => {
 						})
 					}
 				}),
-				m('details',
-					m('summary', 'Advanced'),
-					m('ul', [
-						// https://github.com/indieweb/micropub-extensions/issues/19
-						m('li', m('label', [
-							'status',
-							m('select', {
-								oninput: e => state['post-status'] = e.target.value,
-								value: state['post-status'] || ''
-							},
-							['', 'published', 'draft']
-								.map(o => m('option', { value: o }, o)))
-						])),
-						// https://github.com/indieweb/micropub-extensions/issues/11
-						m('li', m('label', [
-							'visibility',
-							m('select', {
-								oninput: e => state['visibility'] = e.target.value,
-								value: state['visibility'] || ''
-							},
-							['', 'public', 'unlisted', 'private']
-								.map(o => m('option', { value: o }, o)))
-						]))
-					]),
-					m(SyndicateToOptions, {
-						syndicateTo: syndicateTo,
-						onchange: (key, val) => state[key] = val
-					})
-				),
+				m(AdvancedOptions, {
+					state: state,
+					syndicateTo: syndicateTo,
+					onchange: (key, val) => state[key] = val
+				}),
 				m('div.text-center', m('button', {
 					type: 'submit',
 					disabled: state.submitting

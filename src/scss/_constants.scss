@@ -11,13 +11,14 @@
 	--input-border: var(--sprk-dim-color);
 	--input-border-size: .1rem;
 	--input-border-active: var(--sprk-highlight-color);
-	--input-border-radius: .3rem;
+	--input-border-radius: .4rem;
 
 	--window-shadow: var(--sprk-fg-color);
 
 	--sprk-bg: var(--sprk-bg-color);
 	--sprk-fg: var(--sprk-fg-color);
 	--sprk-border-size: 2px;
+	--sprk-border-radius: .7em;
 	--sprk-border-color: var(--sprk-fg-color);
 
 	--sprk-icon-link: var(--sprk-fg-color);
@@ -27,6 +28,9 @@
 	--sprk-placeholder: var(--sprk-highlight-color);
 
 	--sprk-shadow-size: .25rem;
+
+	--btn-hover-bg: var(--sprk-border-color);
+	--btn-hover-color: var(--sprk-bg);
 }
 
 [data-theme='dark'] {
@@ -39,4 +43,15 @@
 
 [data-ui='simple'] {
 	--sprk-shadow-size: 0;
+}
+
+[data-ui='blocky'] {
+	--sprk-border-radius: 0;
+	--input-border-radius: 0;
+	--btn-hover-bg: var(--sprk-bg-color);
+	--btn-hover-color: var(--sprk-fg-color);
+	button:hover {
+		transform: translate(-0.25rem, -0.25rem);
+		box-shadow: .25rem .25rem 0rem var(--sprk-border-color);
+	}
 }
