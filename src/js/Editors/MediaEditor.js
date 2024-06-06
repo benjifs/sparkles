@@ -73,6 +73,7 @@ const MediaEditor = ({ attrs }) => {
 							...(state.selected.id && { uid: [ state.selected.id ] }),
 							...(state.selected.url && { url: [ state.selected.url ] }),
 							...(state.selected.year && { published: [ state.selected.year ] }),
+							...(state.selected.description && { content: [ state.selected.description ] }),
 						}
 					}
 				],

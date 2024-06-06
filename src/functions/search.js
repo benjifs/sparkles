@@ -4,23 +4,23 @@ import { Error, Response } from './lib/utils'
 
 const types = {
 	movie: {
-		url: 'https://www.omdbapi.com',
+		url: 'https://api.themoviedb.org/3/search/movie',
 		buildParams: ({ query, year, page }) => ({
-			apikey: process.env.OMDB_API_KEY,
-			type: 'movie',
-			s: query,
-			y: year,
+			api_key: process.env.TMDB_API_KEY,
+			query: query,
+			year: year,
 			page: page
 		}),
 		buildError: ({ status, response }) => Response.error({ statusCode: status }, response.Error),
 		parseResponse: res => ({
-			totalResults: res?.totalResults || 0,
-			results: res?.Search?.map(m => ({
-				id: `imdb:${m.imdbID}`,
-				title: m.Title,
-				image: m.Poster,
-				year: m.Year,
-				url: `https://imdb.com/title/${m.imdbID}`
+			totalResults: res?.total_results || 0,
+			results: res?.results?.map(m => ({
+				id: `tmdb:${m.id}`,
+				title: m.original_title,
+				image: `https://image.tmdb.org/t/p/original${m.poster_path}`,
+				year: (m.release_date || '').split('-')[0],
+				description: m.overview,
+				url: `https://themoviedb.org/movie/${m.id}`
 			}))
 		})
 	},

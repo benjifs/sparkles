@@ -35,15 +35,14 @@ You can read more about this project [here](https://benji.dog/articles/sparkles/
 ### Environment Variables
 | name | description |
 | --- | --- |
-| `OMDB_API_KEY` | [OMDB API Key](https://www.omdbapi.com/) for movie search |
-| `LASTFM_API_KEY` | [Last.fm API Key](https://www.last.fm/api) for {artist, album, track} search |
+| `TMDB_API_KEY` | [TMDB API Key](https://developer.themoviedb.org/) for movie search |
 | `GIANTBOMB_API_KEY` | [GiantBomb API Key](https://www.giantbomb.com/api/) for video game search |
 
 ### Build
 * Clone this repository
 * `npm install`
 * Run `netlify dev` to test locally
-  * Your default browser should automatically open to: http://localhost:9000
+  * Your default browser should automatically open to: http://localhost:8888
   * The frontend will run on port `5173`
   * The functions will run on port `5174`
 

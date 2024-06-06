@@ -25,6 +25,5 @@
 	status = 200
 
 [template.environment]
-	OMDB_API_KEY = "OMDB API Key"
-	LASTFM_API_KEY = "last.fm API key"
+	TMDB_API_KEY = "TMDB API Key"
 	GIANTBOMB_API_KEY = "Giant Bomb API key"
