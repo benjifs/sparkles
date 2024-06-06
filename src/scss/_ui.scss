@@ -84,7 +84,7 @@ form {
 			border-radius: 0;
 		}
 		select {
-			width: 25%;
+			width: max(25%, 75px);
 			border-right: var(--input-border-size) solid var(--input-border);
 		}
 		input {
