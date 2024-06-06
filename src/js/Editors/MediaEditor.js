@@ -73,6 +73,7 @@ const MediaEditor = ({ attrs }) => {
 							...(state.selected.id && { uid: [ state.selected.id ] }),
 							...(state.selected.url && { url: [ state.selected.url ] }),
 							...(state.selected.year && { published: [ state.selected.year ] }),
+							...(state.selected.description && { content: [ state.selected.description ] }),
 						}
 					}
 				],
@@ -142,6 +143,7 @@ const MediaEditor = ({ attrs }) => {
 			})
 			search = res?.results || []
 			state.totalResults = res?.totalResults || 0
+			if (search.length > 10) state.pageSize = search.length
 		} catch ({ response }) {
 			Alert.error(response && response.error_description)
 			search = null
@@ -203,7 +205,7 @@ const MediaEditor = ({ attrs }) => {
 					state.searched && (!search || search.length === 0) && m('div', 'No results found'),
 					!state.selected && search && state.totalResults > search.length && m('div.item-pagination', [
 						m('button', { disabled: state.page == 1, onclick: e => submitSearch(e, --state.page) }, 'prev'),
-						m('button', { disabled: state.totalResults < state.page * 10, onclick: e => submitSearch(e, ++state.page) }, 'next')
+						m('button', { disabled: state.totalResults < state.page * state.pageSize, onclick: e => submitSearch(e, ++state.page) }, 'next')
 					])
 				]),
 				state.selected && m('form', {
