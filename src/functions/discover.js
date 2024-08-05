@@ -5,7 +5,7 @@ import { isValidURL, Response, Error } from './lib/utils'
 const requiredRels = ['authorization_endpoint', 'token_endpoint', 'micropub']
 
 const getRelURL = ($, rel) => $ && rel ? $(`[rel='${rel}']`).attr('href') : null
-const absoluteURL = (url, baseURL) => url && !url.match(/^https?:\/\//) ? `${baseURL}${url}` : url
+const absoluteURL = (url, baseURL) => url ? new URL(url, baseURL).href : null
 
 exports.handler = async e => {
 	const urlString = e.queryStringParameters.url
