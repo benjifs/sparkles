@@ -1,4 +1,5 @@
 import m from 'mithril'
+import EasyMDE from 'easymde'
 
 import Alert from '../Components/Alert'
 import { Box } from '../Components/Box'
@@ -6,6 +7,8 @@ import EntryPreview from './EntryPreview'
 import AdvancedOptions from './AdvancedOptions'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
+
+import 'easymde/dist/easymde.min.css'
 
 const EditorTypes = {
 	Note: {
@@ -165,7 +168,7 @@ const Editor = ({ attrs }) => {
 
 	return {
 		oncreate: () => {
-			new EasyMDE({ // eslint-disable-line no-undef
+			new EasyMDE({
 				toolbar: ['bold', 'italic', 'heading', 'quote', 'link', 'image', 'preview', 'guide'],
 			})
 		},
