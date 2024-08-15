@@ -18,7 +18,7 @@ export const handler = async (e) => {
 			})
 		}
 		return Response.error({ statusCode: res.status }, res.statusText)
-	} catch (e) {
+	} catch (err) {
 		console.error('[ERROR]', err && err.message)
 	}
 

@@ -17,14 +17,13 @@ dialog {
 	border-radius: var(--sprk-border-radius);
 	background-color: var(--sprk-bg);
 
+	animation-duration: .3s;
+	animation-fill-mode: forwards;
 	.sp-modal-content {
 		padding: 1em;
 		height: 100%;
 		overflow: auto;
 	}
-
-	animation-duration: .3s;
-	animation-fill-mode: forwards;
 	&[open] {
 		animation-name: scroll-fade-in;
 		&::backdrop {

@@ -134,7 +134,7 @@ const Tiles = (types, defaultTiles, params) => {
 				m('p', [
 					'unsupported post types ',
 					m('a', { href: 'https://github.com/indieweb/micropub-extensions/issues/1', target: '_blank' },
-					m('i.far.fa-circle-question', { title: 'query for supported vocabulary discussion' }))
+						m('i.far.fa-circle-question', { title: 'query for supported vocabulary discussion' }))
 				])
 			]
 	}

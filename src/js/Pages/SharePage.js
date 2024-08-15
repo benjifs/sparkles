@@ -1,5 +1,6 @@
 import m from 'mithril'
 
+import Alert from '../Components/Alert'
 import { Box } from '../Components/Box'
 import Tiles from '../Editors/Tiles'
 import Store from '../Models/Store'

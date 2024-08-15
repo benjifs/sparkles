@@ -6,7 +6,7 @@ const types = {
 	movie: {
 		url: 'https://api.themoviedb.org/3/search/movie',
 		buildParams: ({ query, year, page }) => ({
-			api_key: process.env.TMDB_API_KEY,
+			api_key: process.env.TMDB_API_KEY, // eslint-disable-line camelcase
 			query: query,
 			year: year,
 			page: page
@@ -46,7 +46,7 @@ const types = {
 	},
 	music: {
 		url: 'https://itunes.apple.com/search',
-		buildParams: ({ type, query, page }) => ({
+		buildParams: ({ type, query }) => ({
 			media: 'music',
 			entity: type == 'artist' ? 'musicArtist' : type,
 			term: query
@@ -66,7 +66,7 @@ const types = {
 	game: {
 		url: 'https://www.giantbomb.com/api/search/',
 		buildParams: ({ query, page }) => ({
-			api_key: process.env.GIANTBOMB_API_KEY,
+			api_key: process.env.GIANTBOMB_API_KEY, // eslint-disable-line camelcase
 			limit: 10,
 			format: 'json',
 			resources: 'game',
