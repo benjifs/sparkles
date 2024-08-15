@@ -164,6 +164,11 @@ const Editor = ({ attrs }) => {
 	const postType = postTypes.find(item => item.type == attrs.title.toLowerCase())
 
 	return {
+		oncreate: () => {
+			new EasyMDE({ // eslint-disable-line no-undef
+				toolbar: ['bold', 'italic', 'heading', 'quote', 'link', 'image', 'preview', 'guide'],
+			})
+		},
 		view: () =>
 			m(Box, {
 				icon: attrs.icon, // '.far.fa-note-sticky',
