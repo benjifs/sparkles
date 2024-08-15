@@ -1,5 +1,6 @@
 import fetch from 'node-fetch'
 import * as cheerio from 'cheerio'
+import LinkHeader from 'http-link-header'
 import { isValidURL, Response, Error } from './lib/utils'
 
 const requiredRels = ['authorization_endpoint', 'token_endpoint', 'micropub']
@@ -15,19 +16,32 @@ exports.handler = async e => {
 
 	try {
 		const response = await fetch(urlString)
+		const link = response.headers.get('link')
 		const body = await response.text()
 		const $ = cheerio.load(body)
 
 		let json
-		// https://indieauth.spec.indieweb.org/#discovery-by-clients
-		const metadataURL = absoluteURL(getRelURL($, 'indieauth-metadata'), urlString)
-		if (metadataURL) {
-			const res = await fetch(metadataURL)
-			json = await res.json()
-		} else {
-			json = {
-				'authorization_endpoint': absoluteURL(getRelURL($, 'authorization_endpoint'), urlString),
-				'token_endpoint': absoluteURL(getRelURL($, 'token_endpoint'), urlString),
+		// RFC 5988
+		if (link) {
+			const parsedLink = LinkHeader.parse(link)
+			if (Array.isArray(parsedLink?.refs)) {
+				json = parsedLink.refs.reduce((map, obj) => {
+					map[obj.rel] = absoluteURL(obj.uri, urlString)
+					return map
+				}, {})
+			}
+		}
+		if (!json) {
+			// https://indieauth.spec.indieweb.org/#discovery-by-clients
+			const metadataURL = absoluteURL(getRelURL($, 'indieauth-metadata'), urlString)
+			if (metadataURL) {
+				const res = await fetch(metadataURL)
+				json = await res.json()
+			} else {
+				json = {
+					'authorization_endpoint': absoluteURL(getRelURL($, 'authorization_endpoint'), urlString),
+					'token_endpoint': absoluteURL(getRelURL($, 'token_endpoint'), urlString),
+				}
 			}
 		}
 		if (json) {
