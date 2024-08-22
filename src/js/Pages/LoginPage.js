@@ -68,6 +68,7 @@ const Login = () => {
 		e.preventDefault()
 		state.loading = true
 
+		// eslint-disable-next-line camelcase
 		Store.setSession({ micropub: state.micropubURL, access_token: state.accessToken })
 		window.location.href = '/home'
 	}

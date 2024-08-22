@@ -105,10 +105,10 @@ fieldset {
 a {
 	text-decoration: none;
 	color: var(--sprk-fg);
-	&:not(.icon) {
-		border-bottom: 1px dashed var(--sprk-fg);
-	}
 	// handle link wrap if overflows screen
 	overflow-wrap: break-word;
 	word-wrap: break-word;
+	&:not(.icon) {
+		border-bottom: 1px dashed var(--sprk-fg);
+	}
 }

@@ -7,3 +7,9 @@
 @import "./ui.scss";
 @import "./rating.scss";
 @import "./modal.scss";
+
+.EasyMDEContainer {
+	button:hover {
+		color: initial
+	}
+}

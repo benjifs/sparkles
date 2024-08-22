@@ -1,4 +1,5 @@
 import m from 'mithril'
+import EasyMDE from 'easymde'
 
 import Alert from '../Components/Alert'
 import { Box } from '../Components/Box'
@@ -6,6 +7,8 @@ import EntryPreview from './EntryPreview'
 import AdvancedOptions from './AdvancedOptions'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
+
+import 'easymde/dist/easymde.min.css'
 
 const EditorTypes = {
 	Note: {
@@ -76,6 +79,7 @@ const EditorTypes = {
 }
 
 const Editor = ({ attrs }) => {
+	let textarea
 	const parameterList = new URLSearchParams(window.location.search)
 	const postTypes = Store.getSession('post-types') || []
 	const params = {
@@ -104,6 +108,9 @@ const Editor = ({ attrs }) => {
 
 	const buildEntry = () => {
 		let properties = {}
+		if (textarea) {
+			state.content = textarea.value()
+		}
 
 		for (const [key, value] of Object.entries(state)) {
 			if (!['category', 'alt', 'photo'].includes(key) && value && value.length) {
@@ -164,6 +171,11 @@ const Editor = ({ attrs }) => {
 	const postType = postTypes.find(item => item.type == attrs.title.toLowerCase())
 
 	return {
+		oncreate: () => {
+			textarea = new EasyMDE({
+				toolbar: ['bold', 'italic', 'heading', 'quote', 'link', 'image', 'preview', 'guide'],
+			})
+		},
 		view: () =>
 			m(Box, {
 				icon: attrs.icon, // '.far.fa-note-sticky',

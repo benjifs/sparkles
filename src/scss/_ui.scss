@@ -24,15 +24,13 @@
 		padding: .3em;
 
 		button {
+			border: none; background: none;
+			padding: .3em;
 			&:first-child {
 				// Make this optional in case user wants to have close icon on left
 				opacity: 0;
 				pointer-events: none;
 			}
-
-			border: none; background: none;
-			padding: .3em;
-
 			&:hover {
 				color: var(--sprk-fg);
 				transform: initial;
@@ -141,29 +139,26 @@ button {
 	background: none;
 	border: var(--sprk-border-size) solid var(--sprk-border-color);
 	padding: .5rem 1.5rem;
-	&.xs {
-		padding: .5rem .75rem;
-		margin-left: .25rem;
-	}
-
 	text-decoration: none;
 	border-radius: var(--input-border-radius);
 
 	@include transition(all .3s ease-out);
+
+	letter-spacing: .3em;
+	&.xs {
+		padding: .5rem .75rem;
+		margin-left: .25rem;
+	}
 	&:hover {
 		background: var(--btn-hover-bg);
 		color: var(--btn-hover-color);
 	}
-
 	&:disabled {
 		border-color: var(--input-border);
 		background: var(--input-border);
 		pointer-events: none;
 		opacity: .7;
 	}
-
-	letter-spacing: .3em;
-
 	i {
 		letter-spacing: initial;
 	}
@@ -251,6 +246,11 @@ label, .label {
 	padding: .75em 0;
 	.item {
 		text-align: left;
+		margin: 0 auto;
+		padding: .4rem;
+		cursor: pointer;
+		border: 1px solid var(--sprk-bg-color);
+		@include transition(border-color .3s ease-in-out);
 		img, div {
 			display: inline-block;
 			height: 100%;
@@ -263,17 +263,12 @@ label, .label {
 		img {
 			width: 75px;
 		}
-		margin: 0 auto;
-		padding: .4rem;
 		h4 {
 			margin: 0;
 		}
 		img {
 			max-width: 100%;
 		}
-		cursor: pointer;
-		border: 1px solid var(--sprk-bg-color);
-		@include transition(border-color .3s ease-in-out);
 		&:hover {
 			border-color: var(--sprk-fg-color);
 		}
