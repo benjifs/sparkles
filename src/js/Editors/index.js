@@ -79,6 +79,7 @@ const EditorTypes = {
 }
 
 const Editor = ({ attrs }) => {
+	let textarea
 	const parameterList = new URLSearchParams(window.location.search)
 	const postTypes = Store.getSession('post-types') || []
 	const params = {
@@ -107,6 +108,9 @@ const Editor = ({ attrs }) => {
 
 	const buildEntry = () => {
 		let properties = {}
+		if (textarea) {
+			state.content = textarea.value()
+		}
 
 		for (const [key, value] of Object.entries(state)) {
 			if (!['category', 'alt', 'photo'].includes(key) && value && value.length) {
@@ -168,7 +172,7 @@ const Editor = ({ attrs }) => {
 
 	return {
 		oncreate: () => {
-			new EasyMDE({
+			textarea = new EasyMDE({
 				toolbar: ['bold', 'italic', 'heading', 'quote', 'link', 'image', 'preview', 'guide'],
 			})
 		},
