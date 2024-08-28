@@ -75,6 +75,17 @@ const EditorTypes = {
 	}
 }
 
+const FormCache = {
+	key: '__form',
+	get: key => JSON.parse(localStorage.getItem(FormCache.key) || '{}')[key] || '',
+	put: (key, value) => {
+		const form = JSON.parse(localStorage.getItem(FormCache.key) || '{}')
+		form[key] = value
+		localStorage.setItem(FormCache.key, JSON.stringify(form))
+	},
+	clear: () => localStorage.removeItem(FormCache.key)
+}
+
 const Editor = ({ attrs }) => {
 	const parameterList = new URLSearchParams(window.location.search)
 	const postTypes = Store.getSession('post-types') || []
@@ -100,7 +111,14 @@ const Editor = ({ attrs }) => {
 			state[c.type] = params.url || ''
 		}
 	}
-	if (params.image) state.photo = params.image
+	if (params.image) {
+		state.photo = params.image
+		state.alt = FormCache.get('alt')
+		state.content = FormCache.get('content')
+		state.category = FormCache.get('category')
+	} else {
+		FormCache.clear()
+	}
 
 	const buildEntry = () => {
 		let properties = {}
@@ -201,7 +219,10 @@ const Editor = ({ attrs }) => {
 							m('li', m('input', {
 								type: 'text',
 								placeholder: 'Alt text',
-								oninput: e => state.alt = e.target.value,
+								oninput: e => {
+									state.alt = e.target.value
+									FormCache.put('alt', e.target.value)
+								},
 								value: state.alt || ''
 							}))
 						])
@@ -209,7 +230,10 @@ const Editor = ({ attrs }) => {
 						return m('textarea', {
 							rows: 5,
 							placeholder: c.label || 'Content goes here...',
-							oninput: e => state[c.type] = e.target.value,
+							oninput: e => {
+								state[c.type] = e.target.value
+								FormCache.put(c.type, e.target.value)
+							},
 							value: state[c.type] || '',
 							required: c.required
 						})
@@ -250,7 +274,10 @@ const Editor = ({ attrs }) => {
 						return m('input', {
 							type: 'text',
 							placeholder: 'Tags',
-							oninput: e => state[c.type] = e.target.value,
+							oninput: e => {
+								state[c.type] = e.target.value
+								FormCache.put(c.type, e.target.value)
+							},
 							value: state[c.type] || '',
 							required: c.required
 						})
