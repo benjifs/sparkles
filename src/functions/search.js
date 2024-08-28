@@ -30,19 +30,30 @@ const types = {
 		buildParams: ({ query, page }) => ({
 			limit: 10,
 			q: query,
-			page: page
+			page: page,
+			fields: 'key,title,cover_i,cover_edition_key,edition_key,author_name,author_key'
 		}),
 		buildError: ({ status, response }) => Response.error({ statusCode: status }, response.error),
 		parseResponse: res => ({
 			totalResults: res?.num_found || 0,
-			results: res?.docs.map(b => ({
-				id: `olid:${b.key.replace('/works/', '')}`,
-				title: b.title,
-				author: b.author_name ? b.author_name.join(', ') : '',
-				image: `https://covers.openlibrary.org/b/id/${b.cover_i}-M.jpg`,
-				year: b.first_publish_year,
-				url: `https://openlibrary.org${b.key}`
-			}))
+			results: res?.docs.map(b => {
+				const key = b.key.replace('/works/', '')
+				let coverKey
+				if (b.cover_i && b.cover_edition_key) {
+					coverKey = `id/${b.cover_i}`
+				} else if (b.edition_key && b.edition_key.length > 0) {
+					// Temporary address the fact that sometimes `cover_i` doesn't have an updated image
+					coverKey = `olid/${b.edition_key[b.edition_key.length - 1]}`
+				}
+				return {
+					id: `olid:${key}`,
+					title: b.title,
+					author: b.author_name ? b.author_name.join(', ') : '',
+					...(coverKey && { image: `https://covers.openlibrary.org/b/${coverKey}-M.jpg` }),
+					year: b.first_publish_year,
+					url: `https://openlibrary.org${b.key}`
+				}
+			})
 		})
 	},
 	music: {
