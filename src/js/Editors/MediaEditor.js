@@ -93,7 +93,7 @@ const MediaEditor = ({ attrs }) => {
 	}
 
 	const post = async (e) => {
-		e.preventDefault()
+		e && e.preventDefault()
 
 		const entry = buildEntry()
 		state.submitting = true

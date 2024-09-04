@@ -32,7 +32,7 @@ export default {
 		title: 'Bookmark',
 		icon: '.far.fa-bookmark',
 		components: [
-			{ type: 'bookmark-of', required: true, label: 'Bookmark of' },
+			{ type: 'bookmark-of', required: true, label: 'Bookmark of', search: true },
 			{ type: 'name', required: true },
 			{ type: 'content' },
 			{ type: 'category' }
@@ -42,7 +42,7 @@ export default {
 		title: 'Reply',
 		icon: '.fas.fa-reply',
 		components: [
-			{ type: 'in-reply-to', required: true, label: 'Reply to' },
+			{ type: 'in-reply-to', required: true, label: 'Reply to', search: true },
 			{ type: 'name' },
 			{ type: 'content', required: true },
 			{ type: 'category' }
@@ -62,7 +62,7 @@ export default {
 		title: 'Like',
 		icon: '.fas.fa-heart',
 		components: [
-			{ type: 'like-of', required: true, label: 'Like of' },
+			{ type: 'like-of', required: true, label: 'Like of', search: true },
 			{ type: 'name' },
 			{ type: 'content' },
 			{ type: 'category' }

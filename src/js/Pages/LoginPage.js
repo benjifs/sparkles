@@ -23,7 +23,7 @@ const Login = () => {
 	const canSubmitAdvanced = () => state.micropubURL && state.micropubURL.trim() !== '' && state.accessToken && state.accessToken.trim() !== ''
 
 	const onLogin = async e => {
-		e.preventDefault()
+		e && e.preventDefault()
 		loading = true
 
 		try {
@@ -65,7 +65,7 @@ const Login = () => {
 	}
 
 	const advancedLogin = async e => {
-		e.preventDefault()
+		e && e.preventDefault()
 		state.loading = true
 		// eslint-disable-next-line camelcase
 		Store.setSession({ micropub: state.micropubURL, access_token: state.accessToken })

@@ -1,4 +1,4 @@
-export default {
+const FormCache = {
 	key: '__form',
 	get: key => JSON.parse(localStorage.getItem(FormCache.key) || '{}')[key] || '',
 	put: (key, value) => {
@@ -8,3 +8,5 @@ export default {
 	},
 	clear: () => localStorage.removeItem(FormCache.key)
 }
+
+export default FormCache
