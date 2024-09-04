@@ -6,85 +6,8 @@ import EntryPreview from './EntryPreview'
 import AdvancedOptions from './AdvancedOptions'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
-
-const EditorTypes = {
-	Note: {
-		title: 'Note',
-		icon: '.far.fa-note-sticky',
-		components: [
-			// SAMPLE
-			// { type: 'content', label: 'change label', required: true }
-			{ type: 'content', required: true },
-			{ type: 'category' }
-		]
-	},
-	Photo: {
-		title: 'Photo',
-		icon: '.far.fa-image',
-		components: [
-			{ type: 'photo', required: true },
-			{ type: 'content' },
-			{ type: 'category' }
-		]
-	},
-	Article: {
-		title: 'Article',
-		icon: '.fas.fa-newspaper',
-		components: [
-			{ type: 'name', required: true },
-			{ type: 'content', required: true },
-			{ type: 'category' }
-		]
-	},
-	Bookmark: {
-		title: 'Bookmark',
-		icon: '.far.fa-bookmark',
-		components: [
-			{ type: 'bookmark-of', required: true },
-			{ type: 'name', required: true },
-			{ type: 'content' },
-			{ type: 'category' }
-		]
-	},
-	Reply: {
-		title: 'Reply',
-		icon: '.fas.fa-reply',
-		components: [
-			{ type: 'in-reply-to', required: true },
-			{ type: 'content', required: true },
-			{ type: 'category' }
-		]
-	},
-	RSVP: {
-		title: 'RSVP',
-		icon: '.far.fa-calendar-check',
-		components: [
-			{ type: 'in-reply-to', label: 'RSVP to', required: true },
-			{ type: 'rsvp', required: true },
-			{ type: 'content' },
-			{ type: 'category' }
-		]
-	},
-	Like: {
-		title: 'Like',
-		icon: '.fas.fa-heart',
-		components: [
-			{ type: 'like-of', required: true },
-			{ type: 'category' }
-		]
-	}
-}
-
-const FormCache = {
-	key: '__form',
-	get: key => JSON.parse(localStorage.getItem(FormCache.key) || '{}')[key] || '',
-	put: (key, value) => {
-		const form = JSON.parse(localStorage.getItem(FormCache.key) || '{}')
-		form[key] = value
-		localStorage.setItem(FormCache.key, JSON.stringify(form))
-	},
-	clear: () => localStorage.removeItem(FormCache.key)
-}
+import FormCache from '../Models/FormCache'
+import EditorTypes from './EditorTypes'
 
 const Editor = ({ attrs }) => {
 	const parameterList = new URLSearchParams(window.location.search)
