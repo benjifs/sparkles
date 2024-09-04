@@ -42,8 +42,7 @@ export default {
 		title: 'Reply',
 		icon: '.fas.fa-reply',
 		components: [
-			{ type: 'in-reply-to', required: true, label: 'Reply to', search: true },
-			{ type: 'name' },
+			{ type: 'in-reply-to', required: true, label: 'Reply to' },
 			{ type: 'content', required: true },
 			{ type: 'category' }
 		]
