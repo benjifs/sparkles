@@ -67,7 +67,7 @@
 
 form {
 	> * {
-		margin-bottom: 1rem;
+		margin-bottom: .5rem;
 		&:last-child {
 			margin-bottom: 0;
 		}
@@ -126,6 +126,9 @@ label {
 	input[type="url"] {
 		min-width: 100px;
 		max-width: 50%;
+	}
+	.w200 {
+		max-width: 200px;
 	}
 }
 

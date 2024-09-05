@@ -7,7 +7,19 @@ const AdvancedOptions = {
 		m('details',
 			m('summary', 'Advanced'),
 			m('ul', [
-				// https://github.com/indieweb/micropub-extensions/issues/19
+				m('li', m('label', [
+					m('span', [
+						'slug ',
+						m('a', { href: 'https://indieweb.org/Micropub-extensions#Slug', target: '_blank' },
+							m('i.far.fa-circle-question', { title: 'experimental property to suggest a slug to the micropub endpoint' })),
+					]),
+					m('input.w200', {
+						type: 'text',
+						placeholder: 'Slug',
+						oninput: e => onchange('mp-slug', e.target.value),
+						value: state['mp-slug'] || ''
+					})
+				])),
 				m('li', m('label', [
 					'status',
 					m('select', {

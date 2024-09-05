@@ -6,85 +6,8 @@ import EntryPreview from './EntryPreview'
 import AdvancedOptions from './AdvancedOptions'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
-
-const EditorTypes = {
-	Note: {
-		title: 'Note',
-		icon: '.far.fa-note-sticky',
-		components: [
-			// SAMPLE
-			// { type: 'content', label: 'change label', required: true }
-			{ type: 'content', required: true },
-			{ type: 'category' }
-		]
-	},
-	Photo: {
-		title: 'Photo',
-		icon: '.far.fa-image',
-		components: [
-			{ type: 'photo', required: true },
-			{ type: 'content' },
-			{ type: 'category' }
-		]
-	},
-	Article: {
-		title: 'Article',
-		icon: '.fas.fa-newspaper',
-		components: [
-			{ type: 'name', required: true },
-			{ type: 'content', required: true },
-			{ type: 'category' }
-		]
-	},
-	Bookmark: {
-		title: 'Bookmark',
-		icon: '.far.fa-bookmark',
-		components: [
-			{ type: 'bookmark-of', required: true },
-			{ type: 'name', required: true },
-			{ type: 'content' },
-			{ type: 'category' }
-		]
-	},
-	Reply: {
-		title: 'Reply',
-		icon: '.fas.fa-reply',
-		components: [
-			{ type: 'in-reply-to', required: true },
-			{ type: 'content', required: true },
-			{ type: 'category' }
-		]
-	},
-	RSVP: {
-		title: 'RSVP',
-		icon: '.far.fa-calendar-check',
-		components: [
-			{ type: 'in-reply-to', label: 'RSVP to', required: true },
-			{ type: 'rsvp', required: true },
-			{ type: 'content' },
-			{ type: 'category' }
-		]
-	},
-	Like: {
-		title: 'Like',
-		icon: '.fas.fa-heart',
-		components: [
-			{ type: 'like-of', required: true },
-			{ type: 'category' }
-		]
-	}
-}
-
-const FormCache = {
-	key: '__form',
-	get: key => JSON.parse(localStorage.getItem(FormCache.key) || '{}')[key] || '',
-	put: (key, value) => {
-		const form = JSON.parse(localStorage.getItem(FormCache.key) || '{}')
-		form[key] = value
-		localStorage.setItem(FormCache.key, JSON.stringify(form))
-	},
-	clear: () => localStorage.removeItem(FormCache.key)
-}
+import FormCache from '../Models/FormCache'
+import EditorTypes from './EditorTypes'
 
 const Editor = ({ attrs }) => {
 	const parameterList = new URLSearchParams(window.location.search)
@@ -113,9 +36,8 @@ const Editor = ({ attrs }) => {
 	}
 	if (params.image) {
 		state.photo = params.image
-		state.alt = FormCache.get('alt')
-		state.content = FormCache.get('content')
-		state.category = FormCache.get('category')
+		const cacheable = ['name', 'alt', 'content', 'category']
+		cacheable.forEach(key => state[key] = FormCache.get(key))
 	} else {
 		FormCache.clear()
 	}
@@ -181,6 +103,11 @@ const Editor = ({ attrs }) => {
 
 	const postType = postTypes.find(item => item.type == attrs.title.toLowerCase())
 
+	const handleInput = (key, value) => {
+		state[key] = value
+		FormCache.put(key, value)
+	}
+
 	return {
 		view: () =>
 			m(Box, {
@@ -195,7 +122,7 @@ const Editor = ({ attrs }) => {
 						return m('input', {
 							type: 'text',
 							placeholder: c.label || 'Title',
-							oninput: e => state[c.type] = e.target.value,
+							oninput: e => handleInput(c.type, e.target.value),
 							value: state[c.type] || '',
 							required: c.required
 						})
@@ -219,10 +146,7 @@ const Editor = ({ attrs }) => {
 							m('li', m('input', {
 								type: 'text',
 								placeholder: 'Alt text',
-								oninput: e => {
-									state.alt = e.target.value
-									FormCache.put('alt', e.target.value)
-								},
+								oninput: e => handleInput('alt', e.target.value),
 								value: state.alt || ''
 							}))
 						])
@@ -230,37 +154,41 @@ const Editor = ({ attrs }) => {
 						return m('textarea', {
 							rows: 5,
 							placeholder: c.label || 'Content goes here...',
-							oninput: e => {
-								state[c.type] = e.target.value
-								FormCache.put(c.type, e.target.value)
-							},
+							oninput: e => handleInput(c.type, e.target.value),
 							value: state[c.type] || '',
 							required: c.required
 						})
 					case 'bookmark-of':
-						return m('input', {
-							type: 'url',
-							placeholder: c.label || 'Bookmark of',
-							oninput: e => state[c.type] = e.target.value,
-							value: state[c.type] || '',
-							required: c.required
-						})
 					case 'in-reply-to':
-						return m('input', {
-							type: 'url',
-							placeholder: c.label || 'Reply to',
-							oninput: e => state[c.type] = e.target.value,
-							value: state[c.type] || '',
-							required: c.required
-						})
 					case 'like-of':
-						return m('input', {
-							type: 'url',
-							placeholder: c.label || 'Like of',
-							oninput: e => state[c.type] = e.target.value,
-							value: state[c.type] || '',
-							required: c.required
-						})
+						return m('ul', [
+							m('li', [
+								m('input', {
+									type: 'url',
+									placeholder: c.label || 'URL',
+									oninput: e => state[c.type] = e.target.value,
+									value: state[c.type] || '',
+									required: c.required
+								}),
+								c.search && m('button', {
+									class: 'xs',
+									title: 'fetch title',
+									onclick: async (e) => {
+										e && e.preventDefault()
+										state.fetching = true
+										const res = await m
+											.request({
+												method: 'GET',
+												url: '/api/opengraph',
+												params: { url: state[c.type] }
+											})
+										state.name = res.title
+										state.fetching = false
+									},
+									disabled: state.fetching
+								}, state.fetching ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : m('i.fas.fa-search'))
+							])
+						])
 					case 'rsvp':
 						return m('select', {
 							oninput: e => state[c.type] = e.target.value,
@@ -274,10 +202,7 @@ const Editor = ({ attrs }) => {
 						return m('input', {
 							type: 'text',
 							placeholder: 'Tags',
-							oninput: e => {
-								state[c.type] = e.target.value
-								FormCache.put(c.type, e.target.value)
-							},
+							oninput: e => handleInput(c.type, e.target.value),
 							value: state[c.type] || '',
 							required: c.required
 						})
