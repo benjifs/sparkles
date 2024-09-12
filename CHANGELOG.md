@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.1
+_released `2024-09-11`_
+* Use `editions` to get a valid cover image from openlibrary
+
 ## 0.11.0
 _released `2024-09-04`_
 * Add additional fields for `Photo`, `Bookmark`, and `Like` posts
