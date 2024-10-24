@@ -3,13 +3,13 @@ import fetch from 'node-fetch'
 import { Error, Response } from './lib/utils'
 
 import tmdb from './providers/movies/tmdb'
-import googleBooks from './providers/books/googleBooks'
+import openLibrary from './providers/books/openLibrary'
 import appleMusic from './providers/music/appleMusic'
 import giantBomb from './providers/games/giantBomb'
 
 const types = {
 	movie: tmdb,
-	book: googleBooks,
+	book: openLibrary,
 	music: appleMusic,
 	game: giantBomb,
 }
