@@ -236,6 +236,9 @@ summary {
 
 h5 {
 	margin: 0.5rem 0;
+	& + h5 {
+		color: var(--sprk-fade-color);
+	}
 }
 
 label, .label {

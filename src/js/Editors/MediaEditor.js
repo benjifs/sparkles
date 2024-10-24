@@ -199,7 +199,7 @@ const MediaEditor = ({ attrs }) => {
 								m('div', [
 									m('h4', md.title),
 									md.author && m('h5', md.author),
-									!md.author && md.year && m('h5', md.year)
+									md.year && m('h5', md.year)
 								])
 							]))),
 					state.searched && (!search || search.length === 0) && m('div', 'No results found'),
@@ -297,7 +297,7 @@ const EditorTypes = {
 		type: 'read',
 		search: {
 			options: [ 'book' ],
-			placeholder: 'Search by title or ISBN'
+			placeholder: 'Search by Title [author:name isbn:number]'
 		},
 		progress: [
 			{ key: 'want', label: 'Want to Read', title: 'Wants to Read' },
