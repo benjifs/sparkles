@@ -2,95 +2,16 @@ import fetch from 'node-fetch'
 
 import { Error, Response } from './lib/utils'
 
+import tmdb from './providers/movies/tmdb'
+import googleBooks from './providers/books/googleBooks'
+import appleMusic from './providers/music/appleMusic'
+import giantBomb from './providers/games/giantBomb'
+
 const types = {
-	movie: {
-		url: 'https://api.themoviedb.org/3/search/movie',
-		buildParams: ({ query, year, page }) => ({
-			// eslint-disable-next-line camelcase
-			api_key: process.env.TMDB_API_KEY,
-			query: query,
-			year: year,
-			page: page
-		}),
-		buildError: ({ status, response }) => Response.error({ statusCode: status }, response.Error),
-		parseResponse: res => ({
-			totalResults: res?.total_results || 0,
-			results: res?.results?.map(m => ({
-				id: `tmdb:${m.id}`,
-				title: m.original_title,
-				image: `https://image.tmdb.org/t/p/original${m.poster_path}`,
-				year: (m.release_date || '').split('-')[0],
-				description: m.overview,
-				url: `https://themoviedb.org/movie/${m.id}`
-			}))
-		})
-	},
-	book: {
-		url: 'https://openlibrary.org/search.json',
-		buildParams: ({ query, page }) => ({
-			limit: 10,
-			q: query,
-			page: page,
-			fields: 'key,title,editions,author_name,author_key,cover_i'
-		}),
-		buildError: ({ status, response }) => Response.error({ statusCode: status }, response.error),
-		parseResponse: res => ({
-			totalResults: res?.num_found || 0,
-			results: res?.docs.map(b => {
-				const coverKey = b?.editions?.docs[0]?.cover_i
-				return {
-					id: `olid:${b.key.replace('/works/', '')}`,
-					title: b.title,
-					author: b.author_name ? b.author_name.join(', ') : '',
-					...(coverKey && { image: `https://covers.openlibrary.org/b/id/${coverKey}-M.jpg` }),
-					year: b.first_publish_year,
-					url: `https://openlibrary.org${b.key}`
-				}
-			})
-		})
-	},
-	music: {
-		url: 'https://itunes.apple.com/search',
-		buildParams: ({ type, query }) => ({
-			media: 'music',
-			entity: type == 'artist' ? 'musicArtist' : type,
-			term: query
-		}),
-		parseResponse: res => ({
-			totalResults: res?.resultCount || 0,
-			results: res?.results.map(r => ({
-				id: `itunes:${r.wrapperType}:${r.trackId || r.collectionId || r.artistId}`,
-				title: r.trackName || r.collectionName,
-				author: r.artistName,
-				image: r.artworkUrl100,
-				...(r.releaseDate && { year: r.releaseDate.substr(0, 4) }),
-				url: r.trackViewUrl || r.collectionViewUrl || r.artistLinkUrl
-			}))
-		})
-	},
-	game: {
-		url: 'https://www.giantbomb.com/api/search/',
-		buildParams: ({ query, page }) => ({
-			// eslint-disable-next-line camelcase
-			api_key: process.env.GIANTBOMB_API_KEY,
-			limit: 10,
-			format: 'json',
-			resources: 'game',
-			query: query,
-			page: page
-		}),
-		buildError: ({ status, response }) => Response.error({ statusCode: status }, response.error),
-		parseResponse: res => ({
-			totalResults: res?.number_of_total_results || 0,
-			results: res?.results.map(g => ({
-				id: `gbid:${g.guid}`,
-				title: g.name,
-				image: g.image.original_url,
-				year: g.original_release_date ? new Date(g.original_release_date).getFullYear() : null,
-				url: g.site_detail_url
-			}))
-		})
-	},
+	movie: tmdb,
+	book: googleBooks,
+	music: appleMusic,
+	game: giantBomb,
 }
 
 export const handler = async (e) => {
@@ -103,11 +24,8 @@ export const handler = async (e) => {
 	const params = new URLSearchParams(opts.buildParams(e.queryStringParameters))
 	const res = await fetch(`${opts.url}?${params.toString()}`)
 	const response = await res.json()
-	if (res.status !== 200) {
-		return opts.buildError({ status: res.status, response })
-	} else if (type == 'game' && response.error != 'OK') {
-		return opts.buildError({ status: 400, response })
-	}
+	const error = opts.handleError(res.status, response)
+	if (error) return Response.error({ statusCode: error.statusCode }, error.description)
 
 	return Response.success(opts.parseResponse(response, type))
 }
