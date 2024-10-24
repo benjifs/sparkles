@@ -1,9 +1,8 @@
-
-@import "./constants.scss";
-@import "./base.scss";
-@import "./helpers.scss";
-@import "./mixin.scss";
-@import "./alert.scss";
-@import "./ui.scss";
-@import "./rating.scss";
-@import "./modal.scss";
+@use "constants";
+@use "base";
+@use "helpers";
+@use "mixin";
+@use "alert";
+@use "ui";
+@use "rating";
+@use "modal";

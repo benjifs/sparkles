@@ -1,3 +1,5 @@
+@use "mixin";
+
 
 .sp-title {
 	text-align: center;
@@ -100,7 +102,7 @@ textarea, input, select {
 	padding: .5rem 1rem;
 	width: 100%;
 
-	@include transition(border .3s ease-in-out);
+	@include mixin.transition(border .3s ease-in-out);
 
 	&:focus {
 		border-color: var(--input-border-active);
@@ -145,7 +147,7 @@ button {
 	text-decoration: none;
 	border-radius: var(--input-border-radius);
 
-	@include transition(all .3s ease-out);
+	@include mixin.transition(all .3s ease-out);
 
 	letter-spacing: .3em;
 	&.xs {
@@ -236,6 +238,9 @@ summary {
 
 h5 {
 	margin: 0.5rem 0;
+	& + h5 {
+		color: var(--sprk-fade-color);
+	}
 }
 
 label, .label {
@@ -255,7 +260,7 @@ label, .label {
 		padding: .4rem;
 		cursor: pointer;
 		border: 1px solid var(--sprk-bg-color);
-		@include transition(border-color .3s ease-in-out);
+		@include mixin.transition(border-color .3s ease-in-out);
 		img, div {
 			display: inline-block;
 			height: 100%;
