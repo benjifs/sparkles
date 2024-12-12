@@ -23,7 +23,7 @@ const AboutPage = {
 			]),
 			m('p', [
 				'Built with ',
-				m('a', { href: 'https://mithriljs.org', target: '_blank' }, 'MithrilJS'),
+				m('a', { href: 'https://mithril.js.org/', target: '_blank' }, 'MithrilJS'),
 				', ',
 				m('a', { href: 'https://sass-lang.com', target: '_blank' }, 'SCSS'),
 				', and ',
