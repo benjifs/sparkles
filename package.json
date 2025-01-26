@@ -1,6 +1,6 @@
 {
   "name": "sparkles",
-  "version": "0.12.1",
+  "version": "0.13.0",
   "description": "micropub client",
   "main": "./src/js/app.js",
   "scripts": {
@@ -29,14 +29,14 @@
   },
   "devDependencies": {
     "eslint": "8.57.0",
-    "sass": "^1.80.4",
-    "vite": "^5.4.10"
+    "sass": "^1.83.4",
+    "vite": "^6.0.11"
   },
   "dependencies": {
     "cheerio": "^1.0.0",
     "encoding": "^0.1.13",
     "http-link-header": "^1.1.3",
-    "mithril": "^2.2.8",
+    "mithril": "^2.2.13",
     "node-fetch": "^3.3.2"
   },
   "engines": {
