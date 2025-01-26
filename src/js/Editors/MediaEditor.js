@@ -302,7 +302,8 @@ const EditorTypes = {
 		progress: [
 			{ key: 'want', label: 'Want to Read', title: 'Wants to Read' },
 			{ key: 'started', label: 'Reading', title: 'Reading' },
-			{ key: 'finished', label: 'Read', title: 'Finished Reading' }
+			{ key: 'finished', label: 'Read', title: 'Finished Reading' },
+			{ key: 'stopped', label: 'Did Not Finish', title: 'Did Not Finish' }
 		]
 	},
 	Listen: {
