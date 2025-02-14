@@ -31,12 +31,28 @@ exports.handler = async e => {
 				}, {})
 			}
 		}
-		if (!json) {
+
+		if (!json || (json && json['indieauth-metadata'])) {
 			// https://indieauth.spec.indieweb.org/#discovery-by-clients
-			const metadataURL = absoluteURL(getRelURL($, 'indieauth-metadata'), urlString)
+			let metadataURL
+			if (!json) {
+				metadataURL = absoluteURL(getRelURL($, 'indieauth-metadata'), urlString)
+			}
+
+			if (json && json['indieauth-metadata']) {
+				metadataURL = json['indieauth-metadata']
+			}
+
 			if (metadataURL) {
-				const res = await fetch(metadataURL)
-				json = await res.json()
+				try {
+					const res = await fetch(metadataURL)
+					json = await res.json()
+				} catch (err) {
+					const original = err && err.message
+					const message = `Could not retrieve metadata from ${metadataURL} ${original}`
+					console.error('[ERROR]', message)
+					return Response.error(Error.INVALID, message)
+				}
 			} else {
 				json = {
 					'authorization_endpoint': absoluteURL(getRelURL($, 'authorization_endpoint'), urlString),
@@ -44,6 +60,7 @@ exports.handler = async e => {
 				}
 			}
 		}
+
 		if (json) {
 			json['micropub'] = absoluteURL(getRelURL($, 'micropub'), urlString)
 		}
