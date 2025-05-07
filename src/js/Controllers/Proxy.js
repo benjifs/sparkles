@@ -27,7 +27,6 @@ const Proxy = {
 					'code': code,
 					'client_id': `${CLIENT}/`,
 					'redirect_uri': `${CLIENT}/callback`,
-					// eslint-disable-next-line camelcase
 					...(session.verifier && { 'code_verifier': session.verifier })
 				}
 			})
@@ -71,7 +70,7 @@ const Proxy = {
 		let responseBody
 		try {
 			responseBody = JSON.parse(xhr.responseText)
-		} catch(err) {
+		} catch {
 			responseBody = xhr.responseText
 		}
 		return {
@@ -89,7 +88,7 @@ const Proxy = {
 				url: `/.netlify/functions/redirect?url=${url}`
 			})
 			return true
-		} catch (err) {
+		} catch {
 			console.error(`could not fetch ${url}`)
 		}
 		return false

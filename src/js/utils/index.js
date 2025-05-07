@@ -8,7 +8,7 @@ const canonicalURL = urlString => {
 	let url
 	try {
 		url = new URL(urlString)
-	} catch (_) {
+	} catch {
 		return null
 	}
 	return url && ['http:', 'https:'].includes(url.protocol) ? url.href : null
