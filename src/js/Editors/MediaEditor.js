@@ -130,6 +130,7 @@ const MediaEditor = ({ attrs }) => {
 		state.searched = false
 		state.selected = null
 		state.page = page || 1
+		m.redraw()
 
 		try {
 			const res = await m.request({
