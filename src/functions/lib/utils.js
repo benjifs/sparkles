@@ -2,7 +2,7 @@ const isValidURL = urlString => {
 	let url
 	try {
 		url = new URL(urlString)
-	} catch (_) {
+	} catch {
 		return false
 	}
 	return url && ['http:', 'https:'].includes(url.protocol)

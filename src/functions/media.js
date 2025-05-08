@@ -15,7 +15,7 @@ exports.handler = async e => {
 		if (e.headers['content-type'] === 'application/json') {
 			try {
 				body = e.body ? JSON.parse(e.body) : null
-			} catch (err) {
+			} catch {
 				// return Response.error(Error.INVALID, 'Could not parse request body')
 			}
 		} else if (e.headers['content-type'].indexOf('multipart/form-data') >= 0) {

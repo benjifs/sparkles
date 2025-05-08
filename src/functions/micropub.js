@@ -13,7 +13,7 @@ exports.handler = async e => {
 	let body
 	try {
 		body = e.body ? JSON.parse(e.body) : null
-	} catch (err) {
+	} catch {
 		// return Response.error(Error.INVALID, 'Could not parse request body')
 	}
 
