@@ -87,7 +87,7 @@ const MediaEditor = ({ attrs }) => {
 				// advanced properties
 				...(state['post-status'] && { 'post-status': [ state['post-status'] ] }),
 				...(state['visibility'] && { 'visibility': [ state['visibility'] ] }),
-				...(state['mp-syndicate-to'] && { 'mp-syndicate-to': state['mp-syndicate-to'] }),
+				...(state['mp-syndicate-to'] && state['mp-syndicate-to'].length && { 'mp-syndicate-to': state['mp-syndicate-to'] }),
 				...(state['mp-slug'] && { 'mp-slug': state['mp-slug'] })
 			}
 		}
