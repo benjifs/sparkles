@@ -32,35 +32,29 @@ exports.handler = async e => {
 			}
 		}
 
-		if (!json || (json && json['indieauth-metadata'])) {
-			// https://indieauth.spec.indieweb.org/#discovery-by-clients
-			let metadataURL
-			if (!json) {
-				metadataURL = absoluteURL(getRelURL($, 'indieauth-metadata'), urlString)
+		let metadataURL
+		// https://indieauth.spec.indieweb.org/#discovery-by-clients
+		if (json && json['indieauth-metadata']) {
+			metadataURL = json['indieauth-metadata']
+		}
+		if (!metadataURL) {
+			metadataURL = absoluteURL(getRelURL($, 'indieauth-metadata'), urlString)
+		}
+		if (metadataURL) {
+			try {
+				const res = await fetch(metadataURL)
+				json = await res.json()
+			} catch (err) {
+				const message = `Could not retrieve metadata from ${metadataURL} ${err && err.message}`
+				console.error('[ERROR]', message)
+				return Response.error(Error.INVALID, message)
 			}
-
-			if (json && json['indieauth-metadata']) {
-				metadataURL = json['indieauth-metadata']
-			}
-
-			if (metadataURL) {
-				try {
-					const res = await fetch(metadataURL)
-					json = await res.json()
-				} catch (err) {
-					const original = err && err.message
-					const message = `Could not retrieve metadata from ${metadataURL} ${original}`
-					console.error('[ERROR]', message)
-					return Response.error(Error.INVALID, message)
-				}
-			} else {
-				json = {
-					'authorization_endpoint': absoluteURL(getRelURL($, 'authorization_endpoint'), urlString),
-					'token_endpoint': absoluteURL(getRelURL($, 'token_endpoint'), urlString),
-				}
+		} else {
+			json = {
+				'authorization_endpoint': absoluteURL(getRelURL($, 'authorization_endpoint'), urlString),
+				'token_endpoint': absoluteURL(getRelURL($, 'token_endpoint'), urlString),
 			}
 		}
-
 		if (json) {
 			json['micropub'] = absoluteURL(getRelURL($, 'micropub'), urlString)
 		}
