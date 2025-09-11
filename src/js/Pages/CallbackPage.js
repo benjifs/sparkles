@@ -20,11 +20,10 @@ const CallbackPage = {
 			if (params.state != state) throw new Error('"state" value does not match')
 			if (!params.code) throw new Error('missing "code" param')
 
-			// From the spec, this should be checked and fail
-			// to support legacy, skip this check for now
+			// RFC9207 - https://www.rfc-editor.org/rfc/rfc9207
 			/* eslint-disable camelcase */
-			// const authorization_endpoint = Store.getSession('authorization_endpoint')
-			// if (params.iss != authorization_endpoint) throw new Error('"iss" does not match "authorization_endpoint"')
+			const authorization_endpoint = Store.getSession('authorization_endpoint')
+			if (params.iss && params.iss != authorization_endpoint) throw new Error('"iss" does not match "authorization_endpoint"')
 
 			// https://indieauth.spec.indieweb.org/#redeeming-the-authorization-code
 			const { access_token, scope, token_type } = await Proxy.validate(params)
