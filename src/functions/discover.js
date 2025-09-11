@@ -26,7 +26,9 @@ exports.handler = async e => {
 			const parsedLink = LinkHeader.parse(link)
 			if (Array.isArray(parsedLink?.refs)) {
 				json = parsedLink.refs.reduce((map, obj) => {
-					map[obj.rel] = absoluteURL(obj.uri, urlString)
+					// http-link-header does not remove single quotes in key
+					const key = obj.rel.replace(/^['"]|['"]$/g, '')
+					map[key] = absoluteURL(obj.uri, urlString)
 					return map
 				}, {})
 			}
@@ -49,7 +51,7 @@ exports.handler = async e => {
 				console.error('[ERROR]', message)
 				return Response.error(Error.INVALID, message)
 			}
-		} else {
+		} else if (!json['authorization_endpoint'] && !json['token_endpoint']) {
 			json = {
 				'authorization_endpoint': absoluteURL(getRelURL($, 'authorization_endpoint'), urlString),
 				'token_endpoint': absoluteURL(getRelURL($, 'token_endpoint'), urlString),
