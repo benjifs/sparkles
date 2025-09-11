@@ -14,16 +14,23 @@ const sha256 = plain => {
 	return window.crypto.subtle.digest('SHA-256', data)
 }
 
-const toBase64Url = str => Buffer.from(str)
-	.toString('base64')
-	.replace(/\+/g, '-')
-	.replace(/\//g, '_')
-	.replace(/=+$/, '')
+const base64 = a => {
+	let str = ''
+	const bytes = new Uint8Array(a)
+	for (const b of bytes) {
+		str += String.fromCharCode(b)
+	}
+
+	return window.btoa(str)
+		.replace(/\+/g, '-')
+		.replace(/\//g, '_')
+		.replace(/=+$/, '')
+}
 
 const generateCodeChallenge = async (method, verifier) => {
 	if (method === 'plain') return verifier
 	const hashed = await sha256(verifier)
-	return toBase64Url(hashed)
+	return base64(hashed)
 }
 
 const getCodeChallengeMethod = supported => {

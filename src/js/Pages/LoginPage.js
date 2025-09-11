@@ -72,6 +72,10 @@ const Login = () => {
 		window.location.href = '/home'
 	}
 
+	const checkURL = url => {
+		if (!~url.indexOf('http')) urlString = `http://${url}`
+	}
+
 	Store.clearSession()
 	Store.clearCache()
 
@@ -84,6 +88,7 @@ const Login = () => {
 						type: 'url',
 						placeholder: 'https://',
 						oninput: e => urlString = e.target.value,
+						onblur: e => checkURL(e.target.value),
 						value: urlString
 					}),
 					m('button', {
