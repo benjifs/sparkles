@@ -36,6 +36,7 @@ const AboutPage = {
 				'Source Code and Issues: ',
 				m('a.icon', { href: 'https://github.com/benjifs/sparkles', target: '_blank' }, m('i.fab.fa-github', { title: 'Github' }))
 			]),
+			m('a', { href: 'https://github.com/benjifs/sparkles/blob/main/CHANGELOG.md' }, 'Changelog'),
 			m('p', [
 				'By ',
 				m('a', { href: 'https://benji.dog', target: '_blank' }, 'benji')
