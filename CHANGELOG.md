@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.15.1
+_released `2025-09-10`_
+* Fix for [RFC9207](https://www.rfc-editor.org/rfc/rfc9207)
+* Handle URL without scheme for authentication
+* Fix issue where [http-link-header](https://www.npmjs.com/package/http-link-header) is keeping single quotes in keys
+
+...
+
 ## 0.11.1
 _released `2024-09-11`_
 * Use `editions` to get a valid cover image from openlibrary
