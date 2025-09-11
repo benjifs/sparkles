@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.15.2
+_released `2025-09-11`_
+* Check `issuer` instead of `authorization_endpoint` for [RFC9207](https://www.rfc-editor.org/rfc/rfc9207)
+
 ## 0.15.1
 _released `2025-09-10`_
 * Fix for [RFC9207](https://www.rfc-editor.org/rfc/rfc9207)
