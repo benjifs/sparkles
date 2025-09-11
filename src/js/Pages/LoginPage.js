@@ -73,7 +73,7 @@ const Login = () => {
 	}
 
 	const checkURL = url => {
-		if (!~url.indexOf('http')) urlString = `http://${url}`
+		if (url && !~url.indexOf('http')) urlString = `http://${url}`
 	}
 
 	Store.clearSession()
