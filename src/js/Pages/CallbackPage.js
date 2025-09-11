@@ -22,8 +22,8 @@ const CallbackPage = {
 
 			// RFC9207 - https://www.rfc-editor.org/rfc/rfc9207
 			/* eslint-disable camelcase */
-			const authorization_endpoint = Store.getSession('authorization_endpoint')
-			if (params.iss && params.iss != authorization_endpoint) throw new Error('"iss" does not match "authorization_endpoint"')
+			const issuer = Store.getSession('issuer')
+			if (params.iss && params.iss != issuer) throw new Error('"iss" does not match "issuer"')
 
 			// https://indieauth.spec.indieweb.org/#redeeming-the-authorization-code
 			const { access_token, scope, token_type } = await Proxy.validate(params)

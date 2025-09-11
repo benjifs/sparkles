@@ -33,12 +33,12 @@ const Login = () => {
 			const data = await Proxy.discover(url)
 
 			/* eslint-disable camelcase */
-			const { authorization_endpoint, token_endpoint, code_challenge_methods_supported, micropub } = data
+			const { issuer, authorization_endpoint, token_endpoint, code_challenge_methods_supported, micropub } = data
 			if (!(authorization_endpoint && token_endpoint && micropub)) throw Error(`Missing rels for ${url}`)
 
 			const state = generateRandomString(23)
 			const verifier = generateRandomString(56)
-			Store.setSession({ authorization_endpoint, token_endpoint, micropub, me: url, state, verifier })
+			Store.setSession({ issuer, authorization_endpoint, token_endpoint, micropub, me: url, state, verifier })
 
 			// https://indieauth.spec.indieweb.org/#authorization-request
 			const code_challenge_method = getCodeChallengeMethod(code_challenge_methods_supported)
