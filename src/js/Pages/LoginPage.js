@@ -46,7 +46,7 @@ const Login = () => {
 
 			const params = new URLSearchParams({
 				'response_type': 'code',
-				'client_id': `${CLIENT}/`,
+				'client_id': `${CLIENT}/id`,
 				'redirect_uri': `${CLIENT}/callback`,
 				'state': state,
 				'code_challenge': code_challenge,

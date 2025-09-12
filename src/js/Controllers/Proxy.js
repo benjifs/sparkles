@@ -25,7 +25,7 @@ const Proxy = {
 				params: {
 					'token_endpoint': session.token_endpoint,
 					'code': code,
-					'client_id': `${CLIENT}/`,
+					'client_id': `${CLIENT}/id`,
 					'redirect_uri': `${CLIENT}/callback`,
 					...(session.verifier && { 'code_verifier': session.verifier })
 				}

@@ -21,10 +21,10 @@ const CallbackPage = {
 			if (!params.code) throw new Error('missing "code" param')
 
 			// RFC9207 - https://www.rfc-editor.org/rfc/rfc9207
-			/* eslint-disable camelcase */
 			const issuer = Store.getSession('issuer')
 			if (params.iss && params.iss != issuer) throw new Error('"iss" does not match "issuer"')
 
+			/* eslint-disable camelcase */
 			// https://indieauth.spec.indieweb.org/#redeeming-the-authorization-code
 			const { access_token, scope, token_type } = await Proxy.validate(params)
 			// https://indieauth.spec.indieweb.org/#access-token-response

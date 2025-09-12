@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.15.4
+_released `2025-09-12`_
+* Add [sparkles.sploot.com/id](https://sparkles.sploot.com/id) to publish an [OAuth Client ID Metadata Document](https://datatracker.ietf.org/doc/html/draft-parecki-oauth-client-id-metadata-document).
+
 ## 0.15.3
 _released `2025-09-11`_
 * Check `issuer` instead of `authorization_endpoint` for [RFC9207](https://www.rfc-editor.org/rfc/rfc9207)
