@@ -62,10 +62,6 @@ section {
 	margin: .5em;
 }
 
-[role="button"], button {
-	cursor: pointer;
-}
-
 input, textarea {
 	&::placeholder {
 		opacity: .5;

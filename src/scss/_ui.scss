@@ -112,7 +112,6 @@ textarea, input, select {
 }
 
 input[type="checkbox"] {
-	cursor: inherit;
 	width: auto;
 }
 
@@ -173,7 +172,6 @@ button {
 }
 
 a {
-	cursor: pointer;
 	i {
 		color: var(--sprk-icon-link);
 	}
@@ -233,9 +231,6 @@ details {
 		}
 	}
 }
-summary {
-	cursor: pointer;
-}
 
 h5 {
 	margin: 0.5rem 0;
@@ -245,7 +240,6 @@ h5 {
 }
 
 label, .label {
-	cursor: pointer;
 	display: flex;
 	align-content: center;
 	justify-content: space-between;
@@ -259,7 +253,6 @@ label, .label {
 		text-align: left;
 		margin: 0 auto;
 		padding: .4rem;
-		cursor: pointer;
 		border: 1px solid var(--sprk-bg-color);
 		@include mixin.transition(border-color .3s ease-in-out);
 		img, div {
