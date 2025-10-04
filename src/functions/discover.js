@@ -51,14 +51,14 @@ exports.handler = async e => {
 				console.error('[ERROR]', message)
 				return Response.error(Error.INVALID, message)
 			}
-		} else if (!json['authorization_endpoint'] && !json['token_endpoint']) {
+		} else if (!json?.authorization_endpoint && !json?.token_endpoint) {
 			json = {
 				'authorization_endpoint': absoluteURL(getRelURL($, 'authorization_endpoint'), urlString),
 				'token_endpoint': absoluteURL(getRelURL($, 'token_endpoint'), urlString),
 			}
 		}
 		if (json) {
-			json['micropub'] = absoluteURL(getRelURL($, 'micropub'), urlString)
+			json.micropub = absoluteURL(getRelURL($, 'micropub'), urlString)
 		}
 
 		for (const k of requiredRels) {
