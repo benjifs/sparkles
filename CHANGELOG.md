@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.15.6
+_released `2025-10-07`_
+* Fix checking `iss` when `issuer` is not present in metadata or metadata is not
+defined.
+* On LoginPage, add `https://` to URL if it's missing on <kbd>Enter</kbd>.
+
+## 0.15.5
+_released `2025-10-04`_
+* Fixed typo that was preventing parsing `auth-endpoint` and `token-endpoint` if
+`indieauth-metadata` does not exist.
+* Remove setting `cursor` in css
+
 ## 0.15.4
 _released `2025-09-12`_
 * Add [sparkles.sploot.com/id](https://sparkles.sploot.com/id) to publish an [OAuth Client ID Metadata Document](https://datatracker.ietf.org/doc/html/draft-parecki-oauth-client-id-metadata-document).
