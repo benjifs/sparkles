@@ -22,7 +22,8 @@ const CallbackPage = {
 
 			// RFC9207 - https://www.rfc-editor.org/rfc/rfc9207
 			const issuer = Store.getSession('issuer')
-			if (params.iss && params.iss != issuer) throw new Error('"iss" does not match "issuer"')
+			if (!issuer && params.iss) console.warn('"issuer" is missing from metadata but "iss" is returned from authorization-endpoint')
+			if (issuer && params.iss && params.iss != issuer) throw new Error('"iss" does not match "issuer"')
 
 			/* eslint-disable camelcase */
 			// https://indieauth.spec.indieweb.org/#redeeming-the-authorization-code
