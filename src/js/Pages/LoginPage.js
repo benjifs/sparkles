@@ -23,7 +23,7 @@ const Login = () => {
 	const canSubmitAdvanced = () => state.micropubURL && state.micropubURL.trim() !== '' && state.accessToken && state.accessToken.trim() !== ''
 
 	const onLogin = async e => {
-		e && e.preventDefault()
+		e?.preventDefault()
 		loading = true
 
 		try {
@@ -72,7 +72,7 @@ const Login = () => {
 		window.location.href = '/home'
 	}
 
-	const checkURL = url => {
+	const addScheme = url => {
 		if (url && !~url.indexOf('http')) urlString = `https://${url}`
 	}
 
@@ -88,7 +88,16 @@ const Login = () => {
 						type: 'url',
 						placeholder: 'https://',
 						oninput: e => urlString = e.target.value,
-						onblur: e => checkURL(e.target.value),
+						onkeydown: e => {
+							if (e?.keyCode === 13) {
+								addScheme(urlString)
+								// Need to manually trigger submit here since submit
+								// is triggering before the value is set so validation
+								// for type=url fails
+								onLogin(e)
+							}
+						},
+						onblur: e => addScheme(e.target.value),
 						value: urlString
 					}),
 					m('button', {
