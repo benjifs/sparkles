@@ -1,5 +1,6 @@
 import m from 'mithril'
 
+import Icon from './Icon'
 import Store from '../Models/Store'
 
 const Footer = () => {
@@ -26,19 +27,19 @@ const Footer = () => {
 					href: '/settings',
 					disabled: ['/settings'].includes(m.route.get())
 				}, [
-					m('i.fas.fa-gear', { title: 'settings' })
+					m(Icon, { name: 'gear', label: 'settings' })
 				]),
 				m('a.icon', { onclick: toggleTheme }, theme === 'light' ?
-					m('i.fas.fa-moon', { title: 'dark mode' })
+					m(Icon, { name: 'moon', label: 'dark mode' })
 					:
-					m('i.fas.fa-sun', { title: 'light mode' })
+					m(Icon, { name: 'sun', label: 'light mode' })
 				),
 				m(m.route.Link, {
 					class: 'icon',
 					href: '/about',
 					disabled: ['/about'].includes(m.route.get())
 				}, [
-					m('i.far.fa-circle-question', { title: 'about' })
+					m(Icon, { name: 'question', label: 'about' })
 				])
 			])
 	}

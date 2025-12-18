@@ -2,6 +2,7 @@ import m from 'mithril'
 
 import Alert from '../Components/Alert'
 import { Box } from '../Components/Box'
+import Icon from '../Components/Icon'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
 import { canonicalURL } from '../utils'
@@ -103,7 +104,7 @@ const Login = () => {
 					m('button', {
 						type: 'submit',
 						disabled: !canSubmit() || loading
-					}, loading ? m('i.fas.fa-spinner.fa-spin') : 'login')
+					}, loading ? m(Icon, { name: 'spinner', className: 'spin'})  : 'login')
 				]),
 				DEV && m('form', { onsubmit: advancedLogin },
 					m('details', [
@@ -124,7 +125,7 @@ const Login = () => {
 							m('button', {
 								type: 'submit',
 								disabled: !canSubmitAdvanced() || state.loading
-							}, state.loading ? m('i.fas.fa-spinner.fa-spin') : 'login'),
+							}, state.loading ? m(Icon, { name: 'spinner', className: 'spin' }) : 'login'),
 						])
 					])
 				)

@@ -1,5 +1,6 @@
 import m from 'mithril'
 
+import Icon from '../Components/Icon'
 import SyndicateToOptions from './SyndicateToOptions'
 
 const AdvancedOptions = {
@@ -10,8 +11,11 @@ const AdvancedOptions = {
 				m('li', m('label', [
 					m('span', [
 						'slug ',
-						m('a', { href: 'https://indieweb.org/Micropub-extensions#Slug', target: '_blank' },
-							m('i.far.fa-circle-question', { title: 'experimental property to suggest a slug to the micropub endpoint' })),
+						m('a', {
+							href: 'https://indieweb.org/Micropub-extensions#Slug',
+							target: '_blank',
+							title: 'experimental property to suggest a slug to the micropub endpoint',
+						}, m(Icon, { name: 'question' }))
 					]),
 					m('input.w200', {
 						type: 'text',

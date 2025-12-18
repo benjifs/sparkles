@@ -3,6 +3,7 @@ import m from 'mithril'
 import Alert from '../Components/Alert'
 import { Box } from '../Components/Box'
 import Gallery from '../Components/Gallery'
+import Icon from '../Components/Icon'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
 import { currentTime } from '../utils'
@@ -59,7 +60,7 @@ const ImageEditor = () => {
 		view: () =>
 			m(Box, {
 				className: '.text-center',
-				icon: '.far.fa-image',
+				icon: 'image',
 				title: 'Image'
 			}, m('form',
 				mediaEndpoint ? [
@@ -75,9 +76,9 @@ const ImageEditor = () => {
 								type: 'button',
 								onclick: uploadImage,
 								disabled: loading
-							}, loading ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : [
+							}, loading ? m(Icon, { name: 'spinner', className: 'spin' }) : [
 								'upload',
-								m('i.fas.fa-upload', { 'aria-hidden': 'true' })
+								m(Icon, { name: 'upload'}),
 							])
 						])
 					]),

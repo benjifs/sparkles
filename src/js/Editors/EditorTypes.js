@@ -1,7 +1,7 @@
 export default {
 	Note: {
 		title: 'Note',
-		icon: '.far.fa-note-sticky',
+		icon: 'note',
 		components: [
 			// SAMPLE
 			// { type: 'content', label: 'change label', required: true }
@@ -11,7 +11,7 @@ export default {
 	},
 	Photo: {
 		title: 'Photo',
-		icon: '.far.fa-image',
+		icon: 'image',
 		components: [
 			{ type: 'photo', required: true },
 			{ type: 'name' },
@@ -21,7 +21,7 @@ export default {
 	},
 	Article: {
 		title: 'Article',
-		icon: '.fas.fa-newspaper',
+		icon: 'article',
 		components: [
 			{ type: 'name', required: true },
 			{ type: 'content', required: true },
@@ -30,7 +30,7 @@ export default {
 	},
 	Bookmark: {
 		title: 'Bookmark',
-		icon: '.far.fa-bookmark',
+		icon: 'bookmark-simple',
 		components: [
 			{ type: 'bookmark-of', required: true, label: 'Bookmark of', search: true },
 			{ type: 'name', required: true },
@@ -40,7 +40,7 @@ export default {
 	},
 	Reply: {
 		title: 'Reply',
-		icon: '.fas.fa-reply',
+		icon: 'arrow-bend-up-left',
 		components: [
 			{ type: 'in-reply-to', required: true, label: 'Reply to' },
 			{ type: 'content', required: true },
@@ -49,7 +49,7 @@ export default {
 	},
 	RSVP: {
 		title: 'RSVP',
-		icon: '.far.fa-calendar-check',
+		icon: 'calendar-check',
 		components: [
 			{ type: 'in-reply-to', required: true, label: 'RSVP to' },
 			{ type: 'rsvp', required: true },
@@ -59,7 +59,7 @@ export default {
 	},
 	Like: {
 		title: 'Like',
-		icon: '.fas.fa-heart',
+		icon: 'heart',
 		components: [
 			{ type: 'like-of', required: true, label: 'Like of', search: true },
 			{ type: 'name' },

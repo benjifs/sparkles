@@ -2,6 +2,7 @@ import m from 'mithril'
 
 import Alert from '../Components/Alert'
 import { Box } from '../Components/Box'
+import Icon from '../Components/Icon'
 import EntryPreview from './EntryPreview'
 import AdvancedOptions from './AdvancedOptions'
 import Proxy from '../Controllers/Proxy'
@@ -111,7 +112,7 @@ const Editor = ({ attrs }) => {
 	return {
 		view: () =>
 			m(Box, {
-				icon: attrs.icon, // '.far.fa-note-sticky',
+				icon: attrs.icon, // 'note',
 				title: postType?.name || attrs.title // 'Note'
 			}, m('form', {
 				onsubmit: post
@@ -140,8 +141,8 @@ const Editor = ({ attrs }) => {
 									selector: 'button.xs',
 									href: '/new/image',
 									disabled: !mediaEndpoint,
-									title: !mediaEndpoint ? 'media-endpoint not found' : ''
-								}, m('i.fas.fa-cloud-arrow-up', { title: 'upload' }))
+									title: !mediaEndpoint ? 'media-endpoint not found' : 'upload'
+								}, m(Icon, { name: 'cloud-arrow-up', label: 'upload' }))
 							]),
 							m('li', m('input', {
 								type: 'text',
@@ -216,7 +217,7 @@ const Editor = ({ attrs }) => {
 				m('div.text-center', m('button', {
 					type: 'submit',
 					disabled: state.submitting
-				}, state.submitting ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : 'Post')),
+				}, state.submitting ? m(Icon, { name: 'spinner', clasName: 'spin' }) : 'Post')),
 				m(EntryPreview, { buildPreview: buildEntry })
 			]))
 	}

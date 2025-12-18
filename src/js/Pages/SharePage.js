@@ -22,7 +22,7 @@ const SharePage = () => {
 		view: () =>
 			m(Box, {
 				className: '.text-center',
-				icon: '.fas.fa-share-nodes',
+				icon: 'share-network',
 				title: 'Share Target'
 			}, [
 				m('p', [
