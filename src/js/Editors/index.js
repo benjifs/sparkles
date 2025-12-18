@@ -177,17 +177,21 @@ const Editor = ({ attrs }) => {
 									onclick: async (e) => {
 										e && e.preventDefault()
 										state.fetching = true
-										const res = await m
-											.request({
-												method: 'GET',
-												url: '/api/opengraph',
-												params: { url: state[c.type] }
-											})
-										state.name = res.title
+										try {
+											const res = await m
+												.request({
+													method: 'GET',
+													url: '/api/opengraph',
+													params: { url: state[c.type] }
+												})
+											state.name = res.title
+										} catch(err) {
+											Alert.error(err)
+										}
 										state.fetching = false
 									},
-									disabled: state.fetching
-								}, state.fetching ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : m('i.fas.fa-search'))
+									disabled: !state[c.type] || state.fetching
+								}, state.fetching ? m(Icon, { name: 'spinner', className: 'spin' }) : m(Icon, { name: 'magnifying-glass', label: 'get page title' }))
 							])
 						])
 					case 'rsvp':
