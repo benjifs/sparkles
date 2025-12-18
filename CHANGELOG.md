@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.16.0
+_ released `2025-12-18`_
+* Replaced FontAwesome with Phosphor Icons
+* Fix Bookmark title fetch
+* Update dependencies
+
 ## 0.15.6
 _released `2025-10-07`_
 * Fix checking `iss` when `issuer` is not present in metadata or metadata is not

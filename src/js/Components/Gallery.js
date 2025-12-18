@@ -1,5 +1,6 @@
 import m from 'mithril'
 
+import Icon from './Icon'
 import { fetchMediaSource } from '../Controllers/Helpers'
 import Store from '../Models/Store'
 
@@ -25,11 +26,11 @@ const Gallery = () => {
 		oninit: () => loadGallery(),
 		view: () => {
 			if (!mediaEndpoint) return null
-			if (loading && !images.length) return m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' })
+			if (loading && !images.length) return m(Icon, { name: 'spinner', className: 'spin' })
 			if (cache.mediaFetched < 0) return m('h5', [
 				'q=source for media-endpoint not found ',
 				m('a', { href: 'https://github.com/indieweb/micropub-extensions/issues/14', target: '_blank' },
-					m('i.far.fa-circle-question', { title: 'media endpoint source discussion' }))
+					m(Icon, { name: 'question', label: 'media endpoint source discussion' }))
 			])
 
 			return [
@@ -38,9 +39,9 @@ const Gallery = () => {
 					type: 'button',
 					onclick: () => loadGallery(true)
 				}, loading ?
-					m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' })
+					m(Icon, { name: 'spinner', className: 'spin' })
 					:
-					m('i.fas.fa-rotate-right')),
+					m(Icon, { name: 'arrow-clockwise', label: 'refresh' })),
 				m('.sp-gallery', [
 					images.slice(0, (page + 1) * PAGE_SIZE).map(i =>
 						m(m.route.Link, { class: 'icon', href: `/new/photo?image=${i.url}` }, m('img', { src: i.url })))

@@ -1,6 +1,7 @@
 import m from 'mithril'
 
 import { Box } from '../Components/Box'
+import Icon from '../Components/Icon'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
 
@@ -44,7 +45,7 @@ const SuccessPage = () => {
 					'Post is not live. ',
 					count >= MAX_CHECKS && 'Exceeded amount of automatic checks. Post might be taking longer to show up.',
 					count < MAX_CHECKS && `Checking again in ${RETRY_TIMEOUT} seconds `,
-					count < MAX_CHECKS && m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' })
+					count < MAX_CHECKS && m(Icon, { name: 'spinner', className: 'spin' }),
 				]),
 				m(m.route.Link, { href: '/home' }, 'Go home')
 			])

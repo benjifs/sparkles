@@ -1,6 +1,7 @@
 import m from 'mithril'
 
 import { Box } from '../Components/Box'
+import Icon from '../Components/Icon'
 import { fetchMicropubConfig, fetchMediaSource } from '../Controllers/Helpers'
 import Store from '../Models/Store'
 
@@ -57,7 +58,7 @@ const SettingsPage = () => {
 	return {
 		view: () =>
 			m(Box, {
-				icon: '.fas.fa-gear',
+				icon: 'gear',
 				title: 'Settings'
 			}, [
 				m('ul', [
@@ -65,7 +66,7 @@ const SettingsPage = () => {
 						m('span', `Config loaded: ${formatDate(micropubConfigFetched)}`),
 						m('button', { onclick: loadMicropubConfig }, [
 							'refresh',
-							state.loadingMicropub && m('i.fas.fa-spinner.fa-spin')
+							state.loadingMicropub && m(Icon, { name: 'spinner', className: 'spin' })
 						])
 					]),
 					!mediaEndpoint && m('li',
@@ -83,7 +84,7 @@ const SettingsPage = () => {
 						]),
 						m('button', { onclick: loadMediaSource }, [
 							'refresh',
-							state.loadingMedia && m('i.fas.fa-spinner.fa-spin')
+							state.loadingMedia && m(Icon, { name: 'spinner', className: 'spin' })
 						])
 					]),
 					mediaEndpoint && mediaFetched != 0 && m('li', m('div', [
@@ -91,7 +92,7 @@ const SettingsPage = () => {
 						mediaFetched > 0 && ' is available ',
 						mediaFetched < 0 && ' is not available ',
 						m('a', { href: 'https://github.com/indieweb/micropub-extensions/issues/14', target: '_blank' },
-							m('i.far.fa-circle-question', { title: 'media endpoint source discussion' }))
+							m(Icon, { name: 'question', label: 'media endpoint source discussion' }))
 					])),
 					syndicateTargets && syndicateTargets.length > 0 && [
 						m('li', m('h5', 'Syndication Targets')),

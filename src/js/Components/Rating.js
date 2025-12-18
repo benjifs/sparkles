@@ -1,5 +1,14 @@
 import m from 'mithril'
 
+import Icon from './Icon'
+
+const StarIcon = {
+	view: () => m(Icon, { name: 'star', width: 24, height: 24 })
+}
+const StarHalfIcon = {
+	view: () => m(Icon, { name: 'star-half', width: 12, height: 24 })
+}
+
 // Starting point:
 // https://codepen.io/andreacrawford/pen/NvqJXW
 const Rating = {
@@ -9,7 +18,7 @@ const Rating = {
 				m('label.clear-rating', {
 					title: 'clear',
 					for: 'rating-0'
-				}, m('i.fas.fa-xmark', { title: 'clear' })),
+				}, m(Icon, { name: 'xmark', label: 'clear' })),
 				m('input', {
 					id: 'rating-0',
 					type: 'radio',
@@ -25,7 +34,7 @@ const Rating = {
 						title: `${r} stars`,
 						class: r % 1 === 0 ? 'full' : 'half',
 						for: `rating-${r}`
-					}, m('i.fas' + (r % 1 === 0 ? '.fa-star' : '.fa-star-half'))),
+					}, r % 1 === 0 ? m(StarIcon) : m(StarHalfIcon)),
 					m('input', {
 						id: `rating-${r}`,
 						type: 'radio',

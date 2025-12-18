@@ -1,6 +1,7 @@
 import m from 'mithril'
 
 import { Box } from '../Components/Box'
+import Icon from '../Components/Icon'
 import { fetchMicropubConfig } from '../Controllers/Helpers'
 import Tiles from '../Editors/Tiles'
 import Store from '../Models/Store'
@@ -23,7 +24,7 @@ const HomePage = () => {
 					'Logged in as ',
 					m('a', { href: me || micropub }, me || micropub),
 					' ',
-					m(m.route.Link, { class: 'icon', href: '/logout' }, m('i.fas.fa-right-from-bracket', { title: 'logout' }))
+					m(m.route.Link, { class: 'icon', href: '/logout' }, m(Icon, { name: 'sign-out', label: 'logout' }))
 				])
 			])
 		]

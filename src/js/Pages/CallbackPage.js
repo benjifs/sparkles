@@ -1,6 +1,7 @@
 import m from 'mithril'
 
 import Alert from '../Components/Alert'
+import Icon from '../Components/Icon'
 import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
 
@@ -40,7 +41,7 @@ const CallbackPage = {
 	view: () =>
 		m('p', [
 			'Validating token ',
-			m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' })
+			m(Icon, { name: 'spinner', className: 'spin' }),
 		])
 }
 

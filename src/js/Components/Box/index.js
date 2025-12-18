@@ -1,17 +1,17 @@
 import m from 'mithril'
 
+import Icon from '../Icon'
+
 const BoxHeader = {
 	closeButton: () =>
 		m('button', {
 			onclick: () => history.length <= 2 ? m.route.set('/') : history.back()
-		}, [
-			m('i.fas.fa-xmark', { title: 'close' })
-		]),
+		}, m(Icon, { name: 'xmark', label: 'close' })),
 	view: ({ attrs }) =>
 		m('.sp-box-header', [
 			BoxHeader.closeButton(),
 			m('span.sp-box-header-title', [
-				attrs.icon && m(`i${attrs.icon}`, { 'aria-hidden': 'true' }),
+				attrs.icon && m(Icon, { name: attrs.icon }),
 				attrs.title && m('span', ` ${attrs.title}`)
 			]),
 			BoxHeader.closeButton()

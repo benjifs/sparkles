@@ -1,11 +1,12 @@
 import m from 'mithril'
 
+import Icon from '../Components/Icon'
 import Tile from '../Components/Tile'
 
 const NoteTile = {
 	view: ({ attrs }) => m(Tile, {
 		href: '/new/note',
-		icon: '.far.fa-note-sticky',
+		icon: 'note',
 		name: attrs?.name || 'Note'
 	})
 }
@@ -13,7 +14,7 @@ const NoteTile = {
 const ArticleTile = {
 	view: ({ attrs }) => m(Tile, {
 		href: '/new/article',
-		icon: '.fas.fa-newspaper',
+		icon: 'article',
 		name: attrs?.name || 'Article'
 	})
 }
@@ -22,7 +23,7 @@ const LikeTile = {
 	view: ({ attrs }) =>
 		m(Tile, {
 			href: `/new/like${attrs.params ? '?' + attrs.params : ''}`,
-			icon: '.fas.fa-heart',
+			icon: 'heart',
 			name: attrs?.name || 'Like'
 		})
 }
@@ -31,7 +32,7 @@ const ReplyTile = {
 	view: ({ attrs }) =>
 		m(Tile, {
 			href: `/new/reply${attrs.params ? '?' + attrs.params : ''}`,
-			icon: '.fas.fa-reply',
+			icon: 'arrow-bend-up-left',
 			name: attrs?.name || 'Reply'
 		})
 }
@@ -39,7 +40,7 @@ const ReplyTile = {
 const PhotoTile = {
 	view: () => m(Tile, {
 		href: '/new/photo',
-		icon: '.far.fa-image',
+		icon: 'image',
 		name: 'Photo'
 	})
 }
@@ -47,7 +48,7 @@ const PhotoTile = {
 const RSVPTile = {
 	view: ({ attrs }) => m(Tile, {
 		href: `/new/rsvp${attrs.params ? '?' + attrs.params : ''}`,
-		icon: '.far.fa-calendar-check',
+		icon: 'calendar-check',
 		name: attrs?.name || 'RSVP'
 	})
 }
@@ -56,7 +57,7 @@ const BookmarkTile = {
 	view: ({ attrs }) =>
 		m(Tile, {
 			href: `/new/bookmark${attrs.params ? '?' + attrs.params : ''}`,
-			icon: '.far.fa-bookmark',
+			icon: 'bookmark-simple',
 			name: attrs?.name || 'Bookmark'
 		})
 }
@@ -64,7 +65,7 @@ const BookmarkTile = {
 const MovieTile = {
 	view: ({ attrs }) => m(Tile, {
 		href: '/new/movie',
-		icon: '.fas.fa-film',
+		icon: 'film-strip',
 		name: attrs?.name || 'Movie'
 	})
 }
@@ -72,7 +73,7 @@ const MovieTile = {
 const BookTile = {
 	view: ({ attrs }) => m(Tile, {
 		href: '/new/book',
-		icon: '.fas.fa-book',
+		icon: 'books',
 		name: attrs?.name || 'Book'
 	})
 }
@@ -80,7 +81,7 @@ const BookTile = {
 const ListenTile = {
 	view: ({ attrs }) => m(Tile, {
 		href: '/new/listen',
-		icon: '.fas.fa-music',
+		icon: 'music-notes',
 		name: attrs?.name || 'Listen'
 	})
 }
@@ -88,7 +89,7 @@ const ListenTile = {
 const GameTile = {
 	view: ({ attrs }) => m(Tile, {
 		href: '/new/game',
-		icon: '.fas.fa-gamepad',
+		icon: 'game-controller',
 		name: attrs?.name || 'Game'
 	})
 }
@@ -124,8 +125,11 @@ const Tiles = (types, defaultTiles, params) => {
 				m('h3', 'no available tiles'),
 				m('p', [
 					'unsupported post types ',
-					m('a', { href: 'https://github.com/indieweb/micropub-extensions/issues/1', target: '_blank' },
-						m('i.far.fa-circle-question', { title: 'query for supported vocabulary discussion' }))
+					m('a', {
+						href: 'https://github.com/indieweb/micropub-extensions/issues/1',
+						target: '_blank',
+						title: 'query for supported vocabulary discussion'
+					 }, m(Icon, { name: 'question', })),
 				])
 			]
 	}

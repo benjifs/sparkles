@@ -2,6 +2,7 @@ import m from 'mithril'
 
 import Alert from '../Components/Alert'
 import { Box } from '../Components/Box'
+import Icon from '../Components/Icon'
 import EntryPreview from './EntryPreview'
 import AdvancedOptions from './AdvancedOptions'
 import Rating from '../Components/Rating'
@@ -187,7 +188,7 @@ const MediaEditor = ({ attrs }) => {
 					})
 				]),
 				(state.searching || state.searched) && m('div.item-list.text-center', [
-					state.searching && m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }),
+					state.searching && m(Icon, { name: 'spinner', className: 'spin' }),
 					state.searched && search && search.length > 0 &&
 						search.map(md =>
 							m('div.item-tile', {
@@ -268,7 +269,7 @@ const MediaEditor = ({ attrs }) => {
 					m('div.text-center', m('button', {
 						type: 'submit',
 						disabled: state.submitting
-					}, state.submitting ? m('i.fas.fa-spinner.fa-spin', { 'aria-hidden': 'true' }) : 'Post')),
+					}, state.submitting ? m(Icon, { name: 'spinner', clasName: 'spin' }) : 'Post')),
 					m(EntryPreview, { buildPreview: buildEntry })
 				])
 			])
@@ -278,7 +279,7 @@ const MediaEditor = ({ attrs }) => {
 const EditorTypes = {
 	Movie: {
 		title: 'Movie',
-		icon: '.fas.fa-film',
+		icon: 'film-strip',
 		type: 'watch', // `post-type`
 		search: {
 			options: [ 'movie' ], // At least one option required. Must match valid search `type`
@@ -295,7 +296,7 @@ const EditorTypes = {
 	},
 	Book: {
 		title: 'Book',
-		icon: '.fas.fa-book',
+		icon: 'books',
 		type: 'read',
 		search: {
 			options: [ 'book' ],
@@ -310,7 +311,7 @@ const EditorTypes = {
 	},
 	Listen: {
 		title: 'Listen',
-		icon: '.fas.fa-music',
+		icon: 'music-notes',
 		type: 'listen',
 		search: {
 			options: [ 'artist', 'album', 'song' ]
@@ -334,7 +335,7 @@ const EditorTypes = {
 	},
 	Game: {
 		title: 'Game',
-		icon: '.fas.fa-gamepad',
+		icon: 'game-controller',
 		type: 'play',
 		search: {
 			options: [ 'game' ]
