@@ -14,50 +14,45 @@
 
 .rating-group {
 	display: inline-flex;
-	i {
-		pointer-events: none;
-	}
 	input {
 		display: none;
 	}
 	label {
-		padding: 0 0.1em;
-		font-size: 1.4rem;
+		padding: 0 2px;
 		&.half {
 			padding-right: 0;
-			margin-right: -0.6em;
+			margin-right: -14px;
 			z-index: 2;
-			width: .85rem;
 		}
 	}
 	label.clear-rating {
-		i {
-			color: var(--star-default);
+		svg {
+			fill: var(--star-default);
 		}
-		&:hover + input ~ label i {
-			color: var(--star-clear) !important;
+		&:hover + input ~ label svg {
+			fill: var(--star-clear) !important;
 		}
 	}
-	i {
-		color: var(--star-active);
+	svg {
+		fill: var(--star-active);
 	}
-	input:checked ~ label i {
-		color: var(--star-default);
+	input:checked ~ label svg {
+		fill: var(--star-default);
 	}
 	&:hover label {
 		&.clear-rating {
-			i {
-				color: var(--star-clear) !important;
+			svg {
+				fill: var(--star-clear) !important;
 			}
-			&:hover i {
-				color: var(--star-clear-hover) !important;
+			&:hover svg {
+				fill: var(--star-clear-hover) !important;
 			}
 		}
-		i {
-			color: var(--star-hover) !important;
+		svg {
+			fill: var(--star-hover) !important;
 		}
 	}
-	input:hover ~ label i {
-		color: var(--star-default) !important;
+	input:hover ~ label svg {
+		fill: var(--star-default) !important;
 	}
 }

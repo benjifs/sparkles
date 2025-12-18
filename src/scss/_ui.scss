@@ -34,7 +34,7 @@
 				pointer-events: none;
 			}
 			&:hover {
-				color: var(--sprk-fg);
+				fill: var(--sprk-fg);
 				transform: initial;
 				box-shadow: initial;
 			}
@@ -47,6 +47,7 @@
 	.sp-box-content {
 		padding: 1em;
 		p { text-wrap: wrap }
+		button:hover svg { fill: var(--btn-hover-color) }
 	}
 }
 
@@ -61,10 +62,6 @@
 		justify-content: center;
 		aspect-ratio: 1 / 1;
 		letter-spacing: 1px;
-		i {
-			font-size: 1.3em;
-			padding-bottom: .4em;
-		}
 	}
 }
 
@@ -151,12 +148,13 @@ button {
 
 	letter-spacing: .3em;
 	&.xs {
-		padding: .5rem .75rem;
+		padding: .35rem .75rem;
 		margin-left: .25rem;
 	}
 	&:hover {
 		background: var(--btn-hover-bg);
 		color: var(--btn-hover-color);
+		// svg { fill: var(--btn-hover-color) }
 	}
 
 	&:disabled {
@@ -165,20 +163,16 @@ button {
 		pointer-events: none;
 		opacity: .7;
 	}
-
-	i {
-		letter-spacing: initial;
-	}
 }
 
 a {
-	i {
-		color: var(--sprk-icon-link);
+	svg {
+		fill: var(--sprk-icon-link);
 	}
 	&[disabled] {
 		pointer-events: none;
-		i {
-			color: var(--sprk-disabled);
+		svg {
+			fill: var(--sprk-disabled);
 		}
 	}
 }
