@@ -1,5 +1,7 @@
 import m from 'mithril'
 
+import Icon from './Icon'
+
 const Tile = {
 	view: ({ attrs }) =>
 		m(m.route.Link, {
@@ -8,7 +10,7 @@ const Tile = {
 			disabled: attrs.disabled || false
 		}, [
 			m('div', [
-				m(`i.${attrs.icon}`, { 'aria-hidden': 'true' }),
+				attrs.icon ? m(Icon, { name: attrs.icon }) : null,
 				m('div', attrs.name)
 			])
 		])
