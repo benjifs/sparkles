@@ -269,7 +269,7 @@ const MediaEditor = ({ attrs }) => {
 					m('div.text-center', m('button', {
 						type: 'submit',
 						disabled: state.submitting
-					}, state.submitting ? m(Icon, { name: 'spinner', clasName: 'spin' }) : 'Post')),
+					}, state.submitting ? m(Icon, { name: 'spinner', className: 'spin' }) : 'Post')),
 					m(EntryPreview, { buildPreview: buildEntry })
 				])
 			])
