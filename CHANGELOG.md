@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.17.1
+_released `2026-01-05`_
+* Fix IGDB `url`
+
 ## 0.17.0
 _released `2026-01-05`_
 * Replaced GiantBomb's API with [IGDB](https://www.igdb.com/api)

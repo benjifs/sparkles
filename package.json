@@ -1,6 +1,6 @@
 {
   "name": "sparkles",
-  "version": "0.16.1",
+  "version": "0.17.1",
   "description": "micropub client",
   "main": "./src/js/app.js",
   "scripts": {
