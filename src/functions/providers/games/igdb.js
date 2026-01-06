@@ -20,7 +20,7 @@ const getToken = async () => {
 export default {
 	buildRequest: async ({ query, page }) => {
 		try {
-			/* eslint-disable-next-line camelcase */
+			// eslint-disable-next-line camelcase
 			const { access_token } = await getToken()
 			return {
 				url: 'https://api.igdb.com/v4/games/',
@@ -28,7 +28,7 @@ export default {
 					method: 'POST',
 					headers: {
 						'Client-ID': IGDB_CLIENT_ID,
-						/* eslint-disable-next-line camelcase */
+						// eslint-disable-next-line camelcase
 						'Authorization': `Bearer ${access_token}`,
 					},
 					body: `

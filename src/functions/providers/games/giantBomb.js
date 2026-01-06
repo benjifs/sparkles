@@ -1,3 +1,4 @@
+// Not working as of 2026-01-05
 export default {
 	url: 'https://www.giantbomb.com/api/search/',
 	buildParams: ({ query, page }) => ({

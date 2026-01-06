@@ -1,16 +1,16 @@
 export default {
-	url: 'https://api.themoviedb.org/3/search/movie',
-	buildParams: ({ query, year, page }) => ({
-		// eslint-disable-next-line camelcase
-		api_key: process.env.TMDB_API_KEY,
-		query: query,
-		year: year,
-		page: page,
-	}),
-	handleError: (status, response) => {
-		if (status !== 200)
-			return { statusCode: status, description: response.status_message }
+	buildRequest: ({ query, year, page }) => {
+		const url = new URL('https://api.themoviedb.org/3/search/movie')
+		url.search = new URLSearchParams({
+			// eslint-disable-next-line camelcase
+			api_key: process.env.TMDB_API_KEY,
+			query: query,
+			year: year,
+			page: page,
+		})
+		return { url }
 	},
+	handleError: (status, json) => `TMDB (${status}): ${json.status_message}`,
 	parseResponse: res => ({
 		totalResults: res?.total_results || 0,
 		results: res?.results?.map(m => ({
