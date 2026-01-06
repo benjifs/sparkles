@@ -1,7 +1,12 @@
 # Changelog
 
+## 0.17.0
+_released `2026-01-05`_
+* Replaced GiantBomb's API with [IGDB](https://www.igdb.com/api)
+* Refactored providers search for (hopefully) ease of use in the future
+
 ## 0.16.0
-_ released `2025-12-18`_
+_released `2025-12-18`_
 * Replaced FontAwesome with Phosphor Icons
 * Fix Bookmark title fetch
 * Update dependencies

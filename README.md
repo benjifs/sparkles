@@ -36,7 +36,7 @@ You can read more about this project [here](https://benji.dog/articles/sparkles/
 | name | description |
 | --- | --- |
 | `TMDB_API_KEY` | [TMDB API Key](https://developer.themoviedb.org/) for movie search |
-| `GIANTBOMB_API_KEY` | [GiantBomb API Key](https://www.giantbomb.com/api/) for video game search |
+| `IGDB_CLIENT_ID` and `IGDB_CLIENT_SECRET` | [IGDB Client ID and Secret](https://api-docs.igdb.com/#account-creation) for video game search |
 
 ### Build
 * Clone this repository
