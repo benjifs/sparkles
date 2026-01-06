@@ -33,7 +33,7 @@ export default {
 					},
 					body: `
 					search "${query}";
-					fields name,cover.url,genres.name,keywords,rating,release_dates.y,slug,summary,url;
+					fields name,cover.url,genres.name,release_dates.y,summary,url;
 					limit ${LIMIT};
 					offset ${Math.max(0, (page - 1) * 10)};
 					`,
@@ -53,7 +53,7 @@ export default {
 			image: g.cover?.url,
 			description: g.summary,
 			year: g.release_dates?.[0]?.y,
-			url: g.slug,
+			url: g.url,
 		}))
 	})
 }
