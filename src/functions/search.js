@@ -1,31 +1,33 @@
 import fetch from 'node-fetch'
 
-import { Error, Response } from './lib/utils'
+import { Error as ErrorMessage, Response } from './lib/utils'
 
 import tmdb from './providers/movies/tmdb'
 import openLibrary from './providers/books/openLibrary'
 import appleMusic from './providers/music/appleMusic'
-import giantBomb from './providers/games/giantBomb'
+import igdb from './providers/games/igdb'
 
-const types = {
+const providers = {
 	movie: tmdb,
 	book: openLibrary,
-	music: appleMusic,
-	game: giantBomb,
+	artist: appleMusic,
+	album: appleMusic,
+	song: appleMusic,
+	game: igdb,
 }
 
 export const handler = async (e) => {
 	const { type } = e.queryStringParameters
-	if (!['movie', 'book', 'artist', 'album', 'song', 'game'].includes(type)) {
-		return Response.error(Error.NOT_SUPPORTED, 'Search type not supported')
+	const provider = providers[type]
+	if (!provider) return Response.error(ErrorMessage.NOT_SUPPORTED, 'Search type not supported')
+
+	try {
+		const req = await provider.buildRequest(e.queryStringParameters)
+		const res = await fetch(req.url, req.options)
+		const json = await res.json()
+		if (!res.ok) throw new Error(provider.handleError(res.status, json))
+		return Response.success(provider.parseResponse(json, e.queryStringParameters))
+	} catch (e) {
+		return Response.error(ErrorMessage.INVALID, e.message)
 	}
-
-	const opts = types[['artist', 'album', 'song'].includes(type) ? 'music' : type]
-	const params = new URLSearchParams(opts.buildParams(e.queryStringParameters))
-	const res = await fetch(`${opts.url}?${params.toString()}`)
-	const response = await res.json()
-	const error = opts.handleError(res.status, response)
-	if (error) return Response.error({ statusCode: error.statusCode }, error.description)
-
-	return Response.success(opts.parseResponse(response, type))
 }

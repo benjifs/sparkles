@@ -1,16 +1,15 @@
 export default {
-	url: 'https://www.googleapis.com/books/v1/volumes',
-	buildParams: ({ query, page }) => ({
-		q: query,
-		maxResults: 10,
-		startIndex: (page - 1) * 10,
-		projection: 'lite',
-		key: process.env.GOOGLEBOOKS_API_KEY,
-	}),
-	handleError: (status, response) => {
-		if (status !== 200)
-			return { statusCode: status, description: response.error?.message }
+	buildRequest: ({ query, page }) => {
+		const url = new URL('https://www.googleapis.com/books/v1/volumes')
+		url.search = new URLSearchParams({
+			q: query,
+			maxResults: 10,
+			startIndex: (page - 1) * 10,
+			projection: 'lite',
+			key: process.env.GOOGLEBOOKS_API_KEY,
+		})
 	},
+	handleError: (status, response) => `Google Books (${status}): ${response.error?.message}`,
 	parseResponse: res => {
 		let response = {
 			totalResults: res?.totalItems || 0,

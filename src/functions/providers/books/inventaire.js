@@ -1,18 +1,18 @@
 export default {
-	url: 'https://inventaire.io/api/search',
-	buildParams: ({ query, page }) => ({
-		types: 'works',
-		search: query,
-		limit: 10,
-		lang: 'en',
-		exact: true,
-		'min-score': 5,
-		offset: (page - 1) * 10,
-	}),
-	handleError: (status, response) => {
-		if (status !== 200)
-			return { statusCode: status, description: response.status_verbose }
+	buildRequest: ({ query, page }) => {
+		const url = new URL('https://inventaire.io/api/search')
+		url.search = new URLSearchParams({
+			types: 'works',
+			search: query,
+			limit: 10,
+			lang: 'en',
+			exact: true,
+			'min-score': 5,
+			offset: (page - 1) * 10,
+		})
+		return { url }
 	},
+	handleError: (status, response) => `inventaire: (${status}): ${response.status_verbose}`,
 	parseResponse: res => {
 		let response = {
 			totalResults: res?.total || 0,

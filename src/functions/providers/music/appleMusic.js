@@ -1,14 +1,14 @@
 export default {
-	url: 'https://itunes.apple.com/search',
-	buildParams: ({ type, query }) => ({
-		media: 'music',
-		entity: type == 'artist' ? 'musicArtist' : type,
-		term: query,
-	}),
-	handleError: (status, response) => {
-		if (status !== 200)
-			return { statusCode: status, description: response.errorMessage }
+	buildRequest: ({ type, query }) => {
+		const url = new URL('https://itunes.apple.com/search')
+		url.search = new URLSearchParams({
+			media: 'music',
+			entity: type == 'artist' ? 'musicArtist' : type,
+			term: query,
+		})
+		return { url }
 	},
+	handleError: (status, json) => `iTunes (${status}): ${json.errorMessage}`,
 	parseResponse: res => ({
 		totalResults: res?.resultCount || 0,
 		results: res?.results.map(r => ({

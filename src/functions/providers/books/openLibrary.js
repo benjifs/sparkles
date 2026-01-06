@@ -1,15 +1,15 @@
 export default {
-	url: 'https://openlibrary.org/search.json',
-	buildParams: ({ query, page }) => ({
-		limit: 10,
-		q: query,
-		page: page,
-		fields: 'key,title,editions,author_name,author_key,cover_i',
-	}),
-	handleError: (status, response) => {
-		if (status !== 200)
-			return { statusCode: status, description: response.error }
+	buildRequest: ({ query, page }) => {
+		const url = new URL('https://openlibrary.org/search.json')
+		url.search = new URLSearchParams({
+			limit: 10,
+			q: query,
+			page: page,
+			fields: 'key,title,editions,author_name,author_key,cover_i',
+		})
+		return { url }
 	},
+	handleError: (status, json) => `OpenLibrary (${status}): ${json.error}`,
 	parseResponse: res => ({
 		totalResults: res?.num_found || 0,
 		results: res?.docs.map(b => {
