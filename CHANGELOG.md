@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.17.2
+_released `2026-05-01`_
+* Add `subtitle` for books (from OpenLibrary) if it exists
+* Fallback to `cover_i` for book covers
+
 ## 0.17.1
 _released `2026-01-05`_
 * Fix IGDB `url`

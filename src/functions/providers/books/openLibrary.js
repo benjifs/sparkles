@@ -5,7 +5,7 @@ export default {
 			limit: 10,
 			q: query,
 			page: page,
-			fields: 'key,title,editions,author_name,author_key,cover_i',
+			fields: 'key,title,subtitle,editions,author_name,author_key,cover_i',
 		})
 		return { url }
 	},
@@ -13,10 +13,10 @@ export default {
 	parseResponse: res => ({
 		totalResults: res?.num_found || 0,
 		results: res?.docs.map(b => {
-			const coverKey = b?.editions?.docs[0]?.cover_i
+			const coverKey = b?.editions?.docs[0]?.cover_i || b?.cover_i
 			return {
 				id: `olid:${b.key.replace('/works/', '')}`,
-				title: b.title,
+				title: [b.title, b.subtitle].filter(Boolean).join(': '),
 				author: b.author_name ? b.author_name.join(', ') : '',
 				...(coverKey && { image: `https://covers.openlibrary.org/b/id/${coverKey}-M.jpg` }),
 				year: b.first_publish_year,
