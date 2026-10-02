@@ -28,9 +28,9 @@ const CallbackPage = {
 
 			/* eslint-disable camelcase */
 			// https://indieauth.spec.indieweb.org/#redeeming-the-authorization-code
-			const { access_token, scope, token_type } = await Proxy.validate(params)
+			const { access_token, refresh_token, scope, token_type } = await Proxy.validate(params)
 			// https://indieauth.spec.indieweb.org/#access-token-response
-			Store.addToSession({ access_token, scope, token_type })
+			Store.addToSession({ access_token, refresh_token, scope, token_type })
 			/* eslint-enable camelcase */
 			m.route.set('/home')
 		} catch(err) {
