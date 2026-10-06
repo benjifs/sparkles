@@ -14,7 +14,7 @@ const HomePage = () => {
 	return {
 		oninit: async () => {
 			try {
-				await fetchMicropubConfig(true)
+				await fetchMicropubConfig()
 				postTypes = Store.getSession('post-types') || []
 				m.redraw()
 			} catch (err) {
