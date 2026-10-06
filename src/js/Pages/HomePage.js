@@ -1,5 +1,6 @@
 import m from 'mithril'
 
+import Alert from '../Components/Alert'
 import { Box } from '../Components/Box'
 import Icon from '../Components/Icon'
 import { fetchMicropubConfig } from '../Controllers/Helpers'
@@ -12,9 +13,13 @@ const HomePage = () => {
 
 	return {
 		oninit: async () => {
-			await fetchMicropubConfig()
-			postTypes = Store.getSession('post-types') || []
-			m.redraw()
+			try {
+				await fetchMicropubConfig(true)
+				postTypes = Store.getSession('post-types') || []
+				m.redraw()
+			} catch (err) {
+				Alert.error(err)
+			}
 		},
 		view: () => [
 			m(Box, m(Tiles(postTypes))),

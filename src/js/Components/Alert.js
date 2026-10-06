@@ -18,7 +18,7 @@ const Alert = {
 	error: err => {
 		let error
 		if (err && err.response) {
-			error = err.response.error_description || err.response.error
+			error = err.response.error_description || err.response.error || err.response
 		} else if (err) {
 			error = err.message || err
 		}
