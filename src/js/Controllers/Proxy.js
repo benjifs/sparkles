@@ -5,9 +5,9 @@ import Store from '../Models/Store'
 const CLIENT = window.location.origin
 
 const Proxy = {
-	refreshIfExpired: async () => {
+	refreshIfExpired: async (force) => {
 		const session = Store.getSession()
-		if (session.expires - Date.now() > 5 * 60 * 1000) return
+		if (session.expires - Date.now() > 5 * 60 * 1000 && !force) return
 		// Refresh token if it expires in 5 mins or less
 		const res = await m.request({
 			method: 'POST',

@@ -3,6 +3,7 @@ import m from 'mithril'
 import { Box } from '../Components/Box'
 import Icon from '../Components/Icon'
 import { fetchMicropubConfig, fetchMediaSource } from '../Controllers/Helpers'
+import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
 
 import { formatDate } from '../utils'
@@ -12,6 +13,7 @@ const SettingsPage = () => {
 		syndicateTargets,
 		mediaEndpoint,
 		mediaFetched,
+		session,
 		state = {}
 
 	const loadFetchedValues = () => {
@@ -20,6 +22,8 @@ const SettingsPage = () => {
 
 		mediaEndpoint = Store.getSession('media-endpoint')
 		mediaFetched = Store.getCache('mediaFetched')
+
+		session = Store.getSession()
 	}
 
 	loadFetchedValues()
@@ -43,6 +47,13 @@ const SettingsPage = () => {
 			mediaFetched = mediaSource.mediaFetched
 		}
 		state.loadingMedia = false
+	}
+
+	const refreshAccessToken = async () => {
+		state.refreshingToken = true
+		await Proxy.refreshIfExpired(true)
+		loadFetchedValues()
+		state.refreshingToken = false
 	}
 
 	const updateUI = e => {
@@ -112,6 +123,22 @@ const SettingsPage = () => {
 							['default', 'simple', 'blocky']
 								.map(o => m('option', { value: o }, o)))
 					]))
+				]),
+				false && m('ul', [
+					m('hr'),
+					m('li', m('h5', 'Debug')),
+					!session.refresh_token && m('li', 'No refresh_token found'),
+					session.expires && m('li', [
+						m('span', 'Expires in'),
+						m('span', { 'data-ms': session.expires }, new Date(session.expires).toLocaleString()),
+					]),
+					session.refresh_token && m('li', [
+						m('span', 'Manually refresh token'),
+						m('button', { onclick: refreshAccessToken }, [
+							'refresh',
+							state.refreshingToken && m(Icon, { name: 'spinner', className: 'spin' })
+						])
+					]),
 				])
 			])
 	}
