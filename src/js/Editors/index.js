@@ -83,23 +83,18 @@ const Editor = ({ attrs }) => {
 			}
 		}
 		state.submitting = true
-		const res = await Proxy.micropub({
-			method: 'POST',
-			body: entry
-		})
+		try {
+			const res = await Proxy.micropub({
+				method: 'POST',
+				body: entry
+			})
 
-		state.submitting = false
-		if (res && [201, 202].includes(res.status)) {
-			if (res.headers.location) {
-				m.route.set('/success?url=' + res.headers.location)
-			} else {
-				Alert.error('location header missing')
-			}
-		} else if (!res || res.status >= 400) {
-			Alert.error(res)
-		} else {
-			console.error(res.status, res)
+			if (!res.headers.location) throw new Error('location header missing')
+			m.route.set('/success?url=' + res.headers.location)
+		} catch (err) {
+			Alert.error(err)
 		}
+		state.submitting = false
 	}
 
 	const postType = postTypes.find(item => item.type == attrs.title.toLowerCase())
@@ -178,12 +173,11 @@ const Editor = ({ attrs }) => {
 										e && e.preventDefault()
 										state.fetching = true
 										try {
-											const res = await m
-												.request({
-													method: 'GET',
-													url: '/api/opengraph',
-													params: { url: state[c.type] }
-												})
+											const res = await m.request({
+												method: 'GET',
+												url: '/api/opengraph',
+												params: { url: state[c.type] }
+											})
 											state.name = res.title
 										} catch(err) {
 											Alert.error(err)

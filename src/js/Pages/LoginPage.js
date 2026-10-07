@@ -104,7 +104,7 @@ const Login = () => {
 					m('button', {
 						type: 'submit',
 						disabled: !canSubmit() || loading
-					}, loading ? m(Icon, { name: 'spinner', className: 'spin'})  : 'login')
+					}, loading ? m(Icon, { name: 'spinner', className: 'spin' }) : 'login')
 				]),
 				DEV && m('form', { onsubmit: advancedLogin },
 					m('details', [
