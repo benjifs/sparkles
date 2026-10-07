@@ -18,9 +18,11 @@ const Proxy = {
 				'refresh_token': session.refresh_token,
 			}
 		})
+		/* eslint-disable camelcase */
 		const { access_token, refresh_token, scope, token_type, expires_in } = res
 		const expires = refresh_token && expires_in ? Date.now() + expires_in * 1000 : null
 		Store.addToSession({ access_token, refresh_token, scope, token_type, expires })
+		/* eslint-enable camelcase */
 		console.log('Token refreshed')
 	},
 	discover: url => m.request({

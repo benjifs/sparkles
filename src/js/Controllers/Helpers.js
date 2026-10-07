@@ -1,5 +1,4 @@
 import Proxy from './Proxy'
-import Alert from '../Components/Alert'
 import Store from '../Models/Store'
 
 import { currentTime } from '../utils'

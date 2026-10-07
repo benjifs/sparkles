@@ -8,6 +8,7 @@ exports.handler = async e => {
 	// https://indieauth.spec.indieweb.org/#request
 	const params = new URLSearchParams()
 	params.append('client_id', client_id)
+	// eslint-disable-next-line camelcase
 	if (refresh_token) {
 		params.append('grant_type', 'refresh_token')
 		params.append('refresh_token', refresh_token)

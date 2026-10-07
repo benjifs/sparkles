@@ -7,6 +7,7 @@ import Proxy from '../Controllers/Proxy'
 import Store from '../Models/Store'
 
 import { formatDate } from '../utils'
+const { DEV } = import.meta.env
 
 const SettingsPage = () => {
 	let micropubConfigFetched,
@@ -124,7 +125,7 @@ const SettingsPage = () => {
 								.map(o => m('option', { value: o }, o)))
 					]))
 				]),
-				false && m('ul', [
+				DEV && m('ul', [
 					m('hr'),
 					m('li', m('h5', 'Debug')),
 					!session.refresh_token && m('li', 'No refresh_token found'),
