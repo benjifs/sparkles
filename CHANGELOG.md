@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.18.0
+_released `2026-10-07`_
+* [Refresh Access Token](https://indieauth.spec.indieweb.org/#refreshing-an-access-token) if close to expiring
+* Fix error logging and displaying
+
 ## 0.17.2
 _released `2026-05-01`_
 * Add `subtitle` for books (from OpenLibrary) if it exists
