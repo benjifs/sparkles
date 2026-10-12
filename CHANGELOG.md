@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.1
+_released `2026-10-12`_
+* Fix issue where [IndieAuth](https://indieauth.spec.indieweb.org/) server does not return a refresh token
+
 ## 0.18.0
 _released `2026-10-07`_
 * [Refresh Access Token](https://indieauth.spec.indieweb.org/#refreshing-an-access-token) if close to expiring
