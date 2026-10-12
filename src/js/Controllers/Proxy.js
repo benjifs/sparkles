@@ -7,6 +7,7 @@ const CLIENT = window.location.origin
 const Proxy = {
 	refreshIfExpired: async (force) => {
 		const session = Store.getSession()
+		if (!session.refresh_token || !session.expires) return
 		if (session.expires - Date.now() > 5 * 60 * 1000 && !force) return
 		// Refresh token if it expires in 5 mins or less
 		const res = await m.request({
