@@ -14,8 +14,8 @@ exports.handler = async e => {
 		const $ = cheerio.load(body)
 
 		return Response.success({
-			title: getOGValue($, 'title') || $('title').text(),
-			description: getOGValue($, 'description'),
+			title: (getOGValue($, 'title') || $('title').text()).trim(),
+			description: (getOGValue($, 'description')).trim(),
 			image: getOGValue($, 'image')
 		})
 	} catch (err) {
