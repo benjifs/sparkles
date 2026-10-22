@@ -19,28 +19,24 @@ const getToken = async () => {
 
 export default {
 	buildRequest: async ({ query, page }) => {
-		try {
-			// eslint-disable-next-line camelcase
-			const { access_token } = await getToken()
-			return {
-				url: 'https://api.igdb.com/v4/games/',
-				options: {
-					method: 'POST',
-					headers: {
-						'Client-ID': IGDB_CLIENT_ID,
-						// eslint-disable-next-line camelcase
-						'Authorization': `Bearer ${access_token}`,
-					},
-					body: `
-					search "${query}";
-					fields name,cover.url,genres.name,release_dates.y,summary,url;
-					limit ${LIMIT};
-					offset ${Math.max(0, (page - 1) * 10)};
-					`,
+		// eslint-disable-next-line camelcase
+		const { access_token } = await getToken()
+		return {
+			url: 'https://api.igdb.com/v4/games/',
+			options: {
+				method: 'POST',
+				headers: {
+					'Client-ID': IGDB_CLIENT_ID,
+					// eslint-disable-next-line camelcase
+					'Authorization': `Bearer ${access_token}`,
 				},
-			}
-		} catch (e) {
-			throw new Error(e.message)
+				body: `
+				search "${query}";
+				fields name,cover.url,genres.name,release_dates.y,summary,url;
+				limit ${LIMIT};
+				offset ${Math.max(0, (page - 1) * 10)};
+				`,
+			},
 		}
 	},
 	handleError: (_, json) => `IGDB: ${json?.message || json[0].title}`,
