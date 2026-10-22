@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.18.2
+_released `2026-10-22`_
+* Trim `title` and `description` from `/api/opengraph` response
+
 ## 0.18.1
 _released `2026-10-12`_
 * Fix issue where [IndieAuth](https://indieauth.spec.indieweb.org/) server does not return a refresh token
